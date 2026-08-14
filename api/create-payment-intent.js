@@ -1,9 +1,5 @@
-// Vercel Serverless Function — Stripe PaymentIntent
-// This file lives in /api/ and is never exposed to the browser
-
-export default async function handler(req, res) {
-  // CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "https://aosf-platform.vercel.app");
+module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -22,7 +18,6 @@ export default async function handler(req, res) {
       res.status(400).json({ error: "Missing required fields" }); return;
     }
 
-    // Create PaymentIntent via Stripe API
     const stripeRes = await fetch("https://api.stripe.com/v1/payment_intents", {
       method: "POST",
       headers: {
@@ -35,7 +30,7 @@ export default async function handler(req, res) {
         "metadata[aosf_code]": aosf_code,
         "metadata[type]": type || "application_fee",
         description: "AOSF " + (type === "reactivation" ? "Reactivation" : "Application") + " Fee — " + aosf_code,
-        automatic_payment_methods: "enabled",
+        "automatic_payment_methods[enabled]": "true",
         "automatic_payment_methods[allow_redirects]": "never",
       }),
     });
@@ -53,6 +48,6 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error("Stripe error:", err);
-    res.status(500).json({ error: "Payment processing error. Please try again." });
+    res.status(500).json({ error: err.message });
   }
-}
+};
