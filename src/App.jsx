@@ -649,48 +649,74 @@ export default function App() {
   const handleStripePay = async (isReactivation = false) => {
     const code = pendingCode || currentUser;
     const applicant = applicants[code];
-    if (!applicant) { showAlert("No applicant found. Please log in again.", "error"); return; }
+    if (!applicant) return;
+
     const selectedRegion = REGIONS[region] || REGIONS.africa;
     const currency = selectedRegion.currency;
-    const amountInCents = Math.round(fromUSD(APP_FEE_USD, currency) * 100);
-
-    setStripeLoading(true);
-    setStripeError(null);
-    showAlert("Connecting to Stripe checkout...", "info");
+    const amountInCurrency = fromUSD(APP_FEE_USD, currency);
+    const amountInCents = Math.round(amountInCurrency * 100);
 
     try {
-      const response = await fetch("/api/create-checkout-session", {
+      showAlert("Preparing secure payment...", "info");
+
+      const res = await fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          amount: amountInCents,
+          currency: currency,
           aosf_code: code,
-          currency: currency.toLowerCase(),
-          amount_cents: amountInCents,
           type: isReactivation ? "reactivation" : "application_fee",
-          applicant_name: applicant.fullName,
-          applicant_email: applicant.email,
         }),
       });
 
-      const responseText = await response.text();
-      let data;
-      try { data = JSON.parse(responseText); }
-      catch(e) { throw new Error("Server returned: " + responseText.substring(0, 200)); }
+      const data = await res.json();
+      if (data.error) { showAlert("Payment error: " + data.error, "error"); return; }
 
-      if (!response.ok) throw new Error("HTTP " + response.status + ": " + (data.error || responseText.substring(0, 100)));
-      if (!data.url) throw new Error("No checkout URL returned. Response: " + JSON.stringify(data));
+      window._stripePayData = {
+        clientSecret: data.clientSecret,
+        isReactivation,
+        code,
+        currency,
+        amount: amountInCurrency,
+      };
 
-      showAlert("Redirecting to Stripe...", "success");
-      setTimeout(() => { window.location.href = data.url; }, 500);
+      setModal("stripe_pay");
 
     } catch(err) {
       console.error("Stripe error:", err);
-      const msg = err.message || "Unknown error";
-      setStripeError("Error: " + msg);
-      showAlert("Stripe error: " + msg, "error");
-      setStripeLoading(false);
+      showAlert("Payment error. Please use bank transfer instead.", "error");
     }
   };
+
+  const handleStripeConfirm = async () => {
+    const { clientSecret, isReactivation, code } = window._stripePayData || {};
+    if (!clientSecret) return;
+    try {
+      const stripe = await getStripe();
+      const cardEl = window._stripeCard;
+      if (!cardEl) { showAlert("Card element not ready. Please try again.", "error"); return; }
+      showAlert("Processing payment...", "info");
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: cardEl },
+      });
+      if (error) { showAlert("Payment failed: " + error.message, "error"); return; }
+      if (paymentIntent.status === "succeeded") {
+        setModal(null);
+        window._stripePayData = null;
+        window._stripeCard = null;
+        if (isReactivation) {
+          await completeReactivation(code);
+        } else {
+          await completeActivation(code, "stripe", paymentIntent.id);
+        }
+      }
+    } catch(err) {
+      showAlert("Payment confirmation error. Please try again.", "error");
+    }
+  };
+
+
   const handlePaystackPay = (isReactivation = false) => {
     const code = pendingCode || currentUser;
     const applicant = applicants[code];
@@ -950,6 +976,33 @@ export default function App() {
                   <button style={{background:"none",border:"none",color:GREEN,cursor:"pointer",fontWeight:700,fontSize:13}}
                     onClick={()=>{setModal(null);setView("apply");}}>Apply here</button>
                 </div>
+              </>
+            )}
+
+            {modal==="stripe_pay" && (
+              <>
+                <div className="modal-title">Secure Card Payment</div>
+                <div className="modal-sub">
+                  {window._stripePayData
+                    ? "Paying " + (window._stripePayData.currency) + " " + Number(window._stripePayData.amount).toFixed(2) + " (≈ USD " + APP_FEE_USD + ") via Stripe"
+                    : "Complete your payment"}
+                </div>
+                <div style={{background:"#F8FBF9",border:"1.5px solid #D4E8DC",
+                  borderRadius:8,padding:16,marginBottom:20,minHeight:44}}
+                  id="stripe-card-element">
+                  {/* Stripe card element mounts here */}
+                </div>
+                <div id="stripe-card-errors" style={{color:ERROR,fontSize:13,marginBottom:12}}/>
+                <button className="btn btn-green" style={{width:"100%"}}
+                  onClick={handleStripeConfirm}>
+                  Confirm Payment
+                </button>
+                <button style={{background:"none",border:"none",color:MUTED,
+                  cursor:"pointer",fontSize:13,marginTop:12,width:"100%"}}
+                  onClick={()=>setModal(null)}>
+                  Cancel
+                </button>
+                <StripeCardMounter onReady={card=>window._stripeCard=card}/>
               </>
             )}
 
@@ -1272,6 +1325,9 @@ export default function App() {
           <div className="footer">
             <div className="footer-logo">African Outreach Scholarship Foundation</div>
             <div className="footer-sub">Powered by RoyalTech Partnership &amp; Investment Limited</div>
+            <div style={{fontSize:13,color:GOLD,fontStyle:"italic",marginBottom:8,fontWeight:600}}>
+              "Your Education Is Your Most Valuable Investment"
+            </div>
             <div style={{color:GOLD,fontSize:14,fontStyle:"italic",fontWeight:600,marginBottom:8}}>
               "Your Education Is Your Most Valuable Investment"
             </div>
