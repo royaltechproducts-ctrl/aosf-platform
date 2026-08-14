@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1688,31 +1689,7 @@ export default function App() {
                         background:GREEN_DARK,color:WHITE,padding:"14px 20px",
                         borderRadius:8,textAlign:"center",fontWeight:700,fontSize:15,
                         border:"none",cursor:"pointer"}}
-                        onClick={async()=>{
-                          const code = applicant.refCode;
-                          const cur = (REGIONS[region]?.currency||"USD").toLowerCase();
-                          const cents = Math.round(fromUSD(APP_FEE_USD,REGIONS[region]?.currency||"USD")*100);
-                          showAlert("Connecting to Stripe...", "info");
-                          try {
-                            const r = await fetch("/api/create-checkout-session",{
-                              method:"POST",
-                              headers:{"Content-Type":"application/json"},
-                              body:JSON.stringify({aosf_code:code,currency:cur,
-                                amount_cents:cents,type:"application_fee",
-                                applicant_name:applicant.fullName,
-                                applicant_email:applicant.email}),
-                            });
-                            const txt = await r.text();
-                            let d;
-                            try{d=JSON.parse(txt);}
-                            catch(ex){showAlert("Parse error: "+txt.substring(0,80),"error");return;}
-                            if(!r.ok){showAlert("Error "+r.status+": "+(d.error||"unknown"),"error");return;}
-                            if(!d.url){showAlert("No URL returned: "+JSON.stringify(d),"error");return;}
-                            window.location.href=d.url;
-                          } catch(err){
-                            showAlert("Network error: "+err.message,"error");
-                          }
-                        }}>
+                        onClick={()=>handleStripePay(false)}>
                         Proceed to Stripe Payment →
                       </button>
                       {stripeError&&<div className="error-text" style={{marginTop:8}}>{stripeError}</div>}
