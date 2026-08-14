@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -598,9 +599,9 @@ export default function App() {
     // Send welcome email immediately
     await sendEmail({
       to_email: "outreachscholarshipadmin@gmail.com", to_name: "AOSF Admin",
-      subject: "AOSF — Forward to Applicant: " + regForm.fullName + " | " + regForm.email + " | Ref: " + code,
+      subject: "AOSP — Forward to Applicant: " + regForm.fullName + " | " + regForm.email + " | Ref: " + code,
       message: "Dear " + regForm.fullName + "," +
-        "\n\nWelcome to the African Outreach Scholarship Foundation (AOSF)!" +
+        "\n\nWelcome to the African Outreach Scholarship Program (AOSP)!" +
         "\n\nYour application has been received. Please save your login details below." +
         "\n\n--- YOUR LOGIN DETAILS ---" +
         "\nPlatform: https://aosf-platform.vercel.app" +
@@ -633,7 +634,7 @@ export default function App() {
     // Notify admin
     await sendEmail({
       to_email: ADMIN_EMAIL, to_name: "AOSF Admin",
-      subject: "AOSF — New Application (Payment Pending): " + regForm.fullName + " (" + regForm.email + ")",
+      subject: "AOSP — New Application (Payment Pending): " + regForm.fullName + " (" + regForm.email + ")",
       message: [
         "New scholarship application received.",
         "--- APPLICANT DETAILS ---",
@@ -693,7 +694,7 @@ export default function App() {
       email: applicant.email,
       amount: amountNGN * 100,
       currency: "NGN",
-      ref: "AOSF-" + (isReactivation?"REACT":"FEE") + "-" + code + "-" + Date.now(),
+      ref: "AOSP-" + (isReactivation?"REACT":"FEE") + "-" + code + "-" + Date.now(),
       metadata: { aosf_code: code, type: isReactivation ? "reactivation" : "application_fee" },
       callback: async (response) => {
         if (isReactivation) {
@@ -721,7 +722,7 @@ export default function App() {
         // Notify direct referrer
         await sendEmail({
           to_email: direct.email, to_name: direct.fullName,
-          subject: "AOSF — USD 1.00 Direct Outreach Credit Earned!",
+          subject: "AOSP — USD 1.00 Direct Outreach Credit Earned!",
           message: [
             "Dear " + direct.fullName + ",",
             "Great news! A student applied through your outreach link.",
@@ -735,7 +736,7 @@ export default function App() {
               ? "⚠️ Your outreach link has reached the USD 1,000 cap and is now INACTIVE. Reactivate with USD 5 from your portal."
               : "Keep sharing your link to grow your scholarship funds!",
             "Log in: https://aosf-platform.vercel.app | Code: " + applicant.referredBy,
-            "Best regards,\nAfrican Outreach Scholarship Foundation",
+            "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
           ].join("\n"),
         });
 
@@ -746,7 +747,7 @@ export default function App() {
             const newLink1 = await DB.creditApplicant(direct.referredBy, INDIRECT1_CREDIT, "indirect_1");
             await sendEmail({
               to_email: indirect1.email, to_name: indirect1.fullName,
-              subject: "AOSF — USD 1.00 Indirect Outreach Credit (1st Extension)!",
+              subject: "AOSP — USD 1.00 Indirect Outreach Credit (1st Extension)!",
               message: [
                 "Dear " + indirect1.fullName + ",",
                 "A student applied through the outreach link of someone through your outreach link.",
@@ -760,7 +761,7 @@ export default function App() {
                   ? "⚠️ Your outreach link has reached the USD 1,000 cap. Reactivate with USD 5 from your portal."
                   : "Your extended outreach keeps building your scholarship funds!",
                 "Log in: https://aosf-platform.vercel.app | Code: " + direct.referredBy,
-                "Best regards,\nAfrican Outreach Scholarship Foundation",
+                "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
               ].join("\n"),
             });
 
@@ -771,7 +772,7 @@ export default function App() {
                 const newLink2 = await DB.creditApplicant(indirect1.referredBy, INDIRECT2_CREDIT, "indirect_2");
                 await sendEmail({
                   to_email: indirect2.email, to_name: indirect2.fullName,
-                  subject: "AOSF — USD 1.00 Indirect Outreach Credit (2nd Extension)!",
+                  subject: "AOSP — USD 1.00 Indirect Outreach Credit (2nd Extension)!",
                   message: [
                     "Dear " + indirect2.fullName + ",",
                     "A student you have never met just generated a scholarship credit in your account.",
@@ -785,7 +786,7 @@ export default function App() {
                       ? "⚠️ Your outreach link has reached the USD 1,000 cap. Reactivate with USD 5 from your portal."
                       : "This is the power of outreach — your extended links keep funding your education!",
                     "Log in: https://aosf-platform.vercel.app | Code: " + indirect1.referredBy,
-                    "Best regards,\nAfrican Outreach Scholarship Foundation",
+                    "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
                   ].join("\n"),
                 });
               }
@@ -798,7 +799,7 @@ export default function App() {
     // Admin notification
     await sendEmail({
       to_email: ADMIN_EMAIL, to_name: "AOSF Admin",
-      subject: "AOSF — Application Fee Confirmed: " + applicant.fullName,
+      subject: "AOSP — Application Fee Confirmed: " + applicant.fullName,
       message: [
         "Application fee confirmed for: " + applicant.fullName,
         "Code: " + code + " | Country: " + applicant.country,
@@ -814,9 +815,9 @@ export default function App() {
     await sendEmail({
       to_email: "outreachscholarshipadmin@gmail.com",
       to_name: "AOSF Admin",
-      subject: "AOSF — Forward Outreach Materials to: " + applicant.fullName + " | " + applicant.email,
+      subject: "AOSP — Forward Outreach Materials to: " + applicant.fullName + " | " + applicant.email,
       message: "Dear " + applicant.fullName + "," +
-        "\n\nCongratulations! Your AOSF scholarship account is now active and your unique outreach link is live." +
+        "\n\nCongratulations! Your AOSP scholarship account is now active and your unique outreach link is live." +
         "\n\nYour Reference Code: " + code +
         "\nYour Outreach Link: " + outreachLink +
         "\n\n================================================================" +
@@ -827,9 +828,9 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN CANADA 🇨🇦" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Investment." +
+        "\n🎓 Your Education Is Your Most Valuable Achievement." +
         "\n\nA student has shared this opportunity with you — and it could make a real difference to your academic finances right here in Canada." +
-        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in Canada. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in Canada. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
         "\n📌 Apply for CAD 6.25 (≈ USD 5.00) and unlock your unique outreach link" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
@@ -842,9 +843,9 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN THE UK 🇬🇧" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Investment." +
+        "\n🎓 Your Education Is Your Most Valuable Achievement." +
         "\n\nA student has shared this opportunity with you — and it could provide meaningful financial support during your studies in the UK." +
-        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the United Kingdom. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in the United Kingdom. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
         "\n📌 Apply for GBP 3.95 (≈ USD 5.00) and unlock your unique outreach link" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
@@ -857,9 +858,9 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN THE UNITED STATES 🇺🇸" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Investment." +
+        "\n🎓 Your Education Is Your Most Valuable Achievement." +
         "\n\nA student has shared this opportunity with you — and it could help ease the financial pressure of studying in the United States." +
-        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the USA. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in the USA. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
         "\n📌 Apply for USD 5.00 and unlock your unique outreach link" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
@@ -872,9 +873,9 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS BACK HOME IN AFRICA 🌍" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Investment." +
+        "\n🎓 Your Education Is Your Most Valuable Achievement." +
         "\n\nA student has shared this opportunity with you — and it could change your academic journey." +
-        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform where your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform where your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
         "\n📌 Apply for USD 5.00 or equivalent local currency and unlock your unique outreach link" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
@@ -896,7 +897,7 @@ export default function App() {
         "\nPhone: +234 806 163 1222" +
         "\nWhatsApp: +234 909 999 4816" +
         "\nEmail: royaltechproducts@gmail.com" +
-        "\n\nYour Education Is Your Most Valuable Investment." +
+        "\n\nYour Education Is Your Most Valuable Achievement." +
         "\n\nBest regards," +
         "\nAfrican Outreach Scholarship Foundation" +
         "\nPowered by RoyalTech Partnership & Investment Limited",
@@ -916,16 +917,16 @@ export default function App() {
     showAlert("Outreach link reactivated! Your new USD 1,000 earning cycle has started.");
     await sendEmail({
       to_email: freshApplicants[code]?.email, to_name: freshApplicants[code]?.fullName,
-      subject: "AOSF — Outreach Link Reactivated! New Cycle Begins",
+      subject: "AOSP — Outreach Link Reactivated! New Cycle Begins",
       message: [
         "Dear " + freshApplicants[code]?.fullName + ",",
-        "Your AOSF outreach link has been successfully reactivated.",
+        "Your AOSP outreach link has been successfully reactivated.",
         "A new USD 1,000 earning cycle has started.",
         "Your scholarship balance and previous earnings remain intact.",
         "Your Outreach Link: https://aosf-platform.vercel.app?ref=" + code,
         "Share widely and keep earning scholarship funds!",
         "Log in: https://aosf-platform.vercel.app | Code: " + code,
-        "Best regards,\nAfrican Outreach Scholarship Foundation",
+        "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
       ].join("\n"),
     });
   };
@@ -944,7 +945,7 @@ export default function App() {
     showAlert("Withdrawal request submitted. RoyalTech will process within 24 hours.");
     await sendEmail({
       to_email: applicant.email, to_name: applicant.fullName,
-      subject: "AOSF — Withdrawal Request Received: USD " + amt.toFixed(2),
+      subject: "AOSP — Withdrawal Request Received: USD " + amt.toFixed(2),
       message: [
         "Dear " + applicant.fullName + ",",
         "Your withdrawal request has been received.",
@@ -952,12 +953,12 @@ export default function App() {
         "Account: " + applicant.accountName + " | " + applicant.accountNumber + " | " + applicant.accountBank + " (" + applicant.accountCountry + ")",
         "RoyalTech will process your withdrawal within 24 hours.",
         "Reference Code: " + currentUser,
-        "Best regards,\nAfrican Outreach Scholarship Foundation",
+        "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
       ].join("\n"),
     });
     await sendEmail({
       to_email: ADMIN_EMAIL, to_name: "AOSF Admin",
-      subject: "AOSF — Withdrawal Request: " + applicant.fullName + " USD " + amt.toFixed(2),
+      subject: "AOSP — Withdrawal Request: " + applicant.fullName + " USD " + amt.toFixed(2),
       message: [
         "Withdrawal request received.",
         "Applicant: " + applicant.fullName + " (" + currentUser + ")",
@@ -991,7 +992,7 @@ export default function App() {
   if (loading) return (
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",
       height:"100vh",background:BG,flexDirection:"column",gap:12}}>
-      <div style={{fontSize:28,fontWeight:900,color:GREEN}}>AOSF</div>
+      <div style={{fontSize:28,fontWeight:900,color:GREEN}}>AOSP</div>
       <div style={{fontSize:14,color:MUTED}}>Loading Scholarship Platform...</div>
     </div>
   );
@@ -1017,10 +1018,10 @@ export default function App() {
             {modal==="login" && (
               <>
                 <div className="modal-title">Log In to Your Portal</div>
-                <div className="modal-sub">Enter your AOSF reference code to access your scholarship dashboard.</div>
+                <div className="modal-sub">Enter your AOSP reference code to access your scholarship dashboard.</div>
                 <div className="form-group">
                   <label className="form-label">Reference Code <span>*</span></label>
-                  <input className="form-input" placeholder="e.g. AOSF-JOD-NG-X3K9"
+                  <input className="form-input" placeholder="e.g. AOSP-JOD-NG-X3K9"
                     value={loginCode} onChange={e=>setLoginCode(e.target.value.toUpperCase())}
                     onKeyDown={e=>e.key==="Enter"&&handleLogin()}/>
                 </div>
@@ -1214,7 +1215,7 @@ export default function App() {
       {/* NAV */}
       <nav className="nav">
         <div className="nav-logo" onClick={()=>setView("landing")}>
-          <div className="nav-logo-mark">AOSF</div>
+          <div className="nav-logo-mark">AOSP</div>
           <div>
             <div className="nav-brand">African Outreach Scholarship</div>
             <div className="nav-sub">Foundation</div>
@@ -1243,7 +1244,7 @@ export default function App() {
       {view==="landing" && (
         <div>
           <div className="hero">
-            <div className="hero-eyebrow">African Outreach Scholarship Foundation</div>
+            <div className="hero-eyebrow">African Outreach Scholarship Program</div>
             <h1 className="hero-title">
               Study Across Africa &amp; Abroad.<br/>
               <span>Fund Your Education Together.</span>
@@ -1357,7 +1358,7 @@ export default function App() {
               <div style={{fontSize:12,fontWeight:700,color:GOLD,letterSpacing:2,
                 textTransform:"uppercase",marginBottom:12}}>Legal Disclaimer</div>
               <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.9}}>
-                AOSF is a scholarship programme — not a financial investment scheme, pyramid scheme, or MLM.
+                AOSP is a student-powered scholarship programme — not a financial investment scheme, pyramid scheme, or MLM.
                 The USD 5.00 fee is paid for a genuine scholarship account and outreach link.
                 Credits are scholarship funds, not guaranteed income or investment returns.
                 No financial return is promised. Participation is subject to the laws of your jurisdiction.
@@ -1373,10 +1374,10 @@ export default function App() {
           </div>
 
           <div className="footer">
-            <div className="footer-logo">African Outreach Scholarship Foundation</div>
-            <div className="footer-sub">Powered by RoyalTech Partnership &amp; Investment Limited</div>
+            <div className="footer-logo">African Outreach Scholarship Program</div>
+            <div className="footer-sub">Powered by African Outreach Scholarship Foundation</div>
             <div style={{fontSize:13,color:GOLD,fontStyle:"italic",marginBottom:8,fontWeight:600}}>
-              "Your Education Is Your Most Valuable Investment"
+              "Your Education Is Your Most Valuable Achievement"
             </div>
             <div className="footer-links">
               <button className="footer-link" onClick={()=>setView("apply")}>Apply</button>
@@ -1384,7 +1385,7 @@ export default function App() {
               <button className="footer-link" onClick={()=>setView("tc")}>Terms &amp; Conditions</button>
             </div>
             <div className="footer-copy">
-              ©2026 African Outreach Scholarship Foundation. All rights reserved.
+              ©2026 African Outreach Scholarship Program. All rights reserved.
             </div>
           </div>
         </div>
@@ -1405,7 +1406,7 @@ export default function App() {
 
             {refUrl && (
               <div className="alert alert-gold">
-                🔗 You have been granted application access through the outreach link of a fellow AOSF student. Apply now to secure your own outreach link and start receiving generated scholarship funds from the numerous applications across several higher learning institutions in 27 African countries.
+                🔗 You have been granted application access through the outreach link of a fellow AOSP student. Apply now to secure your own outreach link and start receiving generated scholarship funds from the numerous applications across several higher learning institutions in 27 African countries.
               </div>
             )}
 
@@ -1567,7 +1568,7 @@ export default function App() {
                     <button style={{background:"none",border:"none",color:GREEN,cursor:"pointer",
                       fontWeight:700,padding:0,fontSize:13,textDecoration:"underline"}}
                       onClick={e=>{e.preventDefault();setView("tc");}}>
-                      AOSF Terms &amp; Conditions
+                      AOSP Terms &amp; Conditions
                     </button>
                     {" "}and understand the outreach link structure and USD 1,000 per cycle cap.
                 </span>
@@ -1788,7 +1789,7 @@ export default function App() {
                     {[
                       ["Send To (Email)","royaltechproducts@gmail.com"],
                       ["Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
-                      ["Message / Note",applicant.refCode + " — AOSF Application Fee"],
+                      ["Message / Note",applicant.refCode + " — AOSP Application Fee"],
                       ["Autodeposit","Enabled — no security question needed"],
                     ].map(([k,v])=>(
                       <div className="bank-row" key={k}>
@@ -1800,7 +1801,7 @@ export default function App() {
                           )}
                           {k==="Message / Note"&&(
                             <button className="copy-btn"
-                              onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSF Application Fee");showAlert("Copied!");}}>Copy</button>
+                              onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSP Application Fee");showAlert("Copied!");}}>Copy</button>
                           )}
                         </span>
                       </div>
@@ -2075,25 +2076,25 @@ export default function App() {
                 Terms &amp; Conditions
               </div>
               <div style={{fontSize:13,color:MUTED}}>
-                African Outreach Scholarship Foundation (AOSF)
+                African Outreach Scholarship Program (AOSP)
               </div>
               <div style={{fontSize:12,color:MUTED,marginTop:4}}>
-                Powered by RoyalTech Partnership &amp; Investment Limited | Effective: 2026
+                Powered by African Outreach Scholarship Foundation | Effective: 2026
               </div>
             </div>
 
             {[
               {
-                title:"1. About AOSF",
-                body:"The African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship programme operated by RoyalTech Partnership & Investment Limited, SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria. The programme enables students of tertiary institutions across English-speaking African countries to build scholarship funds by sharing their unique outreach links with fellow students.",
+                title:"1. About AOSP",
+                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by RoyalTech Partnership & Investment Limited, SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria. The programme enables students of tertiary institutions across English-speaking African countries to build scholarship funds by sharing their unique outreach links with fellow students.",
               },
               {
                 title:"2. Eligibility",
                 items:[
-                  "AOSF is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe.",
+                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe.",
                   "Applicants must provide accurate and verifiable personal, academic, and bank account details at the point of application.",
-                  "AOSF reserves the right to verify the academic enrolment status of any applicant at any time and to suspend or terminate accounts found to have provided false information.",
-                  "Each applicant may hold only one active AOSF account. Multiple accounts using the same email address, phone number, or bank account details are not permitted.",
+                  "AOSP reserves the right to verify the academic enrolment status of any applicant at any time and to suspend or terminate accounts found to have provided false information.",
+                  "Each applicant may hold only one active AOSP account. Multiple accounts using the same email address, phone number, or bank account details are not permitted.",
                 ],
               },
               {
@@ -2102,19 +2103,19 @@ export default function App() {
                   "A non-refundable application fee of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) is required to activate a scholarship account and outreach link.",
                   "The USD 5.00 application fee is strictly non-refundable under all circumstances, including but not limited to: change of mind, inability to share the outreach link, failure to receive applications through the link, or withdrawal from the programme.",
                   "The same USD 5.00 reactivation fee applies each time an outreach link is reactivated after reaching the USD 1,000.00 per cycle cap.",
-                  "An applicant's outreach link and scholarship account are activated only upon confirmation of payment by AOSF. Until confirmation, the account remains in pending status.",
+                  "An applicant's outreach link and scholarship account are activated only upon confirmation of payment by AOSP. Until confirmation, the account remains in pending status.",
                 ],
               },
               {
                 title:"4. Outreach Link and Scholarship Credit Structure",
                 items:[
                   "Upon activation, each applicant receives a unique outreach link tied to their scholarship account.",
-                  "DIRECT APPLICATION CREDIT: When a student applies to AOSF through an applicant's outreach link and their USD 5.00 application fee is confirmed, the referring applicant receives a credit of USD 1.00 to their scholarship account.",
+                  "DIRECT APPLICATION CREDIT: When a student applies to AOSP through an applicant's outreach link and their USD 5.00 application fee is confirmed, the referring applicant receives a credit of USD 1.00 to their scholarship account.",
                   "1ST EXTENSION CREDIT: When a direct applicant shares their own outreach link and another student applies through it and pays the application fee, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
                   "2ND EXTENSION CREDIT: When a 1st extension applicant shares their own outreach link and another student applies through it and pays the application fee, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
                   "The credit chain extends to two levels of extension only. No further credits are generated beyond the 2nd extension.",
                   "Credits are generated only when the referred applicant's USD 5.00 application fee is confirmed. Pending payments do not generate credits.",
-                  "AOSF reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
+                  "AOSP reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
                 ],
               },
               {
@@ -2124,7 +2125,7 @@ export default function App() {
                   "Once an outreach link reaches the USD 1,000.00 cap, it becomes inactive and no further credits are generated through that link until it is reactivated.",
                   "Reactivation requires payment of a non-refundable fee of USD 5.00. Upon confirmation, a new USD 1,000.00 earning cycle begins.",
                   "An applicant's scholarship balance and total credit history are preserved across all reactivation cycles.",
-                  "AOSF is not responsible for any credits not received during the period when a link is inactive pending reactivation.",
+                  "AOSP is not responsible for any credits not received during the period when a link is inactive pending reactivation.",
                 ],
               },
               {
@@ -2132,11 +2133,11 @@ export default function App() {
                 items:[
                   "Applicants may request a cashout of their available scholarship balance at any time from their portal.",
                   "The minimum cashout amount is USD 50.00. Requests below this threshold will not be processed.",
-                  "All cashout requests are subject to review and approval by AOSF before processing. Approval is not automatic.",
+                  "All cashout requests are subject to review and approval by AOSP before processing. Approval is not automatic.",
                   "Approved cashouts are processed to the applicant's registered local bank account within 24 hours of approval.",
-                  "Cashouts are made in local currency at the prevailing exchange rate on the date of processing. AOSF is not liable for exchange rate fluctuations between the date of request and the date of processing.",
-                  "It is the applicant's responsibility to provide accurate bank account details. AOSF shall not be liable for funds sent to incorrect account details provided by the applicant.",
-                  "AOSF reserves the right to place a temporary hold on cashout requests pending verification of the applicant's account or credit history.",
+                  "Cashouts are made in local currency at the prevailing exchange rate on the date of processing. AOSP is not liable for exchange rate fluctuations between the date of request and the date of processing.",
+                  "It is the applicant's responsibility to provide accurate bank account details. AOSP shall not be liable for funds sent to incorrect account details provided by the applicant.",
+                  "AOSP reserves the right to place a temporary hold on cashout requests pending verification of the applicant's account or credit history.",
                 ],
               },
               {
@@ -2144,30 +2145,30 @@ export default function App() {
                 items:[
                   "Applicants must not create or operate multiple accounts for the purpose of generating artificial credits.",
                   "Applicants must not use automated tools, bots, or scripts to generate applications through their outreach link.",
-                  "Applicants must not misrepresent the AOSF programme in their outreach communications.",
+                  "Applicants must not misrepresent the AOSP programme in their outreach communications.",
                   "Any attempt to manipulate the credit structure, defraud the programme, or circumvent the outreach link cap will result in immediate account suspension and forfeiture of all accumulated credits.",
                 ],
               },
               {
                 title:"8. Platform Changes",
                 items:[
-                  "AOSF reserves the right to modify the application fee, credit amounts, outreach link cap, or any other programme terms at any time prior to an applicant making a financial commitment.",
+                  "AOSP reserves the right to modify the application fee, credit amounts, outreach link cap, or any other programme terms at any time prior to an applicant making a financial commitment.",
                   "Once an applicant's application fee has been confirmed, the terms applicable to that applicant's current active cycle shall remain binding for the duration of that cycle.",
-                  "AOSF reserves the right to suspend or terminate the programme with reasonable notice to active participants.",
+                  "AOSP reserves the right to suspend or terminate the programme with reasonable notice to active participants.",
                 ],
               },
               {
                 title:"9. Limitation of Liability",
                 items:[
-                  "AOSF credits are not a guaranteed income and depend entirely on the volume of applications generated through an applicant's outreach link and its extensions.",
-                  "AOSF makes no guarantee as to the number of applications any outreach link will generate.",
-                  "AOSF's total liability to any applicant shall not exceed the confirmed credit balance in that applicant's scholarship account at the time of any dispute.",
+                  "AOSP credits are not a guaranteed income and depend entirely on the volume of applications generated through an applicant's outreach link and its extensions.",
+                  "AOSP makes no guarantee as to the number of applications any outreach link will generate.",
+                  "AOSP's total liability to any applicant shall not exceed the confirmed credit balance in that applicant's scholarship account at the time of any dispute.",
                 ],
               },
               {
                 title:"10. Dispute Resolution",
                 items:[
-                  "Any dispute arising from the AOSF programme shall first be referred to RoyalTech for resolution through direct negotiation.",
+                  "Any dispute arising from the AOSP programme shall first be referred to RoyalTech for resolution through direct negotiation.",
                   "If not resolved within 14 working days, the dispute shall be referred to mediation under mutually agreed terms.",
                   "If mediation fails, the dispute shall be resolved by arbitration under the jurisdiction of the Federal Republic of Nigeria, seated in Lagos State.",
                   "These Terms and Conditions are governed by the laws of the Federal Republic of Nigeria.",
@@ -2180,13 +2181,13 @@ export default function App() {
               {
                 title:"12. Legal Disclaimer",
                 items:[
-                  "The African Outreach Scholarship Foundation (AOSF) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 application fee is paid in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
-                  "Credits generated through the AOSF outreach link structure are scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSF or RoyalTech Partnership & Investment Limited.",
-                  "AOSF does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSF before processing.",
-                  "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSF in their respective countries of residence or study. AOSF makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
-                  "AOSF does not guarantee, represent, or warrant that the programme will operate indefinitely. RoyalTech Partnership & Investment Limited reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
-                  "Nothing in these Terms and Conditions constitutes financial, legal, or investment advice. Applicants are encouraged to seek independent professional advice before making any financial decisions in connection with their participation in AOSF.",
-                  "These Terms and Conditions, and all disputes arising from or in connection with the AOSF programme, are governed by the laws of the Federal Republic of Nigeria. By applying, participants from all jurisdictions consent to this governing law.",
+                  "The African Outreach Scholarship Program (AOSP) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 application fee is paid in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
+                  "Credits generated through the AOSP outreach link structure are scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSP or RoyalTech Partnership & Investment Limited.",
+                  "AOSP does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSP before processing.",
+                  "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSP in their respective countries of residence or study. AOSP makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
+                  "AOSP does not guarantee, represent, or warrant that the programme will operate indefinitely. RoyalTech Partnership & Investment Limited reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
+                  "Nothing in these Terms and Conditions constitutes financial, legal, or investment advice. Applicants are encouraged to seek independent professional advice before making any financial decisions in connection with their participation in AOSP.",
+                  "These Terms and Conditions, and all disputes arising from or in connection with the AOSP programme, are governed by the laws of the Federal Republic of Nigeria. By applying, participants from all jurisdictions consent to this governing law.",
                 ],
               },
             ].map((section, i) => (
@@ -2212,7 +2213,7 @@ export default function App() {
             <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,
               padding:20,marginTop:16,textAlign:"center"}}>
               <div style={{fontWeight:700,color:GREEN_DARK,marginBottom:6}}>
-                © 2026 African Outreach Scholarship Foundation. All rights reserved.
+                © 2026 African Outreach Scholarship Program. All rights reserved.
               </div>
               <div style={{fontSize:13,color:MUTED}}>
                 Powered by RoyalTech Partnership &amp; Investment Limited
@@ -2256,9 +2257,9 @@ export default function App() {
               marginBottom:24,display:"flex",justifyContent:"space-between",
               alignItems:"center",flexWrap:"wrap",gap:12}}>
               <div>
-                <div style={{fontSize:24,fontWeight:900}}>AOSF Admin Dashboard</div>
+                <div style={{fontSize:24,fontWeight:900}}>AOSP Admin Dashboard</div>
                 <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginTop:4}}>
-                  African Outreach Scholarship Foundation — RoyalTech
+                  African Outreach Scholarship Program — RoyalTech
                 </div>
               </div>
               <button className="btn btn-sm" style={{background:"rgba(255,255,255,0.1)",color:WHITE}}
