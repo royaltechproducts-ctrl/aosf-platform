@@ -828,7 +828,7 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN CANADA 🇨🇦" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n🎓 Your Education Is Your Most Valuable Investment." +
         "\n\nA student has shared this opportunity with you — and it could make a real difference to your academic finances right here in Canada." +
         "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in Canada. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
@@ -843,7 +843,7 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN THE UK 🇬🇧" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n🎓 Your Education Is Your Most Valuable Investment." +
         "\n\nA student has shared this opportunity with you — and it could provide meaningful financial support during your studies in the UK." +
         "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the United Kingdom. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
@@ -858,7 +858,7 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN THE UNITED STATES 🇺🇸" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n🎓 Your Education Is Your Most Valuable Investment." +
         "\n\nA student has shared this opportunity with you — and it could help ease the financial pressure of studying in the United States." +
         "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the USA. Your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
@@ -873,7 +873,7 @@ export default function App() {
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS BACK HOME IN AFRICA 🌍" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n🎓 Your Education Is Your Most Valuable Investment." +
         "\n\nA student has shared this opportunity with you — and it could change your academic journey." +
         "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform where your outreach generates real scholarship funds credited directly into your account." +
         "\n\nHow it works:" +
@@ -897,7 +897,7 @@ export default function App() {
         "\nPhone: +234 806 163 1222" +
         "\nWhatsApp: +234 909 999 4816" +
         "\nEmail: royaltechproducts@gmail.com" +
-        "\n\n"Your Education Is Your Most Valuable Investment."" +
+        "\n\nYour Education Is Your Most Valuable Investment." +
         "\n\nBest regards," +
         "\nAfrican Outreach Scholarship Foundation" +
         "\nPowered by RoyalTech Partnership & Investment Limited",
