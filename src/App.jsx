@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1351,6 +1352,27 @@ export default function App() {
             </div>
           </div>
 
+          {/* Legal Disclaimer Banner */}
+          <div style={{background:"#1A1A2E",padding:"32px 24px",textAlign:"center"}}>
+            <div style={{maxWidth:860,margin:"0 auto"}}>
+              <div style={{fontSize:12,fontWeight:700,color:GOLD,letterSpacing:2,
+                textTransform:"uppercase",marginBottom:12}}>Legal Disclaimer</div>
+              <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.9}}>
+                AOSF is a scholarship programme — not a financial investment scheme, pyramid scheme, or MLM.
+                The USD 5.00 fee is paid for a genuine scholarship account and outreach link.
+                Credits are scholarship funds, not guaranteed income or investment returns.
+                No financial return is promised. Participation is subject to the laws of your jurisdiction.
+                Applicants in Canada, USA, and UK are advised to seek independent legal advice if in doubt.
+                All disputes are governed by the laws of the Federal Republic of Nigeria.
+              </div>
+              <button style={{background:"none",border:"none",color:GOLD,fontSize:12,
+                cursor:"pointer",marginTop:10,textDecoration:"underline"}}
+                onClick={()=>setView("tc")}>
+                Read Full Terms &amp; Conditions →
+              </button>
+            </div>
+          </div>
+
           <div className="footer">
             <div className="footer-logo">African Outreach Scholarship Foundation</div>
             <div className="footer-sub">Powered by RoyalTech Partnership &amp; Investment Limited</div>
@@ -2158,6 +2180,18 @@ export default function App() {
               {
                 title:"11. Contact",
                 body:"For all enquiries, support, or complaints contact RoyalTech Partnership & Investment Limited: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: royaltechproducts@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
+              },
+              {
+                title:"12. Legal Disclaimer",
+                items:[
+                  "The African Outreach Scholarship Foundation (AOSF) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 application fee is paid in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
+                  "Credits generated through the AOSF outreach link structure are scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSF or RoyalTech Partnership & Investment Limited.",
+                  "AOSF does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSF before processing.",
+                  "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSF in their respective countries of residence or study. AOSF makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
+                  "AOSF does not guarantee, represent, or warrant that the programme will operate indefinitely. RoyalTech Partnership & Investment Limited reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
+                  "Nothing in these Terms and Conditions constitutes financial, legal, or investment advice. Applicants are encouraged to seek independent professional advice before making any financial decisions in connection with their participation in AOSF.",
+                  "These Terms and Conditions, and all disputes arising from or in connection with the AOSF programme, are governed by the laws of the Federal Republic of Nigeria. By applying, participants from all jurisdictions consent to this governing law.",
+                ],
               },
             ].map((section, i) => (
               <div key={i} style={{marginBottom:28}}>
