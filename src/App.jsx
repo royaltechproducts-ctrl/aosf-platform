@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -809,6 +810,99 @@ export default function App() {
       ].join("\n"),
     });
 
+    // Send outreach materials email to outreachscholarshipadmin for forwarding
+    const outreachLink = "https://aosf-platform.vercel.app?ref=" + code;
+    await sendEmail({
+      to_email: "outreachscholarshipadmin@gmail.com",
+      to_name: "AOSF Admin",
+      subject: "AOSF — Forward Outreach Materials to: " + applicant.fullName + " | " + applicant.email,
+      message: "Dear " + applicant.fullName + "," +
+        "\n\nCongratulations! Your AOSF scholarship account is now active and your unique outreach link is live." +
+        "\n\nYour Reference Code: " + code +
+        "\nYour Outreach Link: " + outreachLink +
+        "\n\n================================================================" +
+        "\nHOW TO MAXIMISE YOUR SCHOLARSHIP FUNDS" +
+        "\n================================================================" +
+        "\nEvery student who applies through your outreach link = USD 1.00 credited to your scholarship account. Their outreach links generate even more credits for you — automatically." +
+        "\n\nTo help you get started fast, we have prepared customised outreach materials for every region below. Replace the link at the bottom of each version with YOUR OWN unique outreach link above, then copy and paste directly into WhatsApp, email, or any social platform." +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS IN CANADA 🇨🇦" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n\nA student has shared this opportunity with you — and it could make a real difference to your academic finances right here in Canada." +
+        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in Canada. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nHow it works:" +
+        "\n📌 Apply for CAD 6.25 (≈ USD 5.00) and unlock your unique outreach link" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 Pay via Stripe card or Interac e-Transfer — no hassle" +
+        "\n📌 Cash out to your Canadian or home bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in Canada, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS IN THE UK 🇬🇧" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n\nA student has shared this opportunity with you — and it could provide meaningful financial support during your studies in the UK." +
+        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the United Kingdom. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nHow it works:" +
+        "\n📌 Apply for GBP 3.95 (≈ USD 5.00) and unlock your unique outreach link" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 Pay securely via Stripe — Visa, Mastercard, Amex accepted" +
+        "\n📌 Cash out to your UK or home bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada — including 169 higher education providers right here in the UK." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in the UK, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS IN THE UNITED STATES 🇺🇸" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n\nA student has shared this opportunity with you — and it could help ease the financial pressure of studying in the United States." +
+        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform open to African students studying in the USA. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nHow it works:" +
+        "\n📌 Apply for USD 5.00 and unlock your unique outreach link" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 Pay securely via Stripe — Visa, Mastercard, Amex accepted" +
+        "\n📌 Cash out to your US or home bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada — including 3,896 degree-granting colleges and universities right here in the US." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in the USA, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS BACK HOME IN AFRICA 🌍" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 "Your Education Is Your Most Valuable Investment."" +
+        "\n\nA student has shared this opportunity with you — and it could change your academic journey." +
+        "\n\nThe African Outreach Scholarship Foundation (AOSF) is a student-powered scholarship platform where your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nHow it works:" +
+        "\n📌 Apply for USD 5.00 or equivalent local currency and unlock your unique outreach link" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 Cash out to your bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an interested student, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n================================================================" +
+        "\nYOUR SCHOLARSHIP DASHBOARD" +
+        "\n================================================================" +
+        "\nMonitor your credits and cash out anytime:" +
+        "\nPlatform: https://aosf-platform.vercel.app" +
+        "\nYour Reference Code: " + code +
+        "\nMinimum cashout: USD 50.00 | Processed within 24 hours of approval." +
+        "\n\n================================================================" +
+        "\nCONTACT US" +
+        "\n================================================================" +
+        "\nPhone: +234 806 163 1222" +
+        "\nWhatsApp: +234 909 999 4816" +
+        "\nEmail: royaltechproducts@gmail.com" +
+        "\n\n"Your Education Is Your Most Valuable Investment."" +
+        "\n\nBest regards," +
+        "\nAfrican Outreach Scholarship Foundation" +
+        "\nPowered by RoyalTech Partnership & Investment Limited",
+    });
+
     const [credits, withdrawals] = await Promise.all([DB.getCredits(code), DB.getWithdrawals(code)]);
     setMyCredits(credits); setMyWithdrawals(withdrawals);
     setPortalTab("overview");
@@ -840,7 +934,7 @@ export default function App() {
   const handleWithdraw = async () => {
     const applicant = applicants[currentUser];
     const amt = parseFloat(withdrawAmount);
-    if (!amt || amt < 10) { showAlert("Minimum withdrawal is USD 10.00", "error"); return; }
+    if (!amt || amt < 50) { showAlert("Minimum withdrawal is USD 50.00", "error"); return; }
     if (amt > applicant.balance) { showAlert("Insufficient balance.", "error"); return; }
     await DB.requestWithdrawal(currentUser, amt);
     const freshApplicants = await DB.getApplicants();
@@ -2020,7 +2114,7 @@ export default function App() {
                 title:"6. Scholarship Fund Cashout",
                 items:[
                   "Applicants may request a cashout of their available scholarship balance at any time from their portal.",
-                  "The minimum cashout amount is USD 10.00. Requests below this threshold will not be processed.",
+                  "The minimum cashout amount is USD 50.00. Requests below this threshold will not be processed.",
                   "All cashout requests are subject to review and approval by AOSF before processing. Approval is not automatic.",
                   "Approved cashouts are processed to the applicant's registered local bank account within 24 hours of approval.",
                   "Cashouts are made in local currency at the prevailing exchange rate on the date of processing. AOSF is not liable for exchange rate fluctuations between the date of request and the date of processing.",
