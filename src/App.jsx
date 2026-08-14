@@ -517,20 +517,27 @@ export default function App() {
         }
         const params = new URLSearchParams(window.location.search);
         const ref = params.get("ref");
-        if (ref) { setRefUrl(ref); setRegForm(p => ({...p, referredBy: ref})); }
-
-        // Handle Stripe redirect return
         const stripeSuccess = params.get("stripe_success");
-        const savedUser = DB.getCurrentUser();
-        if (stripeSuccess === "1" && savedUser && a[savedUser]) {
-          if (!a[savedUser].appFeePaid) {
-            await completeActivation(savedUser, "stripe", "stripe-redirect-" + Date.now());
+        const stripeType = params.get("type");
+        if (ref) { setRefUrl(ref); setRegForm(p => ({...p, referredBy: ref})); }
+        // Handle return from Stripe Checkout
+        if (ref && stripeSuccess === "1" && a[ref]) {
+          if (stripeType === "reactivation") {
+            await DB.reactivateLink(ref);
           } else {
-            await completeReactivation(savedUser);
+            await DB.activateApplicant(ref);
           }
+          const freshA = await DB.getApplicants();
+          setApplicants(freshA);
+          DB.setCurrentUser(ref);
+          setCurrentUser(ref);
+          setView("portal");
+          setPortalTab("overview");
           // Clean URL
-          window.history.replaceState({}, "", window.location.pathname);
+          window.history.replaceState({}, "", window.location.pathname + "?ref=" + ref);
         }
+
+
       } catch(err) { console.error("Load error:", err); }
       setLoading(false);
     })();
@@ -654,65 +661,50 @@ export default function App() {
     const selectedRegion = REGIONS[region] || REGIONS.africa;
     const currency = selectedRegion.currency;
     const amountInCurrency = fromUSD(APP_FEE_USD, currency);
-    const amountInCents = Math.round(amountInCurrency * 100);
 
     try {
-      showAlert("Preparing secure payment...", "info");
+      showAlert("Redirecting to Stripe secure payment...", "info");
+      const stripe = await getStripe();
 
-      const res = await fetch("/api/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: amountInCents,
-          currency: currency,
-          aosf_code: code,
-          type: isReactivation ? "reactivation" : "application_fee",
-        }),
+      // Use Stripe Payment Links approach — redirect to hosted payment page
+      // Amount in cents
+      const amountInCents = Math.round(amountInCurrency * 100);
+
+      // Create a checkout session via Stripe Payment Links
+      // Since we cannot use secret key on frontend, redirect to a pre-created payment link
+      // with metadata encoded in the success URL
+      const successUrl = window.location.origin +
+        "?ref=" + code +
+        "&stripe_success=1" +
+        "&type=" + (isReactivation ? "reactivation" : "fee");
+      const cancelUrl = window.location.href;
+
+      // Use Stripe hosted checkout with publishable key only
+      const { error } = await stripe.redirectToCheckout({
+        lineItems: [{
+          price_data: {
+            currency: currency.toLowerCase(),
+            product_data: {
+              name: "AOSF " + (isReactivation ? "Link Reactivation" : "Application") + " Fee",
+              description: "African Outreach Scholarship Foundation — Ref: " + code,
+            },
+            unit_amount: amountInCents,
+          },
+          quantity: 1,
+        }],
+        mode: "payment",
+        successUrl: successUrl,
+        cancelUrl: cancelUrl,
+        clientReferenceId: code,
       });
 
-      const data = await res.json();
-      if (data.error) { showAlert("Payment error: " + data.error, "error"); return; }
-
-      window._stripePayData = {
-        clientSecret: data.clientSecret,
-        isReactivation,
-        code,
-        currency,
-        amount: amountInCurrency,
-      };
-
-      setModal("stripe_pay");
-
+      if (error) {
+        console.error("Stripe error:", error);
+        showAlert("Stripe error: " + error.message + ". Please use bank transfer instead.", "error");
+      }
     } catch(err) {
       console.error("Stripe error:", err);
       showAlert("Payment error. Please use bank transfer instead.", "error");
-    }
-  };
-
-  const handleStripeConfirm = async () => {
-    const { clientSecret, isReactivation, code } = window._stripePayData || {};
-    if (!clientSecret) return;
-    try {
-      const stripe = await getStripe();
-      const cardEl = window._stripeCard;
-      if (!cardEl) { showAlert("Card element not ready. Please try again.", "error"); return; }
-      showAlert("Processing payment...", "info");
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: { card: cardEl },
-      });
-      if (error) { showAlert("Payment failed: " + error.message, "error"); return; }
-      if (paymentIntent.status === "succeeded") {
-        setModal(null);
-        window._stripePayData = null;
-        window._stripeCard = null;
-        if (isReactivation) {
-          await completeReactivation(code);
-        } else {
-          await completeActivation(code, "stripe", paymentIntent.id);
-        }
-      }
-    } catch(err) {
-      showAlert("Payment confirmation error. Please try again.", "error");
     }
   };
 
@@ -976,33 +968,6 @@ export default function App() {
                   <button style={{background:"none",border:"none",color:GREEN,cursor:"pointer",fontWeight:700,fontSize:13}}
                     onClick={()=>{setModal(null);setView("apply");}}>Apply here</button>
                 </div>
-              </>
-            )}
-
-            {modal==="stripe_pay" && (
-              <>
-                <div className="modal-title">Secure Card Payment</div>
-                <div className="modal-sub">
-                  {window._stripePayData
-                    ? "Paying " + (window._stripePayData.currency) + " " + Number(window._stripePayData.amount).toFixed(2) + " (≈ USD " + APP_FEE_USD + ") via Stripe"
-                    : "Complete your payment"}
-                </div>
-                <div style={{background:"#F8FBF9",border:"1.5px solid #D4E8DC",
-                  borderRadius:8,padding:16,marginBottom:20,minHeight:44}}
-                  id="stripe-card-element">
-                  {/* Stripe card element mounts here */}
-                </div>
-                <div id="stripe-card-errors" style={{color:ERROR,fontSize:13,marginBottom:12}}/>
-                <button className="btn btn-green" style={{width:"100%"}}
-                  onClick={handleStripeConfirm}>
-                  Confirm Payment
-                </button>
-                <button style={{background:"none",border:"none",color:MUTED,
-                  cursor:"pointer",fontSize:13,marginTop:12,width:"100%"}}
-                  onClick={()=>setModal(null)}>
-                  Cancel
-                </button>
-                <StripeCardMounter onReady={card=>window._stripeCard=card}/>
               </>
             )}
 
