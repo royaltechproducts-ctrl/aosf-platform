@@ -12,6 +12,8 @@ const EMAILJS_TEMPLATE_ID = "template_ooxmhdi";
 const EMAILJS_PUBLIC_KEY  = "9MdUv4yR4Ax4lWQmW";
 const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
+const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
+const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
 const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
@@ -517,24 +519,30 @@ export default function App() {
         }
         const params = new URLSearchParams(window.location.search);
         const ref = params.get("ref");
-        const stripeSuccess = params.get("stripe_success");
+        const loginCode = params.get("login");
+        const stripePaid = params.get("stripe_paid");
         const stripeType = params.get("type");
+
         if (ref) { setRefUrl(ref); setRegForm(p => ({...p, referredBy: ref})); }
-        // Handle return from Stripe Checkout
-        if (ref && stripeSuccess === "1" && a[ref]) {
+
+        // Handle return from Stripe Payment Link
+        if (loginCode && stripePaid === "1" && a[loginCode]) {
           if (stripeType === "reactivation") {
-            await DB.reactivateLink(ref);
+            await DB.reactivateLink(loginCode);
+            const freshA = await DB.getApplicants();
+            setApplicants(freshA);
+            DB.setCurrentUser(loginCode);
+            setCurrentUser(loginCode);
+            const [credits, withdrawals] = await Promise.all([
+              DB.getCredits(loginCode), DB.getWithdrawals(loginCode)
+            ]);
+            setMyCredits(credits); setMyWithdrawals(withdrawals);
+            setView("portal"); setPortalTab("outreach");
+            showAlert("Outreach link reactivated! Your new USD 1,000 cycle has started.");
           } else {
-            await DB.activateApplicant(ref);
+            await completeActivation(loginCode, "stripe", "stripe-link-" + Date.now());
           }
-          const freshA = await DB.getApplicants();
-          setApplicants(freshA);
-          DB.setCurrentUser(ref);
-          setCurrentUser(ref);
-          setView("portal");
-          setPortalTab("overview");
-          // Clean URL
-          window.history.replaceState({}, "", window.location.pathname + "?ref=" + ref);
+          window.history.replaceState({}, "", window.location.pathname);
         }
 
 
@@ -653,59 +661,23 @@ export default function App() {
     showAlert("Application submitted! Check your email for your reference code. Complete your USD 5 fee to activate your outreach link.");
   };
 
-  const handleStripePay = async (isReactivation = false) => {
+  const handleStripePay = (isReactivation = false) => {
     const code = pendingCode || currentUser;
     const applicant = applicants[code];
     if (!applicant) return;
-
     const selectedRegion = REGIONS[region] || REGIONS.africa;
     const currency = selectedRegion.currency;
-    const amountInCurrency = fromUSD(APP_FEE_USD, currency);
-
-    try {
-      showAlert("Redirecting to Stripe secure payment...", "info");
-      const stripe = await getStripe();
-
-      // Use Stripe Payment Links approach — redirect to hosted payment page
-      // Amount in cents
-      const amountInCents = Math.round(amountInCurrency * 100);
-
-      // Create a checkout session via Stripe Payment Links
-      // Since we cannot use secret key on frontend, redirect to a pre-created payment link
-      // with metadata encoded in the success URL
-      const successUrl = window.location.origin +
-        "?ref=" + code +
-        "&stripe_success=1" +
-        "&type=" + (isReactivation ? "reactivation" : "fee");
-      const cancelUrl = window.location.href;
-
-      // Use Stripe hosted checkout with publishable key only
-      const { error } = await stripe.redirectToCheckout({
-        lineItems: [{
-          price_data: {
-            currency: currency.toLowerCase(),
-            product_data: {
-              name: "AOSF " + (isReactivation ? "Link Reactivation" : "Application") + " Fee",
-              description: "African Outreach Scholarship Foundation — Ref: " + code,
-            },
-            unit_amount: amountInCents,
-          },
-          quantity: 1,
-        }],
-        mode: "payment",
-        successUrl: successUrl,
-        cancelUrl: cancelUrl,
-        clientReferenceId: code,
-      });
-
-      if (error) {
-        console.error("Stripe error:", error);
-        showAlert("Stripe error: " + error.message + ". Please use bank transfer instead.", "error");
-      }
-    } catch(err) {
-      console.error("Stripe error:", err);
-      showAlert("Payment error. Please use bank transfer instead.", "error");
-    }
+    const amount = fromUSD(APP_FEE_USD, currency).toFixed(2);
+    const link = isReactivation ? STRIPE_REACTIVATION_LINK : STRIPE_PAYMENT_LINK;
+    // Append reference code and return URL as query params
+    const returnUrl = encodeURIComponent(
+      window.location.origin + "?login=" + code + "&stripe_paid=1&type=" +
+      (isReactivation ? "reactivation" : "fee")
+    );
+    const stripeUrl = link + "?client_reference_id=" + code +
+      "&success_url=" + returnUrl;
+    showAlert("Redirecting to Stripe secure payment (" + currency + " " + amount + ")...", "info");
+    setTimeout(() => { window.location.href = stripeUrl; }, 1200);
   };
 
 
