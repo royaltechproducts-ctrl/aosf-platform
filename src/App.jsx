@@ -1379,9 +1379,6 @@ export default function App() {
             <div style={{fontSize:13,color:GOLD,fontStyle:"italic",marginBottom:8,fontWeight:600}}>
               "Your Education Is Your Most Valuable Investment"
             </div>
-            <div style={{color:GOLD,fontSize:14,fontStyle:"italic",fontWeight:600,marginBottom:8}}>
-              "Your Education Is Your Most Valuable Investment"
-            </div>
             <div className="footer-links">
               <button className="footer-link" onClick={()=>setView("apply")}>Apply</button>
               <button className="footer-link" onClick={()=>setModal("login")}>Log In</button>
