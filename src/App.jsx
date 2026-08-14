@@ -1264,7 +1264,7 @@ export default function App() {
           <div className="stats-bar">
             {[["USD 5.00","Application Fee"],["USD 1.00","Per Direct Outreach"],
               ["USD 1.00","Per Indirect Outreach"],["USD 1.00","Per Extended Outreach"],
-              ["USD 1,000","Per Link Cycle"],["Unlimited","Outreach Reach"]].map(([n,l])=>(
+              ["USD 1,000","Per Link Cycle"],["Exponential","Outreach Circulation"]].map(([n,l])=>(
               <div className="stat" key={l}>
                 <div className="stat-num">{n}</div>
                 <div className="stat-label">{l}</div>
