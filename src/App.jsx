@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1646,7 +1647,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="payment-options">
+              <div className="payment-options" style={{gridTemplateColumns:region==="canada"?"1fr 1fr 1fr":"1fr 1fr"}}>
                 <div className={"pay-option"+(payMethod==="online"?" active":"")} onClick={()=>setPayMethod("online")}>
                   <div style={{fontSize:28,marginBottom:8}}>💳</div>
                   <div className="pay-option-title">Pay Online</div>
@@ -1654,6 +1655,13 @@ export default function App() {
                     {region==="africa"?"Card via Paystack":"Card via Stripe"}
                   </div>
                 </div>
+                {region==="canada" && (
+                  <div className={"pay-option"+(payMethod==="interac"?" active":"")} onClick={()=>setPayMethod("interac")}>
+                    <div style={{fontSize:28,marginBottom:8}}>🍁</div>
+                    <div className="pay-option-title">Interac e-Transfer</div>
+                    <div className="pay-option-sub">Canadian bank transfer</div>
+                  </div>
+                )}
                 <div className={"pay-option"+(payMethod==="bank"?" active":"")} onClick={()=>setPayMethod("bank")}>
                   <div style={{fontSize:28,marginBottom:8}}>🏦</div>
                   <div className="pay-option-title">Bank Transfer</div>
@@ -1661,7 +1669,41 @@ export default function App() {
                 </div>
               </div>
 
-              {payMethod==="online" ? (
+              {payMethod==="interac" ? (
+                <div style={{background:"#F0FFF4",border:"2px solid #86EFAC",borderRadius:12,padding:24}}>
+                  <div style={{fontWeight:800,fontSize:15,color:GREEN_DARK,marginBottom:12}}>
+                    🍁 Interac e-Transfer Instructions
+                  </div>
+                  <div className="bank-details">
+                    {[
+                      ["Send To (Email)","royaltechproducts@gmail.com"],
+                      ["Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
+                      ["Message / Note",applicant.refCode + " — AOSF Application Fee"],
+                      ["Autodeposit","Enabled — no security question needed"],
+                    ].map(([k,v])=>(
+                      <div className="bank-row" key={k}>
+                        <span style={{color:MUTED}}>{k}</span>
+                        <span style={{fontWeight:700,color:GREEN_DARK,wordBreak:"break-all"}}>{v}
+                          {k==="Send To (Email)"&&(
+                            <button className="copy-btn"
+                              onClick={()=>{navigator.clipboard?.writeText("royaltechproducts@gmail.com");showAlert("Email copied!");}}>Copy</button>
+                          )}
+                          {k==="Message / Note"&&(
+                            <button className="copy-btn"
+                              onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSF Application Fee");showAlert("Copied!");}}>Copy</button>
+                          )}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{fontSize:13,color:"#92400E",marginTop:12,lineHeight:1.8,
+                    background:"#FFFBEB",border:"1px solid #FCD34D",borderRadius:8,padding:"10px 14px"}}>
+                    ⚠️ Include your reference code <strong>{applicant.refCode}</strong> in the message field so we can identify your payment.<br/>
+                    After sending, notify us via WhatsApp: <strong>+234 909 999 4816</strong><br/>
+                    Your account will be activated within 24 hours of confirmation.
+                  </div>
+                </div>
+              ) : payMethod==="online" ? (
                 <>
                   <div className="alert alert-info" style={{fontSize:13}}>
                     {region==="africa"
