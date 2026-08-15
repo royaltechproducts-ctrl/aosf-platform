@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -2085,7 +2086,7 @@ export default function App() {
             {[
               {
                 title:"1. About AOSP",
-                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by RoyalTech Partnership & Investment Limited, SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria. The programme enables students of tertiary institutions across English-speaking African countries to build scholarship funds by sharing their unique outreach links with fellow students.",
+                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by African Outreach Scholarship Foundation, SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria. The programme enables students of tertiary institutions across English-speaking African countries to build scholarship funds by sharing their unique outreach links with fellow students.",
               },
               {
                 title:"2. Eligibility",
