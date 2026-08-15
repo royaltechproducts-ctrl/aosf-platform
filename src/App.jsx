@@ -108,10 +108,22 @@ const DB = {
       linkActive: a.link_active, linkCycle: Number(a.link_cycle || 1),
       status: a.status, registeredAt: a.registered_at,
       appFeePaid: a.app_fee_paid,
+      schoolIdUrl: a.school_id_url || null,
     }]));
   },
 
-  async insertApplicant(code, a) {
+  async uploadSchoolId(code, file) {
+    const ext = file.name.split(".").pop();
+    const path = code + "/school-id." + ext;
+    const { error } = await supabase.storage
+      .from("school-ids")
+      .upload(path, file, { upsert: true });
+    if (error) { console.error("uploadSchoolId:", error); return null; }
+    const { data } = supabase.storage.from("school-ids").getPublicUrl(path);
+    return data.publicUrl;
+  },
+
+  async insertApplicant(code, a, schoolIdUrl) {
     const { error } = await supabase.from("aosf_applicants").insert({
       ref_code: code, full_name: a.fullName, email: a.email,
       phone: a.phone, country: a.country, institution: a.institution,
@@ -120,7 +132,7 @@ const DB = {
       account_bank: a.accountBank, account_country: a.accountCountry,
       balance: 0, total_earned: 0, total_withdrawn: 0, link_earned: 0,
       link_active: false, link_cycle: 1, status: "pending",
-      app_fee_paid: false,
+      app_fee_paid: false, school_id_url: schoolIdUrl || null,
     });
     if (error) { console.error("insertApplicant:", error); throw new Error(error.message); }
     return true;
@@ -583,8 +595,17 @@ export default function App() {
     const code = generateCode(regForm.fullName, regForm.country);
     const applicant = { ...regForm, email: regForm.email.toLowerCase().trim() };
 
+    let schoolIdUrl = null;
+    if (idFile) {
+      showAlert("Uploading school ID...", "info");
+      schoolIdUrl = await DB.uploadSchoolId(code, idFile);
+      if (!schoolIdUrl) {
+        showAlert("School ID upload failed. Please try again.", "error"); return;
+      }
+    }
+
     try {
-      await DB.insertApplicant(code, applicant);
+      await DB.insertApplicant(code, applicant, schoolIdUrl);
     } catch(err) {
       showAlert("Application failed: " + err.message, "error"); return;
     }
@@ -2321,6 +2342,17 @@ export default function App() {
                       </span>
                       {a.status==="active" && !a.linkActive && (
                         <div style={{fontSize:10,color:ERROR,marginTop:4,fontWeight:700}}>Link Inactive</div>
+                      )}
+                      {a.schoolIdUrl && (
+                        <a href={a.schoolIdUrl} target="_blank" rel="noopener noreferrer"
+                          style={{display:"inline-block",marginTop:6,fontSize:11,
+                            background:GREEN,color:WHITE,padding:"3px 8px",
+                            borderRadius:4,textDecoration:"none",fontWeight:700}}>
+                          View ID
+                        </a>
+                      )}
+                      {!a.schoolIdUrl && (
+                        <div style={{fontSize:10,color:MUTED,marginTop:4}}>No ID uploaded</div>
                       )}
                     </div>
                   </div>
