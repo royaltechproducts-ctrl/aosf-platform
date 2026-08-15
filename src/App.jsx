@@ -1821,7 +1821,7 @@ export default function App() {
                   {region === "africa" ? (
                     <button className="btn btn-green" style={{width:"100%",fontSize:16,padding:15}}
                       onClick={()=>{setPendingCode(applicant.refCode);handlePaystackPay(false);}}>
-                      Pay {fmtNGN(APP_FEE_USD)} via Paystack
+                      Donate {fmtNGN(APP_FEE_USD)} via Paystack to Unlock your Outreach Link
                     </button>
                   ) : (
                     <div style={{background:"#F0FFF4",border:"2px solid #86EFAC",
