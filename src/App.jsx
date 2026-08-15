@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1303,7 +1304,7 @@ export default function App() {
                 {badge:"10",text:"Assuming 10 students applied through your outreach link. And each unlocks and activates their own links.",highlight:"Your scholarship account is credited with 10 × USD 1.00 = USD 10.00 (Direct Outreach)"},
                 {badge:"100",text:"Each of the 10 students share their own link and let's assume 10 more students apply through each of them — 100 new applications in total.",highlight:"Your scholarship account is credited with 100 × USD 1.00 = USD 100.00 (Indirect Outreach)"},
                 {badge:"1K",text:"Again, let's imagine that each of these 100 applicants share their links and 10 more from each apply — 1,000 new applications are received from students you know absolutely nothing about.",highlight:"Your scholarship account is credited with 1,000 × USD 1.00 = USD 1,000.00 (Extended Outreach)"},
-                {badge:"∑",text:"Your total scholarship funds from one outreach effort:",highlight:"USD 10 + USD 100 + USD 1,000 = USD 1,110.00 credited to your scholarship account. You will need to reactivate your outreach link with USD 5.00 for another cycle after receiving USD 1,000.00 from donated funds."},
+                {badge:"∑",text:"Your total scholarship funds from one outreach effort:",highlight:"USD 10 + USD 100 + USD 1,000 = USD 1,110.00 credited to your scholarship account. You will need to reactivate your outreach link with USD 5.00 donation for another cycle after receiving USD 1,000.00 from donated funds."},
               ].map((s,i)=>(
                 <div className="illus-step" key={i}>
                   <div className="illus-badge">{s.badge}</div>
