@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -2113,7 +2114,7 @@ export default function App() {
                   "INDIRECT OUTREACH CREDIT: When an applicant from your direct outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you receive a further credit of USD 1.00 to your scholarship account.",
                   "EXTENDED OUTREACH CREDIT: When an applicant from your indirect outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you again receive a further credit of USD 1.00 to your scholarship account.",
                   "The credit chain extends to three levels of outreach only — Direct, Indirect, and Extended. No further credits are generated beyond this 3rd level.",
-                  "Credits are generated only when the referred applicant's USD 5.00 donation is confirmed. Pending payments do not generate credits.",
+                  "Credits are generated only when the referred applicant's USD 5.00 donation is confirmed. Pending donations do not generate credits.",
                   "AOSP reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
                 ],
               },
