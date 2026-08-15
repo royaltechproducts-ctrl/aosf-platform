@@ -1996,7 +1996,7 @@ export default function App() {
                       {
                         region:"🌍 Africa (General)",
                         amount:"NGN 8,000 (≈ USD 5.00)",
-                        payment:"Paystack",
+                        payment:"Paystack or Direct Transfer",
                         institutions:"1,331+ institutions across 54 African countries",
                         color:"#F0F6F2",
                         border:"#2D9B5A",
