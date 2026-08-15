@@ -7,7 +7,7 @@ const SUPABASE_URL = "https://duiqiuhtcmjjpaqesfwc.supabase.co";
 const SUPABASE_KEY = "sb_publishable_WWWCeed957e0VSaaVeG0mw_MW0w_aGh";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const EMAILJS_SERVICE_ID  = "service_2e36ew4";
+const EMAILJS_SERVICE_ID  = "service_mir3von";
 const EMAILJS_TEMPLATE_ID = "template_ooxmhdi";
 const EMAILJS_PUBLIC_KEY  = "9MdUv4yR4Ax4lWQmW";
 const ADMIN_EMAIL         = "aosf2026@gmail.com";
