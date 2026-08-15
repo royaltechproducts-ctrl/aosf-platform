@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -2090,7 +2091,7 @@ export default function App() {
               {
                 title:"2. Eligibility",
                 items:[
-                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe.",
+                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe; and to African students currently enrolled in tertiary institutions in Canada, the United States of America, and the United Kingdom.",
                   "Applicants must provide accurate and verifiable personal, academic, and bank account details at the point of application.",
                   "AOSP reserves the right to verify the academic enrolment status of any applicant at any time and to suspend or terminate accounts found to have provided false information.",
                   "Each applicant may hold only one active AOSP account. Multiple accounts using the same email address, phone number, or bank account details are not permitted.",
@@ -2101,7 +2102,7 @@ export default function App() {
                 items:[
                   "A non-refundable scholarship donation of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) is required to activate a scholarship account and outreach link.",
                   "The USD 5.00 scholarship donation is strictly non-refundable under all circumstances, including but not limited to: change of mind, inability to share the outreach link, failure to receive applications through the link, or withdrawal from the programme.",
-                  "The same USD 5.00 reactivation donation applies each time an outreach link is reactivated after reaching the USD 1,000.00 per donation cycle cap.",
+                  "The same USD 5.00 reactivation donation applies each time an outreach link is reactivated after reaching the USD 1,000.00 per received donation cycle cap.",
                   "An applicant's outreach link and scholarship account are activated only upon confirmation of the donation by AOSP. Until confirmation, the account remains in pending status.",
                 ],
               },
@@ -2109,10 +2110,10 @@ export default function App() {
                 title:"4. Outreach Link and Scholarship Credit Structure",
                 items:[
                   "Upon activation, each applicant receives a unique outreach link tied to their scholarship account.",
-                  "DIRECT APPLICATION CREDIT: When a student applies to AOSP through an applicant's outreach link and their USD 5.00 donation is confirmed, the referring applicant receives a credit of USD 1.00 to their scholarship account.",
-                  "1ST EXTENSION CREDIT: When a direct applicant shares their own outreach link and another student applies through it and makes the scholarship donation, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
-                  "2ND EXTENSION CREDIT: When a 1st extension applicant shares their own outreach link and another student applies through it and makes the scholarship donation, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
-                  "The credit chain extends to two levels of extension only. No further credits are generated beyond the 2nd extension.",
+                  "DIRECT OUTREACH CREDIT: When a student applies to AOSP through your outreach link and unlocks their own outreach link, you receive a credit of USD 1.00 to your scholarship account.",
+                  "INDIRECT OUTREACH CREDIT: When an applicant from your direct outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you receive a further credit of USD 1.00 to your scholarship account.",
+                  "EXTENDED OUTREACH CREDIT: When an applicant from your indirect outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you again receive a further credit of USD 1.00 to your scholarship account.",
+                  "The credit chain extends to three levels of outreach only — Direct, Indirect, and Extended. No further credits are generated beyond this 3rd level.",
                   "Credits are generated only when the referred applicant's USD 5.00 donation is confirmed. Pending payments do not generate credits.",
                   "AOSP reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
                 ],
@@ -2120,9 +2121,9 @@ export default function App() {
               {
                 title:"5. Outreach Link Cap and Reactivation",
                 items:[
-                  "Each outreach link has a earning cap of USD 1,000.00 per cycle, counting all direct, 1st extension, and 2nd extension credits combined.",
-                  "Once an outreach link reaches the USD 1,000.00 cap, it becomes inactive and no further credits are generated through that link until it is reactivated.",
-                  "Reactivation requires payment of a non-refundable fee of USD 5.00. Upon confirmation, a new USD 1,000.00 earning cycle begins.",
+                  "Each outreach link has a scholarship funding cap of USD 1,000.00 per cycle, counting all direct, indirect, and extended outreach credits combined.",
+                  "Once an outreach link achieves the USD 1,000.00 cap, it becomes inactive and no further credits are generated through that link until it is reactivated.",
+                  "Reactivation requires a non-refundable donation of USD 5.00. Upon confirmation, a new USD 1,000.00 scholarship funding cycle begins.",
                   "An applicant's scholarship balance and total credit history are preserved across all reactivation cycles.",
                   "AOSP is not responsible for any credits not received during the period when a link is inactive pending reactivation.",
                 ],
@@ -2167,7 +2168,7 @@ export default function App() {
               {
                 title:"10. Dispute Resolution",
                 items:[
-                  "Any dispute arising from the AOSP programme shall first be referred to RoyalTech for resolution through direct negotiation.",
+                  "Any dispute arising from the AOSP programme shall first be referred to the African Outreach Scholarship Foundation for resolution through direct negotiation.",
                   "If not resolved within 14 working days, the dispute shall be referred to mediation under mutually agreed terms.",
                   "If mediation fails, the dispute shall be resolved by arbitration under the jurisdiction of the Federal Republic of Nigeria, seated in Lagos State.",
                   "These Terms and Conditions are governed by the laws of the Federal Republic of Nigeria.",
@@ -2175,7 +2176,7 @@ export default function App() {
               },
               {
                 title:"11. Contact",
-                body:"For all enquiries, support, or complaints contact RoyalTech Partnership & Investment Limited: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: royaltechproducts@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
+                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: royaltechproducts@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
               },
               {
                 title:"12. Legal Disclaimer",
@@ -2184,7 +2185,7 @@ export default function App() {
                   "Credits generated through the AOSP outreach link structure are scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSP or RoyalTech Partnership & Investment Limited.",
                   "AOSP does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSP before processing.",
                   "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSP in their respective countries of residence or study. AOSP makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
-                  "AOSP does not guarantee, represent, or warrant that the programme will operate indefinitely. RoyalTech Partnership & Investment Limited reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
+                  "AOSP does not guarantee, represent, or warrant that the programme will operate indefinitely. African Outreach Scholarship Foundation reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
                   "Nothing in these Terms and Conditions constitutes financial, legal, or investment advice. Applicants are encouraged to seek independent professional advice before making any financial decisions in connection with their participation in AOSP.",
                   "These Terms and Conditions, and all disputes arising from or in connection with the AOSP programme, are governed by the laws of the Federal Republic of Nigeria. By applying, participants from all jurisdictions consent to this governing law.",
                 ],
