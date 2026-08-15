@@ -1989,7 +1989,7 @@ export default function App() {
                     Make your USD 5.00 scholarship donation to unlock your outreach link.
                   </div>
                   <button className="btn btn-green" onClick={()=>setPortalTab("payment")}>
-                    Pay USD 5 to Unlock
+                    Donate USD 5 to Unlock
                   </button>
                 </div>
               ) : (
