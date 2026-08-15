@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1321,7 +1322,7 @@ export default function App() {
               Ready to Fund Your Education?
             </div>
             <p style={{color:"rgba(255,255,255,0.8)",maxWidth:540,margin:"0 auto 24px",lineHeight:1.75}}>
-              Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today for just USD 5.00.
+              Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your scholarship funding with this program.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
               <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now — Donate USD 5.00</button>
