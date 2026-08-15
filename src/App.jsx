@@ -991,7 +991,7 @@ export default function App() {
   if (loading) return (
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",
       height:"100vh",background:BG,flexDirection:"column",gap:12}}>
-      <div style={{fontSize:28,fontWeight:900,color:GREEN}}>AOSP</div>
+      <div style={{fontSize:28,fontWeight:900,color:GREEN}}>AOSF</div>
       <div style={{fontSize:14,color:MUTED}}>Loading Scholarship Platform...</div>
     </div>
   );
@@ -1214,7 +1214,7 @@ export default function App() {
       {/* NAV */}
       <nav className="nav">
         <div className="nav-logo" onClick={()=>setView("landing")}>
-          <div className="nav-logo-mark">AOSP</div>
+          <div className="nav-logo-mark">AOSF</div>
           <div>
             <div className="nav-brand">African Outreach Scholarship</div>
             <div className="nav-sub">Foundation</div>
