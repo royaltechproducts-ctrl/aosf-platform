@@ -1355,7 +1355,7 @@ export default function App() {
 
             {refUrl && (
               <div className="alert alert-gold">
-                🔗 You have been granted application access through the outreach link of a fellow AOSP student. Apply now to secure a scholarship account, unlock a unique outreach link — and start receiving generated scholarship funds from the numerous applications received from across several higher learning institutions in 54 African countries, and from over 5,700 institutions globally.
+                🔗 You have been granted application access through the outreach link of a fellow AOSP student. Apply now to secure a scholarship account, unlock a unique outreach link — and start receiving generated scholarship funds from the numerous applications with your outreach link accessible to African student applicants across several higher learning institutions in 54 African countries, and from over 5,700 institutions globally.
               </div>
             )}
 
