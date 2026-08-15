@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1358,7 +1359,7 @@ export default function App() {
                 textTransform:"uppercase",marginBottom:12}}>Legal Disclaimer</div>
               <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.9}}>
                 AOSP is a student-powered scholarship programme — not a financial investment scheme, pyramid scheme, or MLM.
-                The USD 5.00 fee is paid for a genuine scholarship account and outreach link.
+                The USD 5.00 donation received is for a genuine scholarship account and outreach link.
                 Credits are scholarship funds, not guaranteed income or investment returns.
                 No financial return is promised. Participation is subject to the laws of your jurisdiction.
                 Applicants in Canada, USA, and UK are advised to seek independent legal advice if in doubt.
