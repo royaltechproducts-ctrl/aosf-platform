@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1607,7 +1608,7 @@ export default function App() {
                 background:applicant.status==="active"?"#DCFCE7":applicant.status==="pending"?"#FEF9C3":"#FEE2E2",
                 color:applicant.status==="active"?"#166534":applicant.status==="pending"?"#854D0E":"#991B1B",
                 padding:"4px 12px",borderRadius:20,fontSize:12,fontWeight:700}}>
-                {applicant.status==="active"?"✓ Account Active":applicant.status==="pending"?"⏳ Payment Pending":"Inactive"}
+                {applicant.status==="active"?"✓ Account Active":applicant.status==="pending"?"⏳ Donation Pending":"Inactive"}
               </div>
               {applicant.status==="active" && (
                 <button className="btn btn-gold btn-sm" onClick={()=>setModal("withdraw")}>
@@ -1647,7 +1648,7 @@ export default function App() {
                     Make a USD 5.00 scholarship donation to activate your outreach link and to allow scholarship funds to be credited into your new scholarship account.
                   </div>
                   <button className="btn btn-gold" onClick={()=>setPortalTab("payment")}>
-                    Pay USD 5.00 — Activate Now
+                    Donate USD 5.00 — Activate Now
                   </button>
                 </div>
               )}
