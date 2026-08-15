@@ -1625,7 +1625,7 @@ export default function App() {
                   border:"1px solid #D4E8DC",marginBottom:20}}>
                   <div style={{display:"flex",justifyContent:"space-between",fontSize:13,
                     fontWeight:600,color:GREEN_DARK,marginBottom:6}}>
-                    <span>Outreach Link Earning Progress — Cycle {applicant.linkCycle}</span>
+                    <span>Your Outreach Link / Scholarship Funding Progress — Cycle {applicant.linkCycle}</span>
                     <span>{fmtUSD(applicant.linkEarned)} / USD {LINK_CAP}</span>
                   </div>
                   <div className="progress-bar">
