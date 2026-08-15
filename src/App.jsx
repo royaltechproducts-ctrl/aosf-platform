@@ -1960,13 +1960,13 @@ export default function App() {
                   <div style={{background:WHITE,borderRadius:12,padding:24,
                     border:"1px solid #D4E8DC",marginBottom:20}}>
                     <div style={{fontWeight:700,color:GREEN_DARK,marginBottom:16,fontSize:15}}>
-                      Your Earning Structure
+                      Your Scholarship Funding Structure
                     </div>
                     <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:12}}>
-                      {[["Direct Applications","USD 1.00 each","Students who apply through your link directly"],
-                        ["1st Extension","USD 1.00 each","Applications through your direct applicants' links"],
-                        ["2nd Extension","USD 1.00 each","Applications through 1st extension students' links"],
-                        ["Link Cap","USD 1,000 / cycle","Reactivate for USD 5 after each USD 1,000 earned"],
+                      {[["Direct Outreach","USD 1.00 each","Applications from students who apply through your link directly"],
+                        ["Indirect Outreach","USD 1.00 each","Applications from links of applicants from your direct outreach"],
+                        ["Extended Outreach","USD 1.00 each","Applications from links of applicants from your indirect outreach"],
+                        ["Link Cap","USD 1,000 / cycle","Reactivate for USD 5 after each USD 1,000 scholarship funds received"],
                       ].map(([title,amount,desc])=>(
                         <div key={title} style={{background:"#F0F6F2",borderRadius:10,padding:16,textAlign:"center"}}>
                           <div style={{fontSize:11,color:MUTED,fontWeight:700,
