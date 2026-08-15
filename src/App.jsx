@@ -1359,7 +1359,7 @@ export default function App() {
               <div style={{fontSize:12,color:"rgba(255,255,255,0.55)",lineHeight:1.9}}>
                 AOSP is a student-powered scholarship programme — not a financial investment scheme, pyramid scheme, or MLM.
                 The USD 5.00 donation received is for a genuine scholarship account and outreach link.
-                Credits are scholarship funds, not guaranteed income or investment returns.
+                Credits are donated scholarship funds, not guaranteed income or investment returns.
                 No financial return is promised. Participation is subject to the laws of your jurisdiction.
                 Applicants in Canada, USA, and UK are advised to seek independent legal advice if in doubt.
                 All disputes are governed by the laws of the Federal Republic of Nigeria.
