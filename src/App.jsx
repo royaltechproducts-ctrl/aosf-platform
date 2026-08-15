@@ -10,7 +10,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const EMAILJS_SERVICE_ID  = "service_2e36ew4";
 const EMAILJS_TEMPLATE_ID = "template_ooxmhdi";
 const EMAILJS_PUBLIC_KEY  = "9MdUv4yR4Ax4lWQmW";
-const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
+const ADMIN_EMAIL         = "aosf2026@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
@@ -627,7 +627,7 @@ export default function App() {
         "\n\nBest regards," +
         "\nAfrican Outreach Scholarship Foundation" +
         "\nPowered by RoyalTech Partnership & Investment Limited" +
-        "\nPhone: +234 806 163 1222 | royaltechproducts@gmail.com",
+        "\nPhone: +234 806 163 1222 | aosf2026@gmail.com",
     });
 
     // Notify admin
@@ -822,84 +822,78 @@ export default function App() {
         "\n\n================================================================" +
         "\nHOW TO MAXIMISE YOUR SCHOLARSHIP FUNDS" +
         "\n================================================================" +
-        "\nEvery student who applies through your outreach link = USD 1.00 credited to your scholarship account. Their outreach links generate even more credits for you — automatically." +
-        "\n\nTo help you get started fast, we have prepared customised outreach materials for every region below. Replace the link at the bottom of each version with YOUR OWN unique outreach link above, then copy and paste directly into WhatsApp, email, or any social platform." +
+        "\nEvery student who applies through your outreach link = USD 1.00 donated scholarship funds credited to your scholarship account. Their outreach links generate even more credits for you — automatically." +
+        "\n\nTo help you get started fast, we have prepared customised outreach materials for every region below. Replace the sample link at the bottom of each version with YOUR OWN unique outreach link above, then copy and paste directly into WhatsApp, email, or any social platform." +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS IN AFRICA 🌍" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 \"Your Education Is Your Most Valuable Achievement.\"" +
+        "\n\nA student has shared this opportunity with you — and it could change your academic journey." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to African students across Africa and diaspora. Your outreach generates real donated scholarship funds credited directly into your scholarship account." +
+        "\n\nHow it works:" +
+        "\n📌 Start things off by making a donation of NGN 8,000 (≈ USD 5.00) to unlock your unique outreach link and scholarship account for funding" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 To get started, donate via Paystack — no hassle" +
+        "\n📌 Cash out your scholarship funds to your local bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: [REPLACE WITH YOUR OUTREACH LINK]" +
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN CANADA 🇨🇦" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Achievement." +
+        "\n🎓 \"Your Education Is Your Most Valuable Achievement.\"" +
         "\n\nA student has shared this opportunity with you — and it could make a real difference to your academic finances right here in Canada." +
-        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in Canada. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to African students studying in Canada. Your outreach generates real donated scholarship funds credited directly into your scholarship account." +
         "\n\nHow it works:" +
-        "\n📌 Apply for CAD 6.25 (≈ USD 5.00) and unlock your unique outreach link" +
+        "\n📌 Start things off by making a donation of CAD 6.25 (≈ USD 5.00) to unlock your unique outreach link and scholarship account for funding" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
         "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
-        "\n📌 Pay via Stripe card or Interac e-Transfer — no hassle" +
-        "\n📌 Cash out to your Canadian or home bank account anytime" +
+        "\n📌 To get started, donate via Stripe card or Interac e-Transfer — no hassle" +
+        "\n📌 Cash out your scholarship funds to your Canadian or home bank account anytime" +
         "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada." +
         "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in Canada, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
-        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n🔗 Apply here: [REPLACE WITH YOUR OUTREACH LINK]" +
+        "\n\n----------------------------------------------------------------" +
+        "\nFOR AFRICAN STUDENTS IN THE USA 🇺🇸" +
+        "\n----------------------------------------------------------------" +
+        "\n🎓 \"Your Education Is Your Most Valuable Achievement.\"" +
+        "\n\nA student has shared this opportunity with you — and it could help ease the financial pressure of studying in the United States." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to African students studying in the USA. Your outreach generates real donated scholarship funds credited directly into your scholarship account." +
+        "\n\nHow it works:" +
+        "\n📌 Start things off by making a donation of USD 5.00 to unlock your unique outreach link and scholarship account for funding" +
+        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
+        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
+        "\n📌 To get started, donate via Stripe card — no hassle" +
+        "\n📌 Cash out your scholarship funds to your US or home bank account anytime" +
+        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada — including 3,896 degree-granting colleges and universities right here in the US." +
+        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in the USA, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
+        "\n\n🔗 Apply here: [REPLACE WITH YOUR OUTREACH LINK]" +
         "\n\n----------------------------------------------------------------" +
         "\nFOR AFRICAN STUDENTS IN THE UK 🇬🇧" +
         "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Achievement." +
+        "\n🎓 \"Your Education Is Your Most Valuable Achievement.\"" +
         "\n\nA student has shared this opportunity with you — and it could provide meaningful financial support during your studies in the UK." +
-        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in the United Kingdom. Your outreach generates real scholarship funds credited directly into your account." +
+        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to African students studying in the United Kingdom. Your outreach generates real donated scholarship funds credited directly into your scholarship account." +
         "\n\nHow it works:" +
-        "\n📌 Apply for GBP 3.95 (≈ USD 5.00) and unlock your unique outreach link" +
+        "\n📌 Start things off by making a donation of GBP 3.95 (≈ USD 5.00) to unlock your unique outreach link and scholarship account for funding" +
         "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
         "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
-        "\n📌 Pay securely via Stripe — Visa, Mastercard, Amex accepted" +
-        "\n📌 Cash out to your UK or home bank account anytime" +
+        "\n📌 To get started, donate via Stripe card — no hassle" +
+        "\n📌 Cash out your scholarship funds to your UK or home bank account anytime" +
         "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada — including 169 higher education providers right here in the UK." +
         "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in the UK, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
-        "\n\n🔗 Apply here: " + outreachLink +
-        "\n\n----------------------------------------------------------------" +
-        "\nFOR AFRICAN STUDENTS IN THE UNITED STATES 🇺🇸" +
-        "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Achievement." +
-        "\n\nA student has shared this opportunity with you — and it could help ease the financial pressure of studying in the United States." +
-        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform open to African students studying in the USA. Your outreach generates real scholarship funds credited directly into your account." +
-        "\n\nHow it works:" +
-        "\n📌 Apply for USD 5.00 and unlock your unique outreach link" +
-        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
-        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
-        "\n📌 Pay securely via Stripe — Visa, Mastercard, Amex accepted" +
-        "\n📌 Cash out to your US or home bank account anytime" +
-        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada — including 3,896 degree-granting colleges and universities right here in the US." +
-        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student studying in the USA, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
-        "\n\n🔗 Apply here: " + outreachLink +
-        "\n\n----------------------------------------------------------------" +
-        "\nFOR AFRICAN STUDENTS BACK HOME IN AFRICA 🌍" +
-        "\n----------------------------------------------------------------" +
-        "\n🎓 Your Education Is Your Most Valuable Achievement." +
-        "\n\nA student has shared this opportunity with you — and it could change your academic journey." +
-        "\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship platform where your outreach generates real scholarship funds credited directly into your account." +
-        "\n\nHow it works:" +
-        "\n📌 Apply for USD 5.00 or equivalent local currency and unlock your unique outreach link" +
-        "\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account" +
-        "\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links" +
-        "\n📌 Cash out to your bank account anytime" +
-        "\n\nYour link reaches over 5,700 institutions across Africa, USA, UK & Canada." +
-        "\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an interested student, don't just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary." +
-        "\n\n🔗 Apply here: " + outreachLink +
+        "\n\n🔗 Apply here: [REPLACE WITH YOUR OUTREACH LINK]" +
         "\n\n================================================================" +
-        "\nYOUR SCHOLARSHIP DASHBOARD" +
+        "\nYOUR AOSP PORTAL" +
         "\n================================================================" +
-        "\nMonitor your credits and cash out anytime:" +
+        "\nLog in anytime to track your scholarship credits, manage cashouts, and copy your outreach link:" +
         "\nPlatform: https://aosf-platform.vercel.app" +
-        "\nYour Reference Code: " + code +
-        "\nMinimum cashout: USD 50.00 | Processed within 24 hours of approval." +
-        "\n\n================================================================" +
-        "\nCONTACT US" +
-        "\n================================================================" +
-        "\nPhone: +234 806 163 1222" +
-        "\nWhatsApp: +234 909 999 4816" +
-        "\nEmail: royaltechproducts@gmail.com" +
-        "\n\nYour Education Is Your Most Valuable Achievement." +
+        "\nReference Code: " + code +
         "\n\nBest regards," +
-        "\nAfrican Outreach Scholarship Foundation" +
-        "\nPowered by RoyalTech Partnership & Investment Limited",
+        "\nAfrican Outreach Scholarship Program (AOSP)" +
+        "\nPowered by African Outreach Scholarship Foundation" +
+        "\n\"Your Education Is Your Most Valuable Achievement.\"",
     });
 
     const [credits, withdrawals] = await Promise.all([DB.getCredits(code), DB.getWithdrawals(code)]);
@@ -1784,7 +1778,7 @@ export default function App() {
                   </div>
                   <div className="bank-details">
                     {[
-                      ["Send To (Email)","royaltechproducts@gmail.com"],
+                      ["Send To (Email)","aosf2026@gmail.com"],
                       ["Donation Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
                       ["Message / Note",applicant.refCode + " — AOSP Scholarship Donation"],
                       ["Autodeposit","Enabled — no security question needed"],
@@ -1794,7 +1788,7 @@ export default function App() {
                         <span style={{fontWeight:700,color:GREEN_DARK,wordBreak:"break-all"}}>{v}
                           {k==="Send To (Email)"&&(
                             <button className="copy-btn"
-                              onClick={()=>{navigator.clipboard?.writeText("royaltechproducts@gmail.com");showAlert("Email copied!");}}>Copy</button>
+                              onClick={()=>{navigator.clipboard?.writeText("aosf2026@gmail.com");showAlert("Email copied!");}}>Copy</button>
                           )}
                           {k==="Message / Note"&&(
                             <button className="copy-btn"
@@ -1874,7 +1868,7 @@ export default function App() {
                       </span>
                     ) : (
                       <span>
-                        <strong>For Canada:</strong> Send Interac e-Transfer to: <strong>royaltechproducts@gmail.com</strong><br/>
+                        <strong>For Canada:</strong> Send Interac e-Transfer to: <strong>aosf2026@gmail.com</strong><br/>
                         <strong>For USA/UK:</strong> Use Wise or international wire to your nearest RoyalTech correspondent.<br/>
                         Amount: <strong>{REGIONS[region]?.currency} {fromUSD(APP_FEE_USD, REGIONS[region]?.currency||"USD").toFixed(2)}</strong> (≈ USD {APP_FEE_USD})<br/>
                         Reference: <strong>{applicant.refCode}</strong><br/>
@@ -2173,7 +2167,7 @@ export default function App() {
               },
               {
                 title:"11. Contact",
-                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: royaltechproducts@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
+                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: aosf2026@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
               },
               {
                 title:"12. Legal Disclaimer",
