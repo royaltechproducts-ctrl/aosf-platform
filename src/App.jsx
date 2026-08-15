@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -620,7 +621,7 @@ export default function App() {
         "\nAccount Number: " + regForm.accountNumber +
         "\nBank: " + regForm.accountBank + " (" + regForm.accountCountry + ")" +
         "\n\n--- NEXT STEP ---" +
-        "\nLog in and pay the USD 5.00 application fee to activate your outreach link." +
+        "\nLog in and make a USD 5.00 scholarship donation to activate your outreach link." +
         "\nBank Transfer: RoyalTech Partnership & Investment Limited | 1016621205 | Zenith Bank" +
         "\nReference: " + code +
         "\nSend proof to WhatsApp: 09099994816" +
@@ -633,7 +634,7 @@ export default function App() {
     // Notify admin
     await sendEmail({
       to_email: ADMIN_EMAIL, to_name: "AOSF Admin",
-      subject: "AOSP — New Application (Payment Pending): " + regForm.fullName + " (" + regForm.email + ")",
+      subject: "AOSP — New Application (Donation Pending): " + regForm.fullName + " (" + regForm.email + ")",
       message: [
         "New scholarship application received.",
         "--- APPLICANT DETAILS ---",
@@ -645,7 +646,7 @@ export default function App() {
         "Institution: " + regForm.institution,
         "Course: " + regForm.course + " — " + regForm.level,
         "Outreach From: " + (regForm.referredBy || "Direct"),
-        "Application Fee: USD " + APP_FEE_USD + " — PENDING PAYMENT",
+        "Scholarship Donation: USD " + APP_FEE_USD + " — PENDING",
         "--- BANK ACCOUNT ---",
         "Account Name: " + regForm.accountName,
         "Account Number: " + regForm.accountNumber,
@@ -732,7 +733,7 @@ export default function App() {
             "Your Scholarship Balance: USD " + (Number(direct.balance) + 1).toFixed(2),
             "Outreach Progress: USD " + newLinkEarned.toFixed(2) + " / USD " + LINK_CAP + " (link cap)",
             newLinkEarned >= LINK_CAP
-              ? "⚠️ Your outreach link has reached the USD 1,000 cap and is now INACTIVE. Reactivate with USD 5 from your portal."
+              ? "⚠️ Your outreach link has reached the USD 1,000 cap and is now INACTIVE. Make a new USD 5.00 donation to reactivate your link."
               : "Keep sharing your link to grow your scholarship funds!",
             "Log in: https://aosf-platform.vercel.app | Code: " + applicant.referredBy,
             "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
@@ -757,7 +758,7 @@ export default function App() {
                 "Via: " + direct.fullName + " (your direct outreach)",
                 "Your Scholarship Balance: USD " + (Number(indirect1.balance) + 1).toFixed(2),
                 newLink1 >= LINK_CAP
-                  ? "⚠️ Your outreach link has reached the USD 1,000 cap. Reactivate with USD 5 from your portal."
+                  ? "⚠️ Your outreach link has reached the USD 1,000 cap. Make a new USD 5.00 donation to reactivate your link."
                   : "Your extended outreach keeps building your scholarship funds!",
                 "Log in: https://aosf-platform.vercel.app | Code: " + direct.referredBy,
                 "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
@@ -782,7 +783,7 @@ export default function App() {
                     "Chain: " + indirect2.fullName + " → " + indirect1.fullName + " → " + direct.fullName + " → " + applicant.fullName,
                     "Your Scholarship Balance: USD " + (Number(indirect2.balance) + 1).toFixed(2),
                     newLink2 >= LINK_CAP
-                      ? "⚠️ Your outreach link has reached the USD 1,000 cap. Reactivate with USD 5 from your portal."
+                      ? "⚠️ Your outreach link has reached the USD 1,000 cap. Make a new USD 5.00 donation to reactivate your link."
                       : "This is the power of outreach — your extended links keep funding your education!",
                     "Log in: https://aosf-platform.vercel.app | Code: " + indirect1.referredBy,
                     "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
@@ -798,12 +799,12 @@ export default function App() {
     // Admin notification
     await sendEmail({
       to_email: ADMIN_EMAIL, to_name: "AOSF Admin",
-      subject: "AOSP — Application Fee Confirmed: " + applicant.fullName,
+      subject: "AOSP — Scholarship Donation Confirmed: " + applicant.fullName,
       message: [
-        "Application fee confirmed for: " + applicant.fullName,
+        "Scholarship donation confirmed for: " + applicant.fullName,
         "Code: " + code + " | Country: " + applicant.country,
         "Institution: " + applicant.institution,
-        "Fee: USD " + APP_FEE_USD + " via " + method,
+        "Donation: USD " + APP_FEE_USD + " via " + method,
         "Outreach From: " + (applicant.referredBy || "Direct"),
         "Outreach link is now ACTIVE.",
       ].join("\n"),
@@ -905,7 +906,7 @@ export default function App() {
     const [credits, withdrawals] = await Promise.all([DB.getCredits(code), DB.getWithdrawals(code)]);
     setMyCredits(credits); setMyWithdrawals(withdrawals);
     setPortalTab("overview");
-    showAlert("Application fee confirmed! Your outreach link is now active. Start sharing your outreach link!");
+    showAlert("Scholarship donation confirmed! Your outreach link is now active. Start sharing your outreach link!");
   };
 
   const completeReactivation = async (code) => {
@@ -920,7 +921,7 @@ export default function App() {
       message: [
         "Dear " + freshApplicants[code]?.fullName + ",",
         "Your AOSP outreach link has been successfully reactivated.",
-        "A new USD 1,000 earning cycle has started.",
+        "A new USD 1,000 donation cycle has started.",
         "Your scholarship balance and previous earnings remain intact.",
         "Your Outreach Link: https://aosf-platform.vercel.app?ref=" + code,
         "Share widely and keep earning scholarship funds!",
@@ -1141,10 +1142,10 @@ export default function App() {
                 <div className="modal-title">Reactivate Your Outreach Link</div>
                 <div className="modal-sub">
                   Your outreach link has earned USD {applicant.linkEarned.toFixed(2)} and reached the USD {LINK_CAP} cap.
-                  Pay USD {APP_FEE_USD} to start a new earning cycle. Your existing balance remains intact.
+                  Make a new donation of USD {APP_FEE_USD} to reactivate your link after receiving USD 1,000 from donated funds. Your existing balance remains intact.
                 </div>
                 <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,padding:16,marginBottom:20,fontSize:14}}>
-                  {[["Reactivation Fee","USD "+APP_FEE_USD+".00 (≈ "+fmtNGN(APP_FEE_USD)+")"],
+                  {[["New Donation","USD "+APP_FEE_USD+".00 (≈ "+fmtNGN(APP_FEE_USD)+")"],
                     ["Your Current Balance",fmtUSD(applicant.balance)],
                     ["Total Earned All Cycles",fmtUSD(applicant.totalEarned)],
                     ["Cycle",applicant.linkCycle+" → "+(applicant.linkCycle+1)],
@@ -1201,8 +1202,8 @@ export default function App() {
                       else handleStripePay(true);
                     }}>
                     {region==="africa"
-                      ? "Pay " + fmtNGN(APP_FEE_USD) + " via Paystack"
-                      : "Pay " + (REGIONS[region]?.currency||"USD") + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency||"USD").toFixed(2) + " via Stripe"}
+                      ? "Donate " + fmtNGN(APP_FEE_USD) + " via Paystack"
+                      : "Donate " + (REGIONS[region]?.currency||"USD") + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency||"USD").toFixed(2) + " via Stripe"}
                   </button>
                 )}
               </>
@@ -1252,7 +1253,7 @@ export default function App() {
               A student-powered scholarship platform. Apply, share your outreach link, and USD 1.00 is credited to your account for every African student application received through your outreach link — direct and indirect.
             </p>
             <div className="hero-ctas">
-              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply — USD 5.00</button>
+              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply — Donate USD 5.00</button>
               <button className="btn btn-outline"
                 onClick={()=>document.getElementById("how").scrollIntoView({behavior:"smooth"})}>
                 How It Works
@@ -1261,7 +1262,7 @@ export default function App() {
           </div>
 
           <div className="stats-bar">
-            {[["USD 5.00","Application Fee"],["USD 1.00","Per Direct Outreach"],
+            {[["USD 5.00","Scholarship Donation"],["USD 1.00","Per Direct Outreach"],
               ["USD 1.00","Per Indirect Outreach"],["USD 1.00","Per Extended Outreach"],
               ["USD 1,000","Per Link Cycle"],["Exponential","Outreach Circulation"]].map(([n,l])=>(
               <div className="stat" key={l}>
@@ -1277,7 +1278,7 @@ export default function App() {
               <div className="section-title">How AOSF Works</div>
               <div className="steps">
                 {[
-                     ["1","Apply & Pay USD 5.00","Submit your application and pay a USD 5.00 application fee to unlock and activate your unique outreach link."],
+                     ["1","Apply & Donate USD 5.00","Submit your application and make a donation of USD 5.00 to unlock and activate your unique outreach link."],
                   ["2","Share Your Outreach Link","Send your outreach link to as many tertiary institution students you know in your country, in other African countries, in Canada, USA and the UK."],
                   ["3","Receive USD 1.00 per Application from your Direct Outreach","USD 1.00 is credited into your scholarship account for every student application received through your outreach link."],
                   ["4","Receive USD 1.00 per Application from your Indirect Outreach","When students from your direct outreach link share their own links and others apply, your scholarship account is further credited with USD 1.00 per application."],
@@ -1299,11 +1300,11 @@ export default function App() {
             <div className="section-title">See How Your Scholarship Funds Add Up</div>
             <div className="illus-box">
               {[
-                {badge:"S1",text:"You apply and pay USD 5.00 to unlock and activate your unique outreach link. Share with other students you know.",highlight:null},
+                {badge:"S1",text:"You apply and make a donation of USD 5.00 to unlock and activate your unique outreach link. Share with other students you know.",highlight:null},
                 {badge:"10",text:"Assuming 10 students applied through your outreach link. And each unlocks and activates their own links.",highlight:"Your scholarship account is credited with 10 × USD 1.00 = USD 10.00 (Direct Outreach)"},
                 {badge:"100",text:"Each of the 10 students share their own link and let's assume 10 more students apply through each of them — 100 new applications in total.",highlight:"Your scholarship account is credited with 100 × USD 1.00 = USD 100.00 (Indirect Outreach)"},
                 {badge:"1K",text:"Again, let's imagine that each of these 100 applicants share their links and 10 more from each apply — 1,000 new applications are received from students you know absolutely nothing about.",highlight:"Your scholarship account is credited with 1,000 × USD 1.00 = USD 1,000.00 (Extended Outreach)"},
-                {badge:"∑",text:"Your total scholarship funds from one outreach effort:",highlight:"USD 10 + USD 100 + USD 1,000 = USD 1,110.00 credited to your scholarship account. You will need to reactivate your outreach link with USD 5.00 for another cycle after every USD 1,000.00 funding received."},
+                {badge:"∑",text:"Your total scholarship funds from one outreach effort:",highlight:"USD 10 + USD 100 + USD 1,000 = USD 1,110.00 credited to your scholarship account. You will need to reactivate your outreach link with USD 5.00 for another cycle after receiving USD 1,000.00 from donated funds."},
               ].map((s,i)=>(
                 <div className="illus-step" key={i}>
                   <div className="illus-badge">{s.badge}</div>
@@ -1324,7 +1325,7 @@ export default function App() {
               Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today for just USD 5.00.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
-              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now — USD 5.00</button>
+              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now — Donate USD 5.00</button>
               <button className="btn btn-outline" onClick={()=>setModal("login")}>Log In to My Portal</button>
             </div>
           </div>
@@ -1398,7 +1399,7 @@ export default function App() {
               color:MUTED,cursor:"pointer",fontSize:13,marginBottom:16}}>← Back to Home</button>
             <div className="form-title">Apply for AOSF Scholarship</div>
             <div className="form-sub">
-              Complete your application below. A USD 5.00 application fee activates
+              Complete your application below. A USD 5.00 donation activates
               your scholarship account and outreach link. Your application details are
               saved immediately — pay from your dashboard at any time.
             </div>
@@ -1622,7 +1623,7 @@ export default function App() {
           <div className="tabs">
             {[
               ["overview","Overview"],
-              ...(!applicant.appFeePaid?[["payment","⚡ Pay Fee"]]:[]),
+              ...(!applicant.appFeePaid?[["payment","⚡ Donate & Activate"]]:[]),
               ["credits","My Credits"],
               ["cashouts","Cashouts"],
               ["outreach","Outreach Link"],
@@ -1646,7 +1647,7 @@ export default function App() {
                   </div>
                   <div style={{fontSize:14,color:"rgba(255,255,255,0.85)",maxWidth:480,
                     margin:"0 auto 20px",lineHeight:1.75}}>
-                    Pay a USD 5.00 application fee to activate your outreach link and to allow scholarship funds to be credited into your new scholarship account.
+                    Make a USD 5.00 scholarship donation to activate your outreach link and to allow scholarship funds to be credited into your new scholarship account.
                   </div>
                   <button className="btn btn-gold" onClick={()=>setPortalTab("payment")}>
                     Pay USD 5.00 — Activate Now
@@ -1722,15 +1723,15 @@ export default function App() {
           {portalTab==="payment" && !applicant.appFeePaid && (
             <>
               <div style={{fontWeight:900,fontSize:20,color:GREEN_DARK,marginBottom:6}}>
-                Pay Application Fee — USD {APP_FEE_USD}.00
+                Make Your Scholarship Donation — USD {APP_FEE_USD}.00
               </div>
               <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
-                Complete your USD 5 application fee to activate your scholarship account and outreach link.
+                Make your USD 5.00 scholarship donation to activate your scholarship account and outreach link.
               </div>
               <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,padding:16,marginBottom:20}}>
                 {[["Reference Code",applicant.refCode],["Applicant",applicant.fullName],
                   ["Institution",applicant.institution],
-                  ["Application Fee","USD "+APP_FEE_USD+".00 (≈ "+fmtNGN(APP_FEE_USD)+")"],
+                  ["Scholarship Donation","USD "+APP_FEE_USD+".00 (≈ "+fmtNGN(APP_FEE_USD)+")"],
                 ].map(([k,v])=>(
                   <div key={k} style={{display:"flex",justifyContent:"space-between",
                     padding:"6px 0",borderBottom:"1px solid rgba(201,168,76,0.3)",fontSize:13}}>
@@ -1787,8 +1788,8 @@ export default function App() {
                   <div className="bank-details">
                     {[
                       ["Send To (Email)","royaltechproducts@gmail.com"],
-                      ["Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
-                      ["Message / Note",applicant.refCode + " — AOSP Application Fee"],
+                      ["Donation Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
+                      ["Message / Note",applicant.refCode + " — AOSP Scholarship Donation"],
                       ["Autodeposit","Enabled — no security question needed"],
                     ].map(([k,v])=>(
                       <div className="bank-row" key={k}>
@@ -1800,7 +1801,7 @@ export default function App() {
                           )}
                           {k==="Message / Note"&&(
                             <button className="copy-btn"
-                              onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSP Application Fee");showAlert("Copied!");}}>Copy</button>
+                              onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSP Scholarship Donation");showAlert("Copied!");}}>Copy</button>
                           )}
                         </span>
                       </div>
@@ -1818,7 +1819,7 @@ export default function App() {
                   <div className="alert alert-info" style={{fontSize:13}}>
                     {region==="africa"
                       ? "Your outreach link activates immediately after Paystack confirms your payment."
-                      : "Pay securely via Stripe. Your outreach link activates after payment confirmation. Amount: " + REGIONS[region]?.currency + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency || "USD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"}
+                      : "Make your donation securely via Stripe. Your outreach link activates after donation confirmation. Amount: " + REGIONS[region]?.currency + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency || "USD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"}
                   </div>
                   {region === "africa" ? (
                     <button className="btn btn-green" style={{width:"100%",fontSize:16,padding:15}}
@@ -1988,7 +1989,7 @@ export default function App() {
                     Outreach Link Locked
                   </div>
                   <div style={{fontSize:14,color:MUTED,marginBottom:24,lineHeight:1.7}}>
-                    Complete your USD 5 application fee payment to unlock your outreach link.
+                    Make your USD 5.00 scholarship donation to unlock your outreach link.
                   </div>
                   <button className="btn btn-green" onClick={()=>setPortalTab("payment")}>
                     Pay USD 5 to Unlock
@@ -2010,7 +2011,7 @@ export default function App() {
                       <span style={{fontSize:12,color:"rgba(255,255,255,0.9)"}}>
                         {applicant.linkActive
                           ? "Active — Cycle "+applicant.linkCycle+" | "+fmtUSD(LINK_CAP-applicant.linkEarned)+" remaining"
-                          : "Inactive — Reactivate with USD 5 to start a new cycle"}
+                          : "Inactive — Make a new USD 5.00 donation to start a new cycle"}
                       </span>
                     </div>
                     <div className="outreach-link-box">
@@ -2097,23 +2098,23 @@ export default function App() {
                 ],
               },
               {
-                title:"3. Application Fee",
+                title:"3. Scholarship Donation",
                 items:[
-                  "A non-refundable application fee of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) is required to activate a scholarship account and outreach link.",
-                  "The USD 5.00 application fee is strictly non-refundable under all circumstances, including but not limited to: change of mind, inability to share the outreach link, failure to receive applications through the link, or withdrawal from the programme.",
-                  "The same USD 5.00 reactivation fee applies each time an outreach link is reactivated after reaching the USD 1,000.00 per cycle cap.",
-                  "An applicant's outreach link and scholarship account are activated only upon confirmation of payment by AOSP. Until confirmation, the account remains in pending status.",
+                  "A non-refundable scholarship donation of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) is required to activate a scholarship account and outreach link.",
+                  "The USD 5.00 scholarship donation is strictly non-refundable under all circumstances, including but not limited to: change of mind, inability to share the outreach link, failure to receive applications through the link, or withdrawal from the programme.",
+                  "The same USD 5.00 reactivation donation applies each time an outreach link is reactivated after reaching the USD 1,000.00 per donation cycle cap.",
+                  "An applicant's outreach link and scholarship account are activated only upon confirmation of the donation by AOSP. Until confirmation, the account remains in pending status.",
                 ],
               },
               {
                 title:"4. Outreach Link and Scholarship Credit Structure",
                 items:[
                   "Upon activation, each applicant receives a unique outreach link tied to their scholarship account.",
-                  "DIRECT APPLICATION CREDIT: When a student applies to AOSP through an applicant's outreach link and their USD 5.00 application fee is confirmed, the referring applicant receives a credit of USD 1.00 to their scholarship account.",
-                  "1ST EXTENSION CREDIT: When a direct applicant shares their own outreach link and another student applies through it and pays the application fee, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
-                  "2ND EXTENSION CREDIT: When a 1st extension applicant shares their own outreach link and another student applies through it and pays the application fee, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
+                  "DIRECT APPLICATION CREDIT: When a student applies to AOSP through an applicant's outreach link and their USD 5.00 donation is confirmed, the referring applicant receives a credit of USD 1.00 to their scholarship account.",
+                  "1ST EXTENSION CREDIT: When a direct applicant shares their own outreach link and another student applies through it and makes the scholarship donation, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
+                  "2ND EXTENSION CREDIT: When a 1st extension applicant shares their own outreach link and another student applies through it and makes the scholarship donation, the original referring applicant receives a further credit of USD 1.00 to their scholarship account.",
                   "The credit chain extends to two levels of extension only. No further credits are generated beyond the 2nd extension.",
-                  "Credits are generated only when the referred applicant's USD 5.00 application fee is confirmed. Pending payments do not generate credits.",
+                  "Credits are generated only when the referred applicant's USD 5.00 donation is confirmed. Pending payments do not generate credits.",
                   "AOSP reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
                 ],
               },
@@ -2151,8 +2152,8 @@ export default function App() {
               {
                 title:"8. Platform Changes",
                 items:[
-                  "AOSP reserves the right to modify the application fee, credit amounts, outreach link cap, or any other programme terms at any time prior to an applicant making a financial commitment.",
-                  "Once an applicant's application fee has been confirmed, the terms applicable to that applicant's current active cycle shall remain binding for the duration of that cycle.",
+                  "AOSP reserves the right to modify the donation amount, credit amounts, outreach link cap, or any other programme terms at any time prior to an applicant making a financial commitment.",
+                  "Once an applicant's scholarship donation has been confirmed, the terms applicable to that applicant's current active cycle shall remain binding for the duration of that cycle.",
                   "AOSP reserves the right to suspend or terminate the programme with reasonable notice to active participants.",
                 ],
               },
@@ -2180,7 +2181,7 @@ export default function App() {
               {
                 title:"12. Legal Disclaimer",
                 items:[
-                  "The African Outreach Scholarship Program (AOSP) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 application fee is paid in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
+                  "The African Outreach Scholarship Program (AOSP) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 scholarship donation is made in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
                   "Credits generated through the AOSP outreach link structure are scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSP or RoyalTech Partnership & Investment Limited.",
                   "AOSP does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSP before processing.",
                   "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSP in their respective countries of residence or study. AOSP makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
@@ -2269,7 +2270,7 @@ export default function App() {
 
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:16,marginBottom:24}}>
               {[["Total Applicants",allApplicants.length],["Active",activeCount],
-                ["Pending Fee",pendingCount],
+                ["Pending Donation",pendingCount],
                 ["Total Earned",fmtUSD(totalEarned)],
                 ["Total Balance",fmtUSD(totalBalance)],
                 ["Total Withdrawn",fmtUSD(totalWithdrawn)],
@@ -2282,7 +2283,7 @@ export default function App() {
             </div>
 
             <div className="tabs">
-              {[["applicants","All Applicants"],["pending","Pending Fee"],["withdrawals","Withdrawal Queue"]].map(([id,label])=>(
+              {[["applicants","All Applicants"],["pending","Pending Donation"],["withdrawals","Withdrawal Queue"]].map(([id,label])=>(
                 <button key={id} className={"tab"+(adminTab===id?" active":"")}
                   onClick={async()=>{
                     setAdminTab(id);
@@ -2360,7 +2361,7 @@ export default function App() {
                           setApplicants(fresh);
                           showAlert("Activated: "+a.fullName);
                         }}>
-                        Confirm &amp; Activate
+                        Confirm Donation &amp; Activate
                       </button>
                     </div>
                   </div>
