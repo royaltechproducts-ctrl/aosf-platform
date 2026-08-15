@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1274,7 +1275,7 @@ export default function App() {
           <div style={{background:WHITE,padding:"64px 0"}} id="how">
             <div className="section" style={{padding:"0 24px"}}>
               <div className="section-eyebrow">Simple Process</div>
-              <div className="section-title">How AOSF Works</div>
+              <div className="section-title">How AOSP Works</div>
               <div className="steps">
                 {[
                      ["1","Apply & Donate USD 5.00","Submit your application and make a donation of USD 5.00 to unlock and activate your unique outreach link."],
