@@ -14,6 +14,7 @@ const ADMIN_EMAIL         = "royaltechproducts@gmail.com";
 const PAYSTACK_PUBLIC_KEY = "pk_live_YOUR_PAYSTACK_KEY";
 const STRIPE_PAYMENT_LINK     = "https://buy.stripe.com/6oU6oG5a7aLGaok2f2cwg00";
 const STRIPE_REACTIVATION_LINK = "https://buy.stripe.com/fZu3cucCz8Dy9kg7zmcwg01";
+const STRIPE_PUBLIC_KEY   = "pk_live_51U3P1iCjtiKRAd0oCrfFTpARFAz2OUgu86yC4x8Mksp9z9FbGMcA7O4uh1JrrVmWCgpxb3fjYfdQQlws0WGBspsb00eRavlWbB";
 
 const REGIONS = {
   africa: {
@@ -1201,7 +1202,7 @@ export default function App() {
                       else handleStripePay(true);
                     }}>
                     {region==="africa"
-                      ? "Donate " + fmtNGN(APP_FEE_USD) + " via Paystack"
+                      ? "Donate " + fmtNGN(APP_FEE_USD) + " via Paystack to Unlock your Outreach Link"
                       : "Donate " + (REGIONS[region]?.currency||"USD") + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency||"USD").toFixed(2) + " via Stripe"}
                   </button>
                 )}
