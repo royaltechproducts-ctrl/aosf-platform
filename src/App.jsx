@@ -2171,7 +2171,7 @@ export default function App() {
               },
               {
                 title:"11. Contact",
-                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: aosf2026@gmail.com | Address: SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria.",
+                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: aosf2026@gmail.com | Address: 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria.",
               },
               {
                 title:"12. Legal Disclaimer",
