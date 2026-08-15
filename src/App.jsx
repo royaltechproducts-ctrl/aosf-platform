@@ -2109,7 +2109,7 @@ export default function App() {
                   "INDIRECT OUTREACH CREDIT: When an applicant from your direct outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you receive a further credit of USD 1.00 to your scholarship account.",
                   "EXTENDED OUTREACH CREDIT: When an applicant from your indirect outreach shares their own outreach link and other students apply through it and likewise unlock their own outreach link, you again receive a further credit of USD 1.00 to your scholarship account.",
                   "The credit chain extends to three levels of outreach only — Direct, Indirect, and Extended. No further credits are generated beyond this 3rd level.",
-                  "Credits are generated only when the referred applicant's USD 5.00 donation is confirmed. Pending donations do not generate credits.",
+                  "Credits are generated only when the referred applicant's donation to unlock and activate their own link is confirmed. Pending donations do not generate credits.",
                   "AOSP reserves the right to withhold or reverse credits found to have been generated through fraudulent, manipulated, or artificial applications.",
                 ],
               },
