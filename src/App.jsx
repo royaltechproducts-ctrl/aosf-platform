@@ -2213,7 +2213,7 @@ export default function App() {
                 © 2026 African Outreach Scholarship Program. All rights reserved.
               </div>
               <div style={{fontSize:13,color:MUTED}}>
-                Powered by RoyalTech Partnership &amp; Investment Limited
+                Powered by African Outreach Scholarship Foundation
               </div>
             </div>
 
