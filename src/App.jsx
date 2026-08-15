@@ -2081,7 +2081,7 @@ export default function App() {
             {[
               {
                 title:"1. About AOSP",
-                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by African Outreach Scholarship Foundation, SiteTech Office, Alinas Mall, Opposite Crown Estate, Lekki-Epe Express Road, Lagos, Nigeria. The programme enables students of tertiary institutions across English-speaking African countries to build scholarship funds by sharing their unique outreach links with fellow students.",
+                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by African Outreach Scholarship Foundation, 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria. The programme enables students of tertiary institutions across Africa and in the UK, US and Canada to generate scholarship funds by sharing their unique outreach links with fellow students.",
               },
               {
                 title:"2. Eligibility",
