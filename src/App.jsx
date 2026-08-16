@@ -3,8 +3,8 @@ import emailjs from "@emailjs/browser";
 import { createClient } from "@supabase/supabase-js";
 
 // ── CONFIG ────────────────────────────────────────────────────
-const SUPABASE_URL = "https://duiqiuhtcmjjpaqesfwc.supabase.co";
-const SUPABASE_KEY = "sb_publishable_WWWCeed957e0VSaaVeG0mw_MW0w_aGh";
+const SUPABASE_URL = "https://gjqoyvwoyweqdwvrrspl.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqcW95dndveXdlcWR3dnJyc3BsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5MTY1MTAsImV4cCI6MjEwMjQ5MjUxMH0.Yx1w_Hx_WJy52aPiZ5xeiXnE4UB2lhKc0YwrupfCn0w";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const EMAILJS_SERVICE_ID  = "service_mir3von";
