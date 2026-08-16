@@ -913,6 +913,15 @@ export default function App() {
     });
   };
 
+  const handleStatusChange = async (code, newStatus) => {
+    const updates = { status: newStatus };
+    if (newStatus === "active") updates.app_fee_paid = true;
+    await supabase.from("aosf_applicants").update(updates).eq("ref_code", code);
+    const freshApplicants = await DB.getApplicants();
+    setApplicants(freshApplicants);
+    showAlert("Status updated to " + newStatus + " — account activated.");
+  };
+
   const handleSocialSubmit = async () => {
     if (!socialPostUrl.trim() || !socialPostUrl.includes("facebook.com")) {
       showAlert("Please enter a valid Facebook post URL.", "error"); return;
@@ -2435,8 +2444,10 @@ export default function App() {
                                 onClick={async()=>{
                                   await supabase.from("aosf_applicants").update({social_status:"approved"}).eq("ref_code",a.refCode);
                                   await handleStatusChange(a.refCode,"active");
-                                  const socialCount = await DB.getSocialActivationCount();
-                                  if(socialCount>=SOCIAL_SLOTS) setSocialSlotsFull(true);
+                                  const fresh2 = await DB.getApplicants();
+                                  setApplicants(fresh2);
+                                  const sc = Object.values(fresh2).filter(x=>x.socialStatus==="approved").length;
+                                  if(sc>=SOCIAL_SLOTS) setSocialSlotsFull(true);
                                 }}>
                                 ✓ Approve
                               </button>
