@@ -543,14 +543,14 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const a = await DB.getApplicants();
-        setApplicants(a);
+        const a = await DB.getApplicants().catch(e => { console.error("getApplicants failed:", e); return {}; });
+        setApplicants(a || {});
         const u = DB.getCurrentUser();
-        if (u && a[u]) {
+        if (u && a && a[u]) {
           setCurrentUser(u);
           setView("portal");
           const [credits, withdrawals] = await Promise.all([
-            DB.getCredits(u), DB.getWithdrawals(u)
+            DB.getCredits(u).catch(()=>[]), DB.getWithdrawals(u).catch(()=>[])
           ]);
           setMyCredits(credits);
           setMyWithdrawals(withdrawals);
@@ -564,8 +564,10 @@ export default function App() {
         if (ref) { setRefUrl(ref); setRegForm(p => ({...p, referredBy: ref})); }
 
         // Check social activation slots
-        const socialCount = await DB.getSocialActivationCount();
-        if (socialCount >= SOCIAL_SLOTS) setSocialSlotsFull(true);
+        try {
+          const socialCount = await DB.getSocialActivationCount();
+          if (socialCount >= SOCIAL_SLOTS) setSocialSlotsFull(true);
+        } catch(e) { console.error("Social count error:", e); }
 
         // Handle return from Stripe Payment Link
         if (loginCode && stripePaid === "1" && a[loginCode]) {
