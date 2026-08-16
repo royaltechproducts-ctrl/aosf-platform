@@ -1817,9 +1817,12 @@ export default function App() {
                 );
               })()}
 
-              <div style={{textAlign:"center",color:MUTED,fontSize:13,
-                margin:"8px 0 16px",fontWeight:600}}>
-                — OR MAKE A DONATION BELOW —
+              <div style={{display:"flex",alignItems:"center",gap:12,margin:"24px 0"}}>
+                <div style={{flex:1,height:1,background:"#D4E8DC"}}/>
+                <div style={{fontSize:12,color:MUTED,fontWeight:700,whiteSpace:"nowrap"}}>
+                  OR ACTIVATE VIA SOCIAL OUTREACH (FREE)
+                </div>
+                <div style={{flex:1,height:1,background:"#D4E8DC"}}/>
               </div>
               <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,padding:16,marginBottom:20}}>
                 {[["Reference Code",applicant.refCode],["Applicant",applicant.fullName],
@@ -2638,4 +2641,262 @@ export default function App() {
       })()}
     </div>
   );
-}
+}            {portalTab==="payment" && !applicant.appFeePaid && (
+              <>
+                <div style={{fontWeight:900,fontSize:20,color:GREEN_DARK,marginBottom:6}}>
+                  Activate Your Scholarship Account
+                </div>
+                <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
+                  Choose how you would like to activate your outreach link and scholarship account.
+                </div>
+
+                {/* ── OPTION 1: DONATION ────────────────────────── */}
+                <div style={{background:WHITE,border:"2px solid "+GREEN,borderRadius:14,
+                  padding:24,marginBottom:24}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:16}}>
+                    <span style={{background:GREEN,color:WHITE,fontWeight:900,fontSize:13,
+                      width:28,height:28,borderRadius:"50%",display:"flex",
+                      alignItems:"center",justifyContent:"center",flexShrink:0}}>1</span>
+                    <div>
+                      <div style={{fontWeight:800,fontSize:15,color:GREEN_DARK}}>
+                        Activate by Scholarship Donation
+                      </div>
+                      <div style={{fontSize:12,color:MUTED}}>
+                        Make a USD 5.00 donation to instantly unlock your outreach link
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,padding:16,marginBottom:20}}>
+                    {[["Reference Code",applicant.refCode],["Applicant",applicant.fullName],
+                      ["Institution",applicant.institution],
+                      ["Scholarship Donation","USD "+APP_FEE_USD+".00 (≈ "+fmtNGN(APP_FEE_USD)+")"],
+                    ].map(([k,v])=>(
+                      <div key={k} style={{display:"flex",justifyContent:"space-between",
+                        padding:"6px 0",borderBottom:"1px solid rgba(201,168,76,0.3)",fontSize:13}}>
+                        <span style={{color:MUTED}}>{k}</span>
+                        <span style={{fontWeight:700,color:GREEN_DARK}}>{v}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Region Selector */}
+                  <div style={{marginBottom:20}}>
+                    <div style={{fontSize:13,fontWeight:600,color:GREEN_DARK,marginBottom:10}}>
+                      Select Your Payment Region
+                    </div>
+                    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:10}}>
+                      {Object.entries(REGIONS).map(([key,r])=>(
+                        <div key={key}
+                          className={"pay-option"+(region===key?" active":"")}
+                          onClick={()=>setRegion(key)}
+                          style={{padding:"12px 10px"}}>
+                          <div style={{fontSize:24,marginBottom:4}}>{r.flag}</div>
+                          <div style={{fontSize:12,fontWeight:700,color:GREEN_DARK}}>{r.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="payment-options" style={{gridTemplateColumns:region==="canada"?"1fr 1fr 1fr":"1fr 1fr"}}>
+                    <div className={"pay-option"+(payMethod==="online"?" active":"")} onClick={()=>setPayMethod("online")}>
+                      <div style={{fontSize:28,marginBottom:8}}>💳</div>
+                      <div className="pay-option-title">Pay Online</div>
+                      <div className="pay-option-sub">{region==="africa"?"Card via Paystack":"Card via Stripe"}</div>
+                    </div>
+                    {region==="canada" && (
+                      <div className={"pay-option"+(payMethod==="interac"?" active":"")} onClick={()=>setPayMethod("interac")}>
+                        <div style={{fontSize:28,marginBottom:8}}>🍁</div>
+                        <div className="pay-option-title">Interac e-Transfer</div>
+                        <div className="pay-option-sub">Canadian bank transfer</div>
+                      </div>
+                    )}
+                    <div className={"pay-option"+(payMethod==="bank"?" active":"")} onClick={()=>setPayMethod("bank")}>
+                      <div style={{fontSize:28,marginBottom:8}}>🏦</div>
+                      <div className="pay-option-title">Bank Transfer</div>
+                      <div className="pay-option-sub">Then notify via WhatsApp</div>
+                    </div>
+                  </div>
+
+                  {payMethod==="interac" ? (
+                    <div style={{background:"#F0FFF4",border:"2px solid #86EFAC",borderRadius:12,padding:24}}>
+                      <div style={{fontWeight:800,fontSize:15,color:GREEN_DARK,marginBottom:12}}>
+                        🍁 Interac e-Transfer Instructions
+                      </div>
+                      <div className="bank-details">
+                        {[["Send To (Email)","aosf2026@gmail.com"],
+                          ["Amount","CAD " + fromUSD(APP_FEE_USD,"CAD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"],
+                          ["Message / Note",applicant.refCode + " — AOSP Scholarship Donation"],
+                          ["Autodeposit","Enabled — no security question needed"],
+                        ].map(([k,v])=>(
+                          <div className="bank-row" key={k}>
+                            <span style={{color:MUTED}}>{k}</span>
+                            <span style={{fontWeight:700,color:GREEN_DARK,wordBreak:"break-all"}}>{v}
+                              {k==="Send To (Email)"&&(<button className="copy-btn" onClick={()=>{navigator.clipboard?.writeText("aosf2026@gmail.com");showAlert("Email copied!");}}>Copy</button>)}
+                              {k==="Message / Note"&&(<button className="copy-btn" onClick={()=>{navigator.clipboard?.writeText(applicant.refCode+" — AOSP Scholarship Donation");showAlert("Copied!");}}>Copy</button>)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:13,color:"#92400E",marginTop:12,lineHeight:1.8,
+                        background:"#FFFBEB",border:"1px solid #FCD34D",borderRadius:8,padding:"10px 14px"}}>
+                        ⚠️ Include your reference code <strong>{applicant.refCode}</strong> in the message.<br/>
+                        After sending, notify via WhatsApp: <strong>+234 909 999 4816</strong><br/>
+                        Your account will be activated within 24 hours.
+                      </div>
+                    </div>
+                  ) : payMethod==="online" ? (
+                    <>
+                      <div className="alert alert-info" style={{fontSize:13}}>
+                        {region==="africa"
+                          ? "Your outreach link activates immediately after Paystack confirms your donation."
+                          : "Donate securely via Stripe. Amount: " + REGIONS[region]?.currency + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency || "USD").toFixed(2) + " (≈ USD " + APP_FEE_USD + ")"}
+                      </div>
+                      <button className="btn btn-green" style={{width:"100%",fontSize:16,padding:15}}
+                        onClick={()=>{
+                          setPendingCode(applicant.refCode);
+                          if(region==="africa") handlePaystackPay(false);
+                          else handleStripePay(false);
+                        }}>
+                        {region==="africa"
+                          ? "Donate " + fmtNGN(APP_FEE_USD) + " via Paystack to Unlock your Outreach Link"
+                          : "Donate " + (REGIONS[region]?.currency||"USD") + " " + fromUSD(APP_FEE_USD, REGIONS[region]?.currency||"USD").toFixed(2) + " via Stripe"}
+                      </button>
+                    </>
+                  ) : (
+                    <div style={{background:"#F0FFF4",border:"2px solid #86EFAC",borderRadius:12,padding:24}}>
+                      <div style={{fontWeight:800,fontSize:15,color:GREEN_DARK,marginBottom:12}}>
+                        Bank Transfer Instructions
+                      </div>
+                      <div className="bank-details">
+                        {[["Account Name","RoyalTech Partnership & Investment Limited"],
+                          ["Account Number","1016621205"],["Bank","Zenith Bank"],
+                          ["Amount",fmtNGN(APP_FEE_USD)+" (≈ USD "+APP_FEE_USD+")"],
+                          ["Reference",applicant.refCode],
+                        ].map(([k,v])=>(
+                          <div className="bank-row" key={k}>
+                            <span style={{color:MUTED}}>{k}</span>
+                            <span style={{fontWeight:700,color:GREEN_DARK}}>{v}
+                              {k==="Account Number"&&<button className="copy-btn"
+                                onClick={()=>{navigator.clipboard?.writeText("1016621205");showAlert("Copied!");}}>Copy</button>}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:14,color:GREEN_DARK,marginTop:12,lineHeight:1.8}}>
+                        After transferring, send proof via WhatsApp:
+                        <strong style={{display:"block",fontSize:16,marginTop:6}}>📱 09099994816</strong>
+                        Include your reference code: <strong>{applicant.refCode}</strong><br/>
+                        Your account will be activated within 24 hours.
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* ── OPTION 2: SOCIAL OUTREACH ─────────────────── */}
+                {(()=>{
+                  const slotsUsed = Object.values(applicants).filter(a=>a.socialStatus==="approved").length;
+                  const slotsLeft = Math.max(0, SOCIAL_SLOTS - slotsUsed);
+                  const submittedAt = applicant.socialSubmittedAt ? new Date(applicant.socialSubmittedAt) : null;
+                  const daysSince = submittedAt ? Math.floor((Date.now()-submittedAt)/86400000) : 0;
+                  const expired = submittedAt && daysSince >= SOCIAL_DAYS;
+                  const slotsFull = slotsLeft <= 0;
+
+                  if (slotsFull && !applicant.socialPostUrl) return null;
+                  if (expired && !applicant.socialPostUrl) return null;
+
+                  return (
+                    <div style={{background:"#EFF6FF",border:"2px solid #3B82F6",
+                      borderRadius:14,padding:24,marginBottom:24}}>
+                      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
+                        <span style={{background:"#3B82F6",color:WHITE,fontWeight:900,fontSize:13,
+                          width:28,height:28,borderRadius:"50%",display:"flex",
+                          alignItems:"center",justifyContent:"center",flexShrink:0}}>2</span>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:800,fontSize:15,color:"#1E40AF"}}>
+                            Activate via Social Outreach — FREE
+                          </div>
+                          <div style={{fontSize:12,color:"#3B82F6",fontWeight:600}}>
+                            No donation required
+                          </div>
+                        </div>
+                        {!slotsFull && (
+                          <div style={{background:"#1E40AF",color:WHITE,padding:"6px 12px",
+                            borderRadius:20,fontSize:12,fontWeight:800,textAlign:"center"}}>
+                            <div style={{fontSize:18,fontWeight:900}}>{slotsLeft}</div>
+                            <div style={{fontSize:10}}>slots left</div>
+                          </div>
+                        )}
+                      </div>
+
+                      {slotsFull ? (
+                        <div className="alert alert-warning" style={{marginTop:12}}>
+                          All 100 free social activation slots have been filled. Please activate via donation above.
+                        </div>
+                      ) : applicant.socialPostUrl && applicant.socialStatus==="pending" ? (
+                        <>
+                          <div style={{background:"#FFFBEB",border:"1px solid #FCD34D",
+                            borderRadius:10,padding:16,marginTop:12}}>
+                            <div style={{fontWeight:700,color:"#92400E",marginBottom:6}}>
+                              ⏳ Verification Pending
+                            </div>
+                            <div style={{fontSize:13,color:"#92400E",lineHeight:1.8}}>
+                              Your Facebook post has been submitted. RoyalTech will verify your share count within 24 hours.<br/>
+                              <strong>{Math.max(0, SOCIAL_DAYS - daysSince)} day(s) remaining</strong> to achieve {SOCIAL_SHARES} shares.
+                            </div>
+                            <div style={{fontSize:11,color:MUTED,marginTop:8,wordBreak:"break-all"}}>
+                              Post: <a href={applicant.socialPostUrl} target="_blank"
+                                rel="noopener noreferrer" style={{color:"#3B82F6"}}>{applicant.socialPostUrl}</a>
+                            </div>
+                          </div>
+                        </>
+                      ) : applicant.socialStatus==="rejected" ? (
+                        <div className="alert alert-error" style={{marginTop:12}}>
+                          Your social post was not approved — minimum {SOCIAL_SHARES} shares not achieved within {SOCIAL_DAYS} days. Please activate via donation above.
+                        </div>
+                      ) : (
+                        <>
+                          <div style={{fontSize:13,color:"#1E3A8A",lineHeight:1.85,margin:"12px 0"}}>
+                            Activate your scholarship account for <strong>FREE</strong> by sharing your application link on Facebook and achieving a minimum of <strong>{SOCIAL_SHARES} shares</strong> within <strong>{SOCIAL_DAYS} days</strong>.
+                          </div>
+                          <div style={{background:WHITE,borderRadius:10,padding:16,marginBottom:16,border:"1px solid #BFDBFE"}}>
+                            <div style={{fontWeight:700,color:"#1E40AF",fontSize:13,marginBottom:10}}>How to qualify:</div>
+                            {[
+                              "Share this link on your Facebook timeline: https://aosf-platform.vercel.app?ref=" + applicant.refCode,
+                              "Tag AOSP Admin page in your post",
+                              "Achieve minimum " + SOCIAL_SHARES + " SHARES (not likes) within " + SOCIAL_DAYS + " days",
+                              "Paste your Facebook post URL below and submit",
+                            ].map((step,i)=>(
+                              <div key={i} style={{display:"flex",gap:10,marginBottom:8,fontSize:13,color:"#1E3A8A"}}>
+                                <span style={{background:"#3B82F6",color:WHITE,borderRadius:"50%",
+                                  width:20,height:20,display:"flex",alignItems:"center",
+                                  justifyContent:"center",flexShrink:0,fontSize:11,fontWeight:700}}>
+                                  {i+1}
+                                </span>
+                                <span>{step}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <div style={{marginBottom:4,fontWeight:600,fontSize:13,color:GREEN_DARK}}>
+                            Your Facebook Post URL
+                          </div>
+                          <input className="form-input" type="url" style={{marginBottom:12}}
+                            placeholder="https://www.facebook.com/your-post-link"
+                            value={socialPostUrl}
+                            onChange={e=>setSocialPostUrl(e.target.value)}/>
+                          <button className="btn btn-green" style={{width:"100%"}}
+                            disabled={socialSubmitting || !socialPostUrl.trim()}
+                            onClick={handleSocialSubmit}>
+                            {socialSubmitting ? "Submitting..." : "Submit Facebook Post for Verification"}
+                          </button>
+                          <div style={{fontSize:11,color:"#6B7280",marginTop:10,textAlign:"center"}}>
+                            ⚠️ This option expires {SOCIAL_DAYS} days after submission if {SOCIAL_SHARES} shares are not achieved.
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })()}
+              </>
+            )}
+
