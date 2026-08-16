@@ -60,6 +60,9 @@ const DIRECT_CREDIT    = 1;    // USD 1 per direct referral
 const INDIRECT1_CREDIT = 1;    // USD 1 per 1st extension
 const INDIRECT2_CREDIT = 1;    // USD 1 per 2nd extension
 const LINK_CAP         = 1000; // Link expires after USD 1,000 earned
+const SOCIAL_SLOTS     = 100;  // Max free social activations
+const SOCIAL_DAYS      = 7;    // Days to achieve 20 shares
+const SOCIAL_SHARES    = 20;   // Minimum shares required
 
 // NGN equivalent at ~1600 per USD (display only)
 const USD_TO_NGN = 1600;
@@ -109,6 +112,9 @@ const DB = {
       status: a.status, registeredAt: a.registered_at,
       appFeePaid: a.app_fee_paid,
       schoolIdUrl: a.school_id_url || null,
+      socialPostUrl: a.social_post_url || null,
+      socialSubmittedAt: a.social_submitted_at || null,
+      socialStatus: a.social_status || null,
     }]));
   },
 
@@ -133,6 +139,7 @@ const DB = {
       balance: 0, total_earned: 0, total_withdrawn: 0, link_earned: 0,
       link_active: false, link_cycle: 1, status: "pending",
       app_fee_paid: false, school_id_url: schoolIdUrl || null,
+      social_post_url: null, social_submitted_at: null, social_status: null,
     });
     if (error) { console.error("insertApplicant:", error); throw new Error(error.message); }
     return true;
@@ -169,6 +176,23 @@ const DB = {
     });
 
     return newLinkEarned;
+  },
+
+  async submitSocialPost(code, postUrl) {
+    const { error } = await supabase.from("aosf_applicants").update({
+      social_post_url: postUrl,
+      social_submitted_at: new Date().toISOString(),
+      social_status: "pending",
+    }).eq("ref_code", code);
+    if (error) console.error("submitSocialPost:", error);
+    return !error;
+  },
+
+  async getSocialActivationCount() {
+    const { count } = await supabase.from("aosf_applicants")
+      .select("*", { count: "exact", head: true })
+      .eq("social_status", "approved");
+    return count || 0;
   },
 
   async requestWithdrawal(code, amount) {
@@ -498,6 +522,9 @@ export default function App() {
   const [tcAgreed, setTcAgreed] = useState(false);
   const [idFile, setIdFile] = useState(null);
   const [region, setRegion] = useState("africa");
+  const [socialSlotsFull, setSocialSlotsFull] = useState(false);
+  const [socialPostUrl, setSocialPostUrl] = useState("");
+  const [socialSubmitting, setSocialSubmitting] = useState(false);
   const [stripeElements, setStripeElements] = useState(null);
   const [stripeLoading, setStripeLoading] = useState(false);
   const [stripeError, setStripeError] = useState(null);
@@ -535,6 +562,10 @@ export default function App() {
         const stripeType = params.get("type");
 
         if (ref) { setRefUrl(ref); setRegForm(p => ({...p, referredBy: ref})); }
+
+        // Check social activation slots
+        const socialCount = await DB.getSocialActivationCount();
+        if (socialCount >= SOCIAL_SLOTS) setSocialSlotsFull(true);
 
         // Handle return from Stripe Payment Link
         if (loginCode && stripePaid === "1" && a[loginCode]) {
@@ -880,6 +911,23 @@ export default function App() {
         "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
       ].join("\n"),
     });
+  };
+
+  const handleSocialSubmit = async () => {
+    if (!socialPostUrl.trim() || !socialPostUrl.includes("facebook.com")) {
+      showAlert("Please enter a valid Facebook post URL.", "error"); return;
+    }
+    setSocialSubmitting(true);
+    const ok = await DB.submitSocialPost(currentUser, socialPostUrl.trim());
+    if (ok) {
+      const freshApplicants = await DB.getApplicants();
+      setApplicants(freshApplicants);
+      setSocialPostUrl("");
+      showAlert("Facebook post submitted! RoyalTech will verify your shares within 24 hours.");
+    } else {
+      showAlert("Submission failed. Please try again.", "error");
+    }
+    setSocialSubmitting(false);
   };
 
   const handleWithdraw = async () => {
@@ -1677,6 +1725,102 @@ export default function App() {
               <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
                 Make your USD 5.00 scholarship donation to activate your scholarship account and outreach link.
               </div>
+
+              {/* Social Activation Option */}
+              {!socialSlotsFull && !applicant.socialPostUrl && (()=>{
+                const submittedAt = applicant.socialSubmittedAt ? new Date(applicant.socialSubmittedAt) : null;
+                const daysSince = submittedAt ? Math.floor((Date.now()-submittedAt)/86400000) : 0;
+                const expired = submittedAt && daysSince >= SOCIAL_DAYS;
+                if (expired) return null;
+                return (
+                  <div style={{background:"#EFF6FF",border:"2px solid #3B82F6",borderRadius:14,
+                    padding:24,marginBottom:24}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+                      <span style={{fontSize:28}}>📘</span>
+                      <div>
+                        <div style={{fontWeight:800,fontSize:15,color:"#1E40AF"}}>
+                          Free Activation — Social Outreach Option
+                        </div>
+                        <div style={{fontSize:12,color:"#3B82F6",fontWeight:600}}>
+                          {SOCIAL_SLOTS} slots available · First come, first served
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{fontSize:13,color:"#1E3A8A",lineHeight:1.85,marginBottom:16}}>
+                      Instead of making a donation, you can activate your scholarship account
+                      for <strong>FREE</strong> by sharing your application link on Facebook
+                      and achieving a minimum of <strong>{SOCIAL_SHARES} shares</strong> within <strong>{SOCIAL_DAYS} days</strong>.
+                    </div>
+                    <div style={{background:WHITE,borderRadius:10,padding:16,marginBottom:16,
+                      border:"1px solid #BFDBFE"}}>
+                      <div style={{fontWeight:700,color:"#1E40AF",fontSize:13,marginBottom:8}}>
+                        How to qualify:
+                      </div>
+                      {[
+                        "Share this link on your Facebook timeline: https://aosf-platform.vercel.app?ref=" + applicant.refCode,
+                        "Tag AOSP Admin in your post",
+                        "Achieve a minimum of " + SOCIAL_SHARES + " SHARES (not likes) within " + SOCIAL_DAYS + " days",
+                        "Paste your Facebook post URL below and submit for verification",
+                      ].map((step,i)=>(
+                        <div key={i} style={{display:"flex",gap:10,marginBottom:8,fontSize:13,color:"#1E3A8A"}}>
+                          <span style={{background:"#3B82F6",color:WHITE,borderRadius:"50%",
+                            width:20,height:20,display:"flex",alignItems:"center",
+                            justifyContent:"center",flexShrink:0,fontSize:11,fontWeight:700}}>
+                            {i+1}
+                          </span>
+                          <span>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="form-group" style={{marginBottom:12}}>
+                      <label className="form-label">Your Facebook Post URL</label>
+                      <input className="form-input" type="url"
+                        placeholder="https://www.facebook.com/your-post-link"
+                        value={socialPostUrl}
+                        onChange={e=>setSocialPostUrl(e.target.value)}/>
+                    </div>
+                    <button className="btn btn-green" style={{width:"100%"}}
+                      disabled={socialSubmitting || !socialPostUrl.trim()}
+                      onClick={handleSocialSubmit}>
+                      {socialSubmitting ? "Submitting..." : "Submit Facebook Post for Verification"}
+                    </button>
+                    <div style={{fontSize:11,color:"#6B7280",marginTop:10,textAlign:"center"}}>
+                      ⚠️ This option expires {SOCIAL_DAYS} days after submission. If not verified, you will need to make a donation to activate.
+                    </div>
+                  </div>
+                );
+              })()}
+
+              {/* Show pending social verification status */}
+              {applicant.socialPostUrl && applicant.socialStatus==="pending" && (()=>{
+                const submittedAt = new Date(applicant.socialSubmittedAt);
+                const daysLeft = SOCIAL_DAYS - Math.floor((Date.now()-submittedAt)/86400000);
+                return (
+                  <div style={{background:"#FFFBEB",border:"2px solid #FCD34D",
+                    borderRadius:14,padding:20,marginBottom:24}}>
+                    <div style={{fontWeight:800,fontSize:14,color:"#92400E",marginBottom:8}}>
+                      ⏳ Social Verification Pending
+                    </div>
+                    <div style={{fontSize:13,color:"#92400E",lineHeight:1.8}}>
+                      Your Facebook post has been submitted for verification.<br/>
+                      RoyalTech will verify your share count within 24 hours.<br/>
+                      <strong>{daysLeft > 0 ? daysLeft + " day(s) remaining" : "Expires today"}</strong> to achieve {SOCIAL_SHARES} shares.
+                    </div>
+                    <div style={{fontSize:12,color:MUTED,marginTop:10,
+                      background:WHITE,padding:"8px 12px",borderRadius:6}}>
+                      Post URL: <a href={applicant.socialPostUrl} target="_blank"
+                        rel="noopener noreferrer" style={{color:GREEN,wordBreak:"break-all"}}>
+                        {applicant.socialPostUrl}
+                      </a>
+                    </div>
+                  </div>
+                );
+              })()}
+
+              <div style={{textAlign:"center",color:MUTED,fontSize:13,
+                margin:"8px 0 16px",fontWeight:600}}>
+                — OR MAKE A DONATION BELOW —
+              </div>
               <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,padding:16,marginBottom:20}}>
                 {[["Reference Code",applicant.refCode],["Applicant",applicant.fullName],
                   ["Institution",applicant.institution],
@@ -2362,15 +2506,15 @@ export default function App() {
 
             {adminTab==="pending" && (
               <div className="table-wrap">
-                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 120px",display:"grid",gap:12}}>
+                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 140px",display:"grid",gap:12}}>
                   <span>Applicant</span><span>Institution</span><span>Country</span>
-                  <span>App Fee</span><span>Action</span>
+                  <span>Donation</span><span>Social Verification</span><span>Action</span>
                 </div>
                 {allApplicants.filter(a=>!a.appFeePaid).length===0?(
                   <div style={{padding:32,textAlign:"center",color:MUTED}}>No pending fees.</div>
                 ):allApplicants.filter(a=>!a.appFeePaid).map(a=>(
                   <div key={a.refCode} className="table-row"
-                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 120px",display:"grid",gap:12,alignItems:"center"}}>
+                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 140px",display:"grid",gap:12,alignItems:"center"}}>
                     <div>
                       <div style={{fontWeight:600,fontSize:13,color:GREEN_DARK}}>{a.fullName}</div>
                       <div style={{fontSize:11,color:MUTED}}>{a.email}</div>
@@ -2380,6 +2524,44 @@ export default function App() {
                     <div style={{fontSize:12,fontWeight:600}}>{a.institution}</div>
                     <div style={{fontSize:12}}>{a.country}</div>
                     <div style={{fontWeight:700}}>USD {APP_FEE_USD}.00</div>
+                    <div>
+                      {a.socialPostUrl ? (
+                        <div>
+                          <span className={"status-pill "+(a.socialStatus==="approved"?"pill-active":a.socialStatus==="rejected"?"pill-expired":"pill-pending")}
+                            style={{display:"block",marginBottom:4,textAlign:"center",fontSize:10}}>
+                            {a.socialStatus==="approved"?"✓ Approved":a.socialStatus==="rejected"?"✗ Rejected":"⏳ Pending"}
+                          </span>
+                          <a href={a.socialPostUrl} target="_blank" rel="noopener noreferrer"
+                            style={{display:"block",fontSize:10,color:"#3B82F6",
+                              textDecoration:"underline",wordBreak:"break-all",marginBottom:4}}>
+                            View Post
+                          </a>
+                          {a.socialStatus==="pending" && (
+                            <div style={{display:"flex",gap:4}}>
+                              <button className="btn btn-sm" style={{fontSize:10,background:"#DCFCE7",color:"#166534",padding:"3px 6px"}}
+                                onClick={async()=>{
+                                  await supabase.from("aosf_applicants").update({social_status:"approved"}).eq("ref_code",a.refCode);
+                                  await handleStatusChange(a.refCode,"active");
+                                  const socialCount = await DB.getSocialActivationCount();
+                                  if(socialCount>=SOCIAL_SLOTS) setSocialSlotsFull(true);
+                                }}>
+                                ✓ Approve
+                              </button>
+                              <button className="btn btn-sm" style={{fontSize:10,background:"#FEE2E2",color:"#991B1B",padding:"3px 6px"}}
+                                onClick={async()=>{
+                                  await supabase.from("aosf_applicants").update({social_status:"rejected"}).eq("ref_code",a.refCode);
+                                  const fresh = await DB.getApplicants(); setApplicants(fresh);
+                                  showAlert("Social post rejected. Student falls back to donation.");
+                                }}>
+                                ✗ Reject
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span style={{fontSize:11,color:MUTED}}>No post submitted</span>
+                      )}
+                    </div>
                     <div>
                       <button className="btn btn-sm btn-green" style={{fontSize:11}}
                         onClick={async()=>{
