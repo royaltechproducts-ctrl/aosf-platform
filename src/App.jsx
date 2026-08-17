@@ -651,7 +651,7 @@ export default function App() {
 
     // Send welcome email immediately
     await sendEmail({
-      to_email: "outreachscholarshipadmin@gmail.com", to_name: "AOSF Admin",
+      to_email: "aosf2026@gmail.com", to_name: "AOSF Admin",
       subject: "AOSP — Forward to Applicant: " + regForm.fullName + " | " + regForm.email + " | Ref: " + code,
       message: "Dear " + regForm.fullName + "," +
         "\n\nWelcome to the African Outreach Scholarship Program (AOSP)!" +
@@ -866,7 +866,7 @@ export default function App() {
     // Send outreach materials email to outreachscholarshipadmin for forwarding
     const outreachLink = "https://aosf-platform.vercel.app?ref=" + code;
     await sendEmail({
-      to_email: "outreachscholarshipadmin@gmail.com",
+      to_email: "aosf2026@gmail.com",
       to_name: "AOSF Admin",
       subject: "AOSP — Forward to: " + applicant.fullName + " | " + applicant.email,
       message: "Dear " + applicant.fullName + "," +
