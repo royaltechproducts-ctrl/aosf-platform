@@ -1272,8 +1272,8 @@ export default function App() {
           </div>
 
           <div className="stats-bar">
-            {[["USD 5.00","Scholarship Donation"],["USD 1.00","Per Direct Outreach"],
-              ["USD 1.00","Per Indirect Outreach"],["USD 1.00","Per Extended Outreach"],
+            {[["USD 5.00","Applicant's Donation"],["USD 1.00","Credit per Direct Outreach"],
+              ["USD 1.00","Credit per Indirect Outreach"],["USD 1.00","Credit per Extended Outreach"],
               ["USD 1,000","Per Link Cycle"],["Exponential","Outreach Circulation"]].map(([n,l])=>(
               <div className="stat" key={l}>
                 <div className="stat-num">{n}</div>
@@ -1651,7 +1651,7 @@ export default function App() {
                   <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginBottom:6,
                     textTransform:"uppercase",letterSpacing:1,fontWeight:700}}>Action Required</div>
                   <div style={{fontSize:22,fontWeight:900,color:GOLD,marginBottom:10}}>
-                    Activate Your Scholarship Account
+                    Activate Your New Scholarship Account
                   </div>
                   <div style={{fontSize:14,color:"rgba(255,255,255,0.85)",maxWidth:480,
                     margin:"0 auto 20px",lineHeight:1.75}}>
@@ -1734,7 +1734,7 @@ export default function App() {
                 Make Your Scholarship Donation — USD {APP_FEE_USD}.00
               </div>
               <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
-                Make your USD 5.00 scholarship donation to activate your scholarship account and outreach link.
+                Make a USD 5.00 donation (or equivalent local currency) to African Outreach Scholarship Foundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
               </div>
 
               {/* Region Selector */}
@@ -1986,7 +1986,7 @@ export default function App() {
                     Outreach Link Locked
                   </div>
                   <div style={{fontSize:14,color:MUTED,marginBottom:24,lineHeight:1.7}}>
-                    Make your USD 5.00 scholarship donation to unlock your outreach link.
+                    Make a USD 5.00 donation to the Scholarship Foundation to unlock your outreach link.
                   </div>
                   <button className="btn btn-green" onClick={()=>setPortalTab("payment")}>
                     Donate USD 5 to Unlock
@@ -2323,7 +2323,7 @@ export default function App() {
               <div>
                 <div style={{fontSize:24,fontWeight:900}}>AOSP Admin Dashboard</div>
                 <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginTop:4}}>
-                  African Outreach Scholarship Program — RoyalTech
+                  African Outreach Scholarship Program — Powered by AOSFoundation
                 </div>
               </div>
               <button className="btn btn-sm" style={{background:"rgba(255,255,255,0.1)",color:WHITE}}
@@ -2335,9 +2335,9 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:16,marginBottom:24}}>
               {[["Total Applicants",allApplicants.length],["Active",activeCount],
                 ["Pending Donation",pendingCount],
-                ["Total Earned",fmtUSD(totalEarned)],
+                ["Total Donation Received",fmtUSD(totalEarned)],
                 ["Total Balance",fmtUSD(totalBalance)],
-                ["Total Withdrawn",fmtUSD(totalWithdrawn)],
+                ["Total Disbursed",fmtUSD(totalWithdrawn)],
               ].map(([label,val])=>(
                 <div className="admin-stat" key={label}>
                   <div className="admin-stat-val">{val}</div>
