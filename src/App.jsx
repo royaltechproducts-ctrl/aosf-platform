@@ -1655,7 +1655,7 @@ export default function App() {
                   </div>
                   <div style={{fontSize:14,color:"rgba(255,255,255,0.85)",maxWidth:480,
                     margin:"0 auto 20px",lineHeight:1.75}}>
-                    Make a USD 5.00 scholarship donation to activate your outreach link and to allow scholarship funds to be credited into your new scholarship account.
+                    Make a USD 5.00 donation (or equivalent local currency) to AOSFoundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
                   </div>
                   <button className="btn btn-gold" onClick={()=>setPortalTab("payment")}>
                     Donate USD 5.00 — Activate Now
