@@ -1885,6 +1885,87 @@ export default function App() {
                   </div>
                 </div>
               )}
+
+              {/* ── OPTION 2: SOCIAL OUTREACH ─────────────────── */}
+              {(()=>{
+                const slotsUsed = Object.values(applicants).filter(a=>a.socialStatus==="approved").length;
+                const slotsLeft = Math.max(0, SOCIAL_SLOTS - slotsUsed);
+                const submittedAt = applicant.socialSubmittedAt ? new Date(applicant.socialSubmittedAt) : null;
+                const daysSince = submittedAt ? Math.floor((Date.now()-submittedAt)/86400000) : 0;
+                const expired = submittedAt && daysSince >= SOCIAL_DAYS;
+                const slotsFull = slotsLeft <= 0;
+                if (slotsFull && !applicant.socialPostUrl) return null;
+                if (expired && !applicant.socialPostUrl) return null;
+                return (
+                  <div style={{background:"#EFF6FF",border:"2px solid #3B82F6",borderRadius:14,padding:24,marginBottom:24}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:4}}>
+                      <span style={{background:"#3B82F6",color:WHITE,fontWeight:900,fontSize:13,
+                        width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",
+                        justifyContent:"center",flexShrink:0}}>2</span>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:800,fontSize:15,color:"#1E40AF"}}>Activate via Social Outreach — FREE</div>
+                        <div style={{fontSize:12,color:"#3B82F6",fontWeight:600}}>No donation required</div>
+                      </div>
+                      {!slotsFull && (
+                        <div style={{background:"#1E40AF",color:WHITE,padding:"6px 12px",
+                          borderRadius:20,fontSize:12,fontWeight:800,textAlign:"center"}}>
+                          <div style={{fontSize:18,fontWeight:900}}>{slotsLeft}</div>
+                          <div style={{fontSize:10}}>slots left</div>
+                        </div>
+                      )}
+                    </div>
+                    {slotsFull ? (
+                      <div className="alert alert-warning" style={{marginTop:12}}>
+                        All {SOCIAL_SLOTS} free social activation slots have been filled. Please activate via donation above.
+                      </div>
+                    ) : applicant.socialPostUrl && applicant.socialStatus==="pending" ? (
+                      <div style={{background:"#FFFBEB",border:"1px solid #FCD34D",borderRadius:10,padding:16,marginTop:12}}>
+                        <div style={{fontWeight:700,color:"#92400E",marginBottom:6}}>⏳ Verification Pending</div>
+                        <div style={{fontSize:13,color:"#92400E",lineHeight:1.8}}>
+                          Your Facebook post has been submitted. We will verify your share count within 24 hours.<br/>
+                          <strong>{Math.max(0, SOCIAL_DAYS - daysSince)} day(s) remaining</strong> to achieve {SOCIAL_SHARES} shares.
+                        </div>
+                      </div>
+                    ) : applicant.socialStatus==="rejected" ? (
+                      <div className="alert alert-error" style={{marginTop:12}}>
+                        Your social post was not approved. Please activate via donation above.
+                      </div>
+                    ) : (
+                      <>
+                        <div style={{fontSize:13,color:"#1E3A8A",lineHeight:1.85,margin:"12px 0"}}>
+                          Activate your scholarship account for <strong>FREE</strong> by sharing your application link on Facebook and achieving a minimum of <strong>{SOCIAL_SHARES} shares</strong> within <strong>{SOCIAL_DAYS} days</strong>.
+                        </div>
+                        <div style={{background:WHITE,borderRadius:10,padding:16,marginBottom:16,border:"1px solid #BFDBFE"}}>
+                          <div style={{fontWeight:700,color:"#1E40AF",fontSize:13,marginBottom:10}}>How to qualify:</div>
+                          {["Share this link on your Facebook timeline: https://aosf-platform.vercel.app?ref="+applicant.refCode,
+                            "Tag AOSP Admin page in your post",
+                            "Achieve minimum "+SOCIAL_SHARES+" SHARES (not likes) within "+SOCIAL_DAYS+" days",
+                            "Paste your Facebook post URL below and submit",
+                          ].map((step,i)=>(
+                            <div key={i} style={{display:"flex",gap:10,marginBottom:8,fontSize:13,color:"#1E3A8A"}}>
+                              <span style={{background:"#3B82F6",color:WHITE,borderRadius:"50%",width:20,height:20,
+                                display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontSize:11,fontWeight:700}}>
+                                {i+1}</span>
+                              <span>{step}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div style={{marginBottom:4,fontWeight:600,fontSize:13,color:GREEN_DARK}}>Your Facebook Post URL</div>
+                        <input className="form-input" type="url" style={{marginBottom:12}}
+                          placeholder="https://www.facebook.com/your-post-link"
+                          value={socialPostUrl} onChange={e=>setSocialPostUrl(e.target.value)}/>
+                        <button className="btn btn-green" style={{width:"100%"}}
+                          disabled={socialSubmitting||!socialPostUrl.trim()} onClick={handleSocialSubmit}>
+                          {socialSubmitting?"Submitting...":"Submit Facebook Post for Verification"}
+                        </button>
+                        <div style={{fontSize:11,color:"#6B7280",marginTop:10,textAlign:"center"}}>
+                          ⚠️ This option expires {SOCIAL_DAYS} days after submission if {SOCIAL_SHARES} shares are not achieved.
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })()}
             </>
           )}
 
