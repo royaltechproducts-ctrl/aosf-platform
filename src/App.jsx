@@ -2432,6 +2432,8 @@ export default function App() {
         const totalBalance = allApplicants.reduce((s,a)=>s+a.balance,0);
         const totalEarned = allApplicants.reduce((s,a)=>s+a.totalEarned,0);
         const totalWithdrawn = allApplicants.reduce((s,a)=>s+a.totalWithdrawn,0);
+        const totalDonations = allApplicants.filter(a=>a.appFeePaid && a.socialStatus!=="approved").length * APP_FEE_USD;
+        const socialActivations = allApplicants.filter(a=>a.socialStatus==="approved").length;
 
         return (
           <div style={{maxWidth:1200,margin:"0 auto",padding:32}}>
@@ -2453,8 +2455,9 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))",gap:16,marginBottom:24}}>
               {[["Total Applicants",allApplicants.length],["Active",activeCount],
                 ["Pending Donation",pendingCount],
-                ["Total Donation Received",fmtUSD(totalEarned)],
-                ["Total Balance",fmtUSD(totalBalance)],
+                ["Social Activations",socialActivations],
+                ["Total Donations Received",fmtUSD(totalDonations)],
+                ["Credits Distributed",fmtUSD(totalEarned)],
                 ["Total Disbursed",fmtUSD(totalWithdrawn)],
               ].map(([label,val])=>(
                 <div className="admin-stat" key={label}>
