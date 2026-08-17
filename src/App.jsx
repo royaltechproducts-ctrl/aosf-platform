@@ -924,6 +924,43 @@ export default function App() {
     showAlert("Status updated to " + newStatus + " — account activated.");
   };
 
+  const handleSocialApprove = async (code) => {
+    // Social activation — status only, NO credit distribution
+    await supabase.from("aosf_applicants").update({
+      social_status: "approved",
+      app_fee_paid: true,
+      link_active: true,
+      status: "active",
+    }).eq("ref_code", code);
+    const freshApplicants = await DB.getApplicants();
+    setApplicants(freshApplicants);
+    const applicant = freshApplicants[code];
+    // Update social slots counter
+    const sc = Object.values(freshApplicants).filter(x=>x.socialStatus==="approved").length;
+    if (sc >= SOCIAL_SLOTS) setSocialSlotsFull(true);
+    // Notify applicant
+    const outreachLink = "https://aosf-platform.vercel.app?ref=" + code;
+    await sendEmail({
+      to_email: "aosf2026@gmail.com",
+      to_name: "AOSF Admin",
+      subject: "AOSP — Forward to: " + applicant.fullName + " | " + applicant.email,
+      message: "Dear " + applicant.fullName + "," +
+        "\n\nCongratulations! Your AOSP scholarship account is now ACTIVE via Social Outreach." +
+        "\n\n--- YOUR OUTREACH DETAILS ---" +
+        "\nReference Code: " + code +
+        "\nOutreach Link: " + outreachLink +
+        "\nInstitution: " + applicant.institution +
+        "\nCountry: " + applicant.country +
+        "\n\n--- NEXT STEP ---" +
+        "\nLog in to your AOSP portal to access your outreach link and ad templates:" +
+        "\nPlatform: https://aosf-platform.vercel.app" +
+        "\n\nBest regards," +
+        "\nAfrican Outreach Scholarship Program (AOSP)" +
+        "\nPowered by African Outreach Scholarship Foundation",
+    });
+    showAlert("Social outreach approved. " + applicant.fullName + " activated — no credits distributed.");
+  };
+
   const handleSocialSubmit = async () => {
     if (!socialPostUrl.trim() || !socialPostUrl.includes("facebook.com")) {
       showAlert("Please enter a valid Facebook post URL.", "error"); return;
@@ -2555,10 +2592,21 @@ export default function App() {
                           await completeActivation(a.refCode,"bank_transfer","ADMIN-"+Date.now());
                           const fresh = await DB.getApplicants();
                           setApplicants(fresh);
-                          showAlert("Activated: "+a.fullName);
+                          showAlert("Donation confirmed. Activated: "+a.fullName+" — credits distributed.");
                         }}>
-                        Confirm Donation &amp; Activate
+                        💚 Confirm Donation &amp; Activate
                       </button>
+                      {a.socialPostUrl && a.socialStatus==="pending" && (
+                        <button className="btn btn-sm" style={{marginTop:4,fontSize:11,background:"#3B82F6",color:WHITE,border:"none",borderRadius:6,padding:"6px 10px",cursor:"pointer",width:"100%"}}
+                          onClick={()=>handleSocialApprove(a.refCode)}>
+                          📘 Approve Social &amp; Activate
+                        </button>
+                      )}
+                      {a.socialStatus==="approved" && (
+                        <div style={{fontSize:10,color:"#3B82F6",fontWeight:700,textAlign:"center",marginTop:4}}>
+                          ✓ Social Approved (No Credits)
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
