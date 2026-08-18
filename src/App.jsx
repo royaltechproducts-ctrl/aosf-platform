@@ -1370,7 +1370,7 @@ export default function App() {
               <div className="section-title">How AOSP Works</div>
               <div className="steps">
                 {[
-                     ["1","Apply & Donate USD 5.00","Submit your application and make a donation of USD 5.00 to unlock and activate your unique outreach link."],
+                     ["1","Apply & Donate USD 5.00","Submit your application and make a donation of USD 5.00 to activate your scholarship account and to unlock your unique outreach link."],
                   ["2","Share Your Outreach Link","Send your outreach link to as many tertiary institution students you know in your country, in other African countries, in Canada, USA and the UK."],
                   ["3","Receive USD 1.00 per Application from your Direct Outreach","USD 1.00 is credited into your scholarship account for every student application received through your outreach link."],
                   ["4","Receive USD 1.00 per Application from your Indirect Outreach","When students from your direct outreach link share their own links and others apply, your scholarship account is further credited with USD 1.00 per application."],
