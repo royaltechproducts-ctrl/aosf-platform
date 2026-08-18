@@ -601,9 +601,22 @@ export default function App() {
 
   const validateReg = () => {
     const errs = {};
-    if (!regForm.fullName.trim()) errs.fullName = "Full name is required";
+    // Sanitize inputs — strip HTML/script tags
+    const sanitize = (str) => str.replace(/<[^>]*>/g, "").replace(/[<>]/g, "");
+    const clean = (field) => sanitize(regForm[field] || "").trim();
+
+    if (!clean("fullName")) errs.fullName = "Full name is required";
+    if (clean("fullName").length > 100) errs.fullName = "Name too long";
+    if (/http|www\.|\.com|@/.test(clean("fullName"))) errs.fullName = "Please enter your real full name";
+    if (/^[0-9\s]+$/.test(clean("fullName"))) errs.fullName = "Please enter your real full name";
+    if (clean("fullName").split(" ").length < 2) errs.fullName = "Please enter your full name (first and last name)";
     if (!regForm.email.includes("@")) errs.email = "Valid email required";
-    if (regForm.phone.length < 10) errs.phone = "Valid phone required";
+    if (regForm.email.length > 100) errs.email = "Email too long";
+    // Block disposable/temporary email domains
+    const blockedDomains = ["mailinator.com","guerrillamail.com","tempmail.com","throwam.com","yopmail.com","sharklasers.com","trashmail.com"];
+    const emailDomain = regForm.email.split("@")[1]?.toLowerCase();
+    if (blockedDomains.includes(emailDomain)) errs.email = "Temporary email addresses are not accepted";
+    if (regForm.phone.replace(/\D/g,"").length < 10) errs.phone = "Valid phone required";
     if (!regForm.institution.trim()) errs.institution = "Institution is required";
     if (!regForm.course.trim()) errs.course = "Course of study is required";
     if (!regForm.accountName.trim()) errs.accountName = "Account name is required";
@@ -618,10 +631,42 @@ export default function App() {
     const errs = validateReg();
     if (Object.keys(errs).length) { setRegErrors(errs); return; }
 
-    const { data: existing } = await supabase.from("aosf_applicants")
+    // Rate limiting — prevent rapid resubmission
+    const lastSubmit = sessionStorage.getItem("aosf_last_submit");
+    const now = Date.now();
+    if (lastSubmit && now - Number(lastSubmit) < 10000) {
+      showAlert("Please wait a moment before submitting again.", "error");
+      return;
+    }
+    sessionStorage.setItem("aosf_last_submit", now);
+
+    // Honeypot check — bots fill hidden fields, humans don't
+    if (regForm._hp) {
+      showAlert("Application could not be processed. Please try again.", "error");
+      return;
+    }
+
+    // Check for duplicate email
+    const { data: existingEmail } = await supabase.from("aosf_applicants")
       .select("ref_code").eq("email", regForm.email.toLowerCase().trim()).limit(1);
-    if (existing && existing[0]) {
-      showAlert("An account with this email already exists. Please log in instead.", "error");
+    if (existingEmail && existingEmail[0]) {
+      showAlert("An account with this email address already exists. Please log in instead.", "error");
+      return;
+    }
+
+    // Check for duplicate phone
+    const { data: existingPhone } = await supabase.from("aosf_applicants")
+      .select("ref_code").eq("phone", regForm.phone.trim()).limit(1);
+    if (existingPhone && existingPhone[0]) {
+      showAlert("An account with this phone number already exists. Each applicant may only register once.", "error");
+      return;
+    }
+
+    // Check for duplicate bank account number
+    const { data: existingAccount } = await supabase.from("aosf_applicants")
+      .select("ref_code").eq("account_number", regForm.accountNumber.trim()).limit(1);
+    if (existingAccount && existingAccount[0]) {
+      showAlert("An account with these bank details already exists. Each applicant may only register once.", "error");
       return;
     }
 
@@ -1594,6 +1639,19 @@ export default function App() {
               </div>
             </div>
 
+            {/* Honeypot field — hidden from humans, filled by bots */}
+            <div style={{display:"none"}} aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                id="aosf_hp"
+                tabIndex={-1}
+                autoComplete="off"
+                value={regForm._hp || ""}
+                onChange={e=>setRegForm(p=>({...p,_hp:e.target.value}))}
+              />
+            </div>
+
             {regForm.referredBy && (
               <div className="form-group">
                 <label className="form-label">Outreach Code (if applicable)</label>
@@ -1622,7 +1680,7 @@ export default function App() {
             </div>
 
             <button className="btn btn-green" style={{width:"100%",fontSize:16,padding:15}}
-              onClick={handleApply}>
+              onClick={handleApply} disabled={Object.keys(regErrors).length > 0 && Object.values(regErrors).some(e=>e)}>
               Submit Application
             </button>
             <div style={{textAlign:"center",marginTop:14,fontSize:13,color:MUTED}}>
