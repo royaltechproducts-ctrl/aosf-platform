@@ -2542,7 +2542,7 @@ export default function App() {
               <div className="table-wrap">
                 <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 1fr",display:"grid",gap:12}}>
                   <span>Applicant</span><span>Institution</span><span>Country</span>
-                  <span>Balance</span><span>Total Earned</span><span>Status</span>
+                  <span>Balance</span><span>Total Credited</span><span>Status</span>
                 </div>
                 {allApplicants.length===0?(
                   <div style={{padding:32,textAlign:"center",color:MUTED}}>No applicants yet.</div>
