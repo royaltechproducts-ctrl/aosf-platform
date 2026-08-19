@@ -1414,7 +1414,7 @@ export default function App() {
               Ready to Fund Your Education?
             </div>
             <p style={{color:"rgba(255,255,255,0.8)",maxWidth:540,margin:"0 auto 24px",lineHeight:1.75}}>
-              Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your scholarship funding with this program.
+              Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link to donations from hundreds and thousands of applications for this scholarship program worldwide.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
               <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now — Donate USD 5.00</button>
