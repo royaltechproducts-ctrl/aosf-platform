@@ -1431,7 +1431,7 @@ export default function App() {
                 ["🎓","African Students in Africa","Any African student currently enrolled in any tertiary institution across all African countries."],
                 ["🌍","International Students","African students studying in Canada, USA and the UK."],
                 ["📱","18 Years & Above","Applicants must be 18 years or older and actively pursuing a tertiary education qualification."],
-                ["🔗","Outreach Ready","You must be willing to share your unique outreach link with fellow students to achieve team-funding for your scholarship account through their applications for this scholarship."],
+                ["🔗","Outreach Ready","You must be willing to share your unique outreach link with fellow students to achieve team-funding for your scholarship account through numerous applications from your shared link and all its extensions."],
                 ["🌐","Post Graduate Students","African students on post graduate studies in Africa and diaspora."],
               ].map(([icon,title,body])=>(
                 <div key={title} style={{background:WHITE,borderRadius:14,padding:24,
