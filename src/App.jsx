@@ -1403,7 +1403,7 @@ export default function App() {
               A student-powered scholarship platform. Apply, share your outreach link, and USD 1.00 is credited to your account for every African student application received through your outreach link — direct and indirect.
             </p>
             <div className="hero-ctas">
-              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply — Donate USD 5.00</button>
+              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now</button>
               <button className="btn btn-outline"
                 onClick={()=>document.getElementById("how").scrollIntoView({behavior:"smooth"})}>
                 How It Works
@@ -1475,7 +1475,7 @@ export default function App() {
               Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link to donations from hundreds and thousands of applications for this scholarship program worldwide.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
-              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now — Donate USD 5.00</button>
+              <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now</button>
               <button className="btn btn-outline" onClick={()=>setModal("login")}>Log In to My Portal</button>
             </div>
           </div>
