@@ -2758,15 +2758,15 @@ export default function App() {
 
             {adminTab==="pending" && (
               <div className="table-wrap">
-                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 140px",display:"grid",gap:12}}>
+                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 0.8fr 1fr 1fr 140px",display:"grid",gap:12}}>
                   <span>Applicant</span><span>Institution</span><span>Country</span>
-                  <span>Donation</span><span>Social Verification</span><span>Action</span>
+                  <span>Donation</span><span>Social</span><span>Academic</span><span>Action</span>
                 </div>
                 {allApplicants.filter(a=>!a.appFeePaid).length===0?(
                   <div style={{padding:32,textAlign:"center",color:MUTED}}>No pending fees.</div>
                 ):allApplicants.filter(a=>!a.appFeePaid).map(a=>(
                   <div key={a.refCode} className="table-row"
-                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 140px",display:"grid",gap:12,alignItems:"center"}}>
+                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 0.8fr 1fr 1fr 140px",display:"grid",gap:12,alignItems:"center"}}>
                     <div>
                       <div style={{fontWeight:600,fontSize:13,color:GREEN_DARK}}>{a.fullName}</div>
                       <div style={{fontSize:11,color:MUTED}}>{a.email}</div>
@@ -2816,6 +2816,26 @@ export default function App() {
                         <span style={{fontSize:11,color:MUTED}}>No post submitted</span>
                       )}
                     </div>
+
+                    {/* Academic Verification Column */}
+                    <div>
+                      {a.academicDocUrl ? (
+                        <div>
+                          <span className={"status-pill "+(a.academicStatus==="approved"?"pill-active":a.academicStatus==="rejected"?"pill-expired":"pill-pending")}
+                            style={{display:"block",marginBottom:4,textAlign:"center",fontSize:10}}>
+                            {a.academicStatus==="approved"?"✓ Approved":a.academicStatus==="rejected"?"✗ Rejected":"⏳ Pending"}
+                          </span>
+                          <a href={a.academicDocUrl} target="_blank" rel="noopener noreferrer"
+                            style={{display:"block",fontSize:10,color:"#16A34A",
+                              textDecoration:"underline",textAlign:"center"}}>
+                            View Result
+                          </a>
+                        </div>
+                      ) : (
+                        <span style={{fontSize:10,color:MUTED}}>—</span>
+                      )}
+                    </div>
+
                     <div>
                       <button className="btn btn-sm btn-green" style={{fontSize:11}}
                         onClick={async()=>{
