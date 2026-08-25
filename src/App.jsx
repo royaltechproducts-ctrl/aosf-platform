@@ -1811,7 +1811,7 @@ export default function App() {
                     Make a USD 5.00 donation (or equivalent local currency) to AOSFoundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
                   </div>
                   <button className="btn btn-gold" onClick={()=>setPortalTab("payment")}>
-                    Donate USD 5.00 — Activate Now
+                    Activate Now
                   </button>
                 </div>
               )}
@@ -1884,7 +1884,7 @@ export default function App() {
           {portalTab==="payment" && !applicant.appFeePaid && (
             <>
               <div style={{fontWeight:900,fontSize:20,color:GREEN_DARK,marginBottom:6}}>
-                Make Your Scholarship Donation — USD {APP_FEE_USD}.00
+                Make a Donation to Activate Your Scholarship Account — USD {APP_FEE_USD}.00
               </div>
               <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
                 Make a USD 5.00 donation (or equivalent local currency) to African Outreach Scholarship Foundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
