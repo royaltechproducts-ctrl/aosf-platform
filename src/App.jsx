@@ -115,6 +115,9 @@ const DB = {
       socialPostUrl: a.social_post_url || null,
       socialSubmittedAt: a.social_submitted_at || null,
       socialStatus: a.social_status || null,
+      academicDocUrl: a.academic_doc_url || null,
+      academicSubmittedAt: a.academic_submitted_at || null,
+      academicStatus: a.academic_status || null,
     }]));
   },
 
@@ -176,6 +179,27 @@ const DB = {
     });
 
     return newLinkEarned;
+  },
+
+  async submitAcademicDoc(code, fileUrl) {
+    const { error } = await supabase.from("aosf_applicants").update({
+      academic_doc_url: fileUrl,
+      academic_submitted_at: new Date().toISOString(),
+      academic_status: "pending",
+    }).eq("ref_code", code);
+    if (error) console.error("submitAcademicDoc:", error);
+    return !error;
+  },
+
+  async uploadAcademicDoc(code, file) {
+    const ext = file.name.split(".").pop();
+    const path = code + "/academic-result." + ext;
+    const { error } = await supabase.storage
+      .from("school-ids")
+      .upload(path, file, { upsert: true });
+    if (error) { console.error("uploadAcademicDoc:", error); return null; }
+    const { data } = supabase.storage.from("school-ids").getPublicUrl(path);
+    return data.publicUrl;
   },
 
   async submitSocialPost(code, postUrl) {
@@ -524,6 +548,8 @@ export default function App() {
   const [region, setRegion] = useState("africa");
   const [socialSlotsFull, setSocialSlotsFull] = useState(false);
   const [socialPostUrl, setSocialPostUrl] = useState("");
+  const [academicDocFile, setAcademicDocFile] = useState(null);
+  const [academicDocSubmitting, setAcademicDocSubmitting] = useState(false);
   const [socialSubmitting, setSocialSubmitting] = useState(false);
   const [stripeElements, setStripeElements] = useState(null);
   const [stripeLoading, setStripeLoading] = useState(false);
@@ -967,6 +993,38 @@ export default function App() {
     const freshApplicants = await DB.getApplicants();
     setApplicants(freshApplicants);
     showAlert("Status updated to " + newStatus + " — account activated.");
+  };
+
+  const handleAcademicApprove = async (code) => {
+    // Academic activation — status only, NO credit distribution
+    await supabase.from("aosf_applicants").update({
+      academic_status: "approved",
+      app_fee_paid: true,
+      link_active: true,
+      status: "active",
+    }).eq("ref_code", code);
+    const freshApplicants = await DB.getApplicants();
+    setApplicants(freshApplicants);
+    const applicant = freshApplicants[code];
+    const outreachLink = "https://aosf-platform.vercel.app?ref=" + code;
+    await sendEmail({
+      to_email: "aosf2026@gmail.com",
+      to_name: "AOSF Admin",
+      subject: "AOSP — Forward to: " + applicant.fullName + " | " + applicant.email,
+      message: "Dear " + applicant.fullName + "," +
+        "\n\nCongratulations! Your AOSP scholarship account is now ACTIVE — Academic Merit Activation." +
+        "\n\n--- YOUR OUTREACH DETAILS ---" +
+        "\nReference Code: " + code +
+        "\nOutreach Link: " + outreachLink +
+        "\nInstitution: " + applicant.institution +
+        "\nCountry: " + applicant.country +
+        "\n\nLog in to your AOSP portal to access your outreach link and ad templates:" +
+        "\nPlatform: https://aosf-platform.vercel.app" +
+        "\n\nBest regards," +
+        "\nAfrican Outreach Scholarship Program (AOSP)" +
+        "\nPowered by African Outreach Scholarship Foundation",
+    });
+    showAlert("Academic merit approved. " + applicant.fullName + " activated — no credits distributed.");
   };
 
   const handleSocialApprove = async (code) => {
@@ -1726,7 +1784,7 @@ export default function App() {
           <div className="tabs">
             {[
               ["overview","Overview"],
-              ...(!applicant.appFeePaid?[["payment","⚡ Donate & Activate"]]:[]),
+              ...(!applicant.appFeePaid?[["payment","⚡ Activate Account"]]:[]),
               ["credits","My Credits"],
               ["cashouts","Cashouts"],
               ["outreach","Outreach Link"],
@@ -1746,7 +1804,7 @@ export default function App() {
                   <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginBottom:6,
                     textTransform:"uppercase",letterSpacing:1,fontWeight:700}}>Action Required</div>
                   <div style={{fontSize:22,fontWeight:900,color:GOLD,marginBottom:10}}>
-                    Activate Your New Scholarship Account
+                    Activate Your Scholarship Account
                   </div>
                   <div style={{fontSize:14,color:"rgba(255,255,255,0.85)",maxWidth:480,
                     margin:"0 auto 20px",lineHeight:1.75}}>
@@ -2061,6 +2119,116 @@ export default function App() {
                   </div>
                 );
               })()}
+            {/* ── OPTION 3: ACADEMIC MERIT ─────────────────── */}
+            {!applicant.appFeePaid && !applicant.academicDocUrl && (
+              <div style={{background:"#F0FDF4",border:"2px solid #22C55E",
+                borderRadius:14,padding:24,marginBottom:24}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+                  <span style={{background:"#16A34A",color:WHITE,fontWeight:900,fontSize:13,
+                    width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",
+                    justifyContent:"center",flexShrink:0}}>3</span>
+                  <div>
+                    <div style={{fontWeight:800,fontSize:15,color:"#14532D"}}>
+                      Activate by Academic Merit — FREE
+                    </div>
+                    <div style={{fontSize:12,color:"#16A34A",fontWeight:600}}>
+                      No donation required · For high-achieving students
+                    </div>
+                  </div>
+                </div>
+                <div style={{fontSize:13,color:"#14532D",lineHeight:1.85,marginBottom:14}}>
+                  If your current cumulative GPA is <strong>3.50 and above</strong> (or equivalent on a 5.0 or 7.0 scale),
+                  you may activate your scholarship account for <strong>FREE</strong> by uploading your
+                  current academic result or transcript for verification.
+                </div>
+                <div style={{background:WHITE,borderRadius:10,padding:14,marginBottom:14,
+                  border:"1px solid #BBF7D0",fontSize:13,color:"#14532D",lineHeight:1.8}}>
+                  <div style={{fontWeight:700,marginBottom:8}}>GPA Equivalents accepted:</div>
+                  {[
+                    ["4.0 scale","3.50 — 4.00 (e.g. 3.5, 3.7, 3.9, 4.0)"],
+                    ["5.0 scale","4.38 — 5.00 (e.g. 4.5, 4.7, 5.0)"],
+                    ["7.0 scale","6.13 — 7.00 (e.g. 6.2, 6.5, 7.0)"],
+                    ["Percentage","70% and above"],
+                    ["Class","Second Class Upper, First Class, Distinction"],
+                  ].map(([scale,range])=>(
+                    <div key={scale} style={{display:"flex",gap:12,marginBottom:4}}>
+                      <span style={{fontWeight:700,minWidth:80}}>{scale}:</span>
+                      <span>{range}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{marginBottom:8,fontWeight:600,fontSize:13,color:"#14532D"}}>
+                  Upload Current Academic Result / Transcript
+                  <span style={{fontSize:11,fontWeight:400,color:"#16A34A",marginLeft:8}}>
+                    (PDF, JPG, PNG — max 5MB)
+                  </span>
+                </div>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                  style={{width:"100%",padding:"8px",border:"1.5px solid #BBF7D0",
+                    borderRadius:8,fontSize:13,fontFamily:"inherit",marginBottom:12,
+                    background:WHITE}}
+                  onChange={e=>setAcademicDocFile(e.target.files?.[0]||null)}/>
+                {academicDocFile&&(
+                  <div style={{fontSize:11,color:"#14532D",marginBottom:10}}>
+                    ✓ {academicDocFile.name}
+                  </div>
+                )}
+                <button className="btn btn-green" style={{width:"100%"}}
+                  disabled={academicDocSubmitting||!academicDocFile}
+                  onClick={async()=>{
+                    setAcademicDocSubmitting(true);
+                    const url = await DB.uploadAcademicDoc(applicant.refCode, academicDocFile);
+                    if(!url){
+                      showAlert("Upload failed. Please try again.","error");
+                      setAcademicDocSubmitting(false);
+                      return;
+                    }
+                    const ok = await DB.submitAcademicDoc(applicant.refCode, url);
+                    if(ok){
+                      const fresh = await DB.getApplicants();
+                      setApplicants(fresh);
+                      setAcademicDocFile(null);
+                      showAlert("Academic result submitted! We will verify your GPA within 24 hours.");
+                    } else {
+                      showAlert("Submission failed. Please try again.","error");
+                    }
+                    setAcademicDocSubmitting(false);
+                  }}>
+                  {academicDocSubmitting?"Uploading...":"Submit Academic Result for Verification"}
+                </button>
+                <div style={{fontSize:11,color:"#16A34A",marginTop:10,textAlign:"center"}}>
+                  Your account will be activated within 24 hours of verification.
+                </div>
+              </div>
+            )}
+
+            {/* Academic pending status */}
+            {!applicant.appFeePaid && applicant.academicDocUrl && applicant.academicStatus==="pending" && (
+              <div style={{background:"#F0FDF4",border:"2px solid #22C55E",
+                borderRadius:14,padding:20,marginBottom:24}}>
+                <div style={{fontWeight:800,fontSize:14,color:"#14532D",marginBottom:8}}>
+                  📗 Academic Merit — Verification Pending
+                </div>
+                <div style={{fontSize:13,color:"#14532D",lineHeight:1.8}}>
+                  Your academic result has been submitted and is being reviewed.<br/>
+                  We will verify your GPA and activate your account within 24 hours.
+                </div>
+                <a href={applicant.academicDocUrl} target="_blank" rel="noopener noreferrer"
+                  style={{display:"inline-block",marginTop:10,fontSize:12,color:"#16A34A",
+                    textDecoration:"underline"}}>
+                  View uploaded document →
+                </a>
+              </div>
+            )}
+
+            {/* Academic rejected */}
+            {!applicant.appFeePaid && applicant.academicStatus==="rejected" && (
+              <div style={{background:"#FFF1F2",border:"1px solid #FDA4AF",borderRadius:10,
+                padding:16,marginBottom:24,fontSize:13,color:"#9F1239"}}>
+                Your academic result could not be verified. Please ensure your GPA meets the minimum
+                requirement of 3.50 (or equivalent), or activate via donation or social outreach above.
+              </div>
+            )}
             </>
           )}
 
@@ -2514,6 +2682,7 @@ export default function App() {
               {[["Total Applicants",allApplicants.length],["Active",activeCount],
                 ["Pending Donation",pendingCount],
                 ["Social Activations",socialActivations],
+                ["Academic Activations",Object.values(allApplicants).filter(a=>a.academicStatus==="approved").length],
                 ["Total Donations Received",fmtUSD(totalDonations)],
                 ["Credits Distributed",fmtUSD(totalEarned)],
                 ["Total Disbursed",fmtUSD(totalWithdrawn)],
@@ -2666,6 +2835,41 @@ export default function App() {
                       {a.socialStatus==="approved" && (
                         <div style={{fontSize:10,color:"#3B82F6",fontWeight:700,textAlign:"center",marginTop:4}}>
                           ✓ Social Approved (No Credits)
+                        </div>
+                      )}
+                      {a.academicDocUrl && a.academicStatus==="pending" && (
+                        <button className="btn btn-sm" style={{marginTop:4,fontSize:11,
+                          background:"#16A34A",color:"#fff",border:"none",borderRadius:6,
+                          padding:"6px 10px",cursor:"pointer",width:"100%"}}
+                          onClick={()=>handleAcademicApprove(a.refCode)}>
+                          📗 Approve Academic &amp; Activate
+                        </button>
+                      )}
+                      {a.academicDocUrl && a.academicStatus==="pending" && (
+                        <button className="btn btn-sm" style={{marginTop:4,fontSize:10,
+                          background:"#FEE2E2",color:"#991B1B",border:"none",borderRadius:6,
+                          padding:"4px 10px",cursor:"pointer",width:"100%"}}
+                          onClick={async()=>{
+                            await supabase.from("aosf_applicants")
+                              .update({academic_status:"rejected"}).eq("ref_code",a.refCode);
+                            const fresh = await DB.getApplicants();
+                            setApplicants(fresh);
+                            showAlert("Academic result rejected.");
+                          }}>
+                          ✗ Reject Academic
+                        </button>
+                      )}
+                      {a.academicDocUrl && (
+                        <a href={a.academicDocUrl} target="_blank" rel="noopener noreferrer"
+                          style={{display:"block",fontSize:10,color:"#16A34A",
+                            textAlign:"center",marginTop:4,textDecoration:"underline"}}>
+                          View Result
+                        </a>
+                      )}
+                      {a.academicStatus==="approved" && (
+                        <div style={{fontSize:10,color:"#16A34A",fontWeight:700,
+                          textAlign:"center",marginTop:4}}>
+                          ✓ Academic Approved (No Credits)
                         </div>
                       )}
                     </div>
