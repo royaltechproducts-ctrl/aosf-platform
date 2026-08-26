@@ -2039,6 +2039,8 @@ export default function App() {
                 </div>
               )}
 
+              <div style={{marginBottom:20}}/>
+
               {/* ── OPTION 2: SOCIAL OUTREACH ─────────────────── */}
               {(()=>{
                 const slotsUsed = Object.values(applicants).filter(a=>a.socialStatus==="approved").length;
