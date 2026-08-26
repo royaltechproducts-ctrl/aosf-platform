@@ -2347,10 +2347,10 @@ export default function App() {
                     Outreach Link Locked
                   </div>
                   <div style={{fontSize:14,color:MUTED,marginBottom:24,lineHeight:1.7}}>
-                    Make a USD 5.00 donation to the Scholarship Foundation to unlock your outreach link.
+                    Activate Your Scholarship Account to unlock your outreach link.
                   </div>
                   <button className="btn btn-green" onClick={()=>setPortalTab("payment")}>
-                    Donate USD 5 to Unlock
+                    Activate to Unlock
                   </button>
                 </div>
               ) : (
