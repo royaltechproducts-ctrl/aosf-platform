@@ -1890,6 +1890,19 @@ export default function App() {
                 Activate your scholarship account to unlock a unique outreach link for yourself by either submitting proof of academic merit, or proof of social outreach, or by simply becoming a one-time donor on the platform with USD 5.00 to unlock your unique outreach link for your scholarship funding.
               </div>
 
+              {/* ── (1) ACTIVATION BY DONATION ─────────────── */}
+              <div style={{background:WHITE,border:"2px solid "+GREEN,borderRadius:14,
+                padding:24,marginBottom:8}}>
+                <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:20,
+                  paddingBottom:14,borderBottom:"1px solid #D4E8DC"}}>
+                  <span style={{background:GREEN,color:WHITE,fontWeight:900,fontSize:13,
+                    width:28,height:28,borderRadius:"50%",display:"flex",alignItems:"center",
+                    justifyContent:"center",flexShrink:0}}>1</span>
+                  <div style={{fontWeight:800,fontSize:15,color:GREEN_DARK}}>
+                    Activation By Donation
+                  </div>
+                </div>
+
               {/* Region Selector */}
               <div style={{marginBottom:20}}>
                 <div style={{fontSize:13,fontWeight:600,color:GREEN_DARK,marginBottom:10}}>
@@ -2038,6 +2051,8 @@ export default function App() {
                   </div>
                 </div>
               )}
+
+              </div>{/* end Activation By Donation card */}
 
               <div style={{marginBottom:20}}/>
 
