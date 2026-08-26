@@ -1884,10 +1884,10 @@ export default function App() {
           {portalTab==="payment" && !applicant.appFeePaid && (
             <>
               <div style={{fontWeight:900,fontSize:20,color:GREEN_DARK,marginBottom:6}}>
-                Make a Donation to Activate Your Scholarship Account — USD {APP_FEE_USD}.00
+                Activate Your Scholarship Account to Unlock Your Unique Outreach Link — USD {APP_FEE_USD}.00
               </div>
               <div style={{fontSize:14,color:MUTED,marginBottom:20,lineHeight:1.6}}>
-                Make a USD 5.00 donation (or equivalent local currency) to African Outreach Scholarship Foundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
+                Activate your scholarship account to unlock a unique outreach link for yourself by either submitting proof of academic merit, or proof of social outreach, or by simply becoming a one-time donor on the platform with USD 5.00 to unlock your unique outreach link for your scholarship funding.
               </div>
 
               {/* Region Selector */}
