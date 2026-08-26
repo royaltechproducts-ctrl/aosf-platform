@@ -1451,7 +1451,7 @@ export default function App() {
             <div className="illus-box">
               {[
                 {badge:"S1",text:"You apply and make a donation of USD 5.00 to unlock and activate your unique outreach link. Share with other students you know.",highlight:null},
-                {badge:"10",text:"Assuming 10 students applied through your outreach link. And each unlocks and activates their own links.",highlight:"Your scholarship account is credited with 10 × USD 1.00 = USD 10.00 (Direct Outreach)"},
+                {badge:"10",text:"Assuming 10 students applied through your outreach link. And each unlocks and activates their own links by donations.",highlight:"Your scholarship account is credited with 10 × USD 1.00 = USD 10.00 (Direct Outreach)"},
                 {badge:"100",text:"Each of the 10 students share their own link and let's assume 10 more students apply through each of them — 100 new applications in total.",highlight:"Your scholarship account is credited with 100 × USD 1.00 = USD 100.00 (Indirect Outreach)"},
                 {badge:"1K",text:"Again, let's imagine that each of these 100 applicants share their links and 10 more from each apply — 1,000 new applications are received from students you know absolutely nothing about.",highlight:"Your scholarship account is credited with 1,000 × USD 1.00 = USD 1,000.00 (Extended Outreach)"},
                 {badge:"∑",text:"Your total scholarship funds from one outreach effort:",highlight:"USD 10 + USD 100 + USD 1,000 = USD 1,110.00 credited to your scholarship account. You will need to reactivate your outreach link with USD 5.00 donation for another cycle after receiving USD 1,000.00 from donated funds."},
