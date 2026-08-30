@@ -2525,10 +2525,10 @@ export default function App() {
               {
                 title:"3. Scholarship Donation",
                 items:[
-                  "A non-refundable donation of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) to AOSFoundation is required to activate your scholarship account and outreach link.",
+                  "A non-refundable donation of USD 5.00 (or its equivalent in local currency at the prevailing exchange rate) to AOSFoundation is an acceptable option required to activate your scholarship account and outreach link.",
                   "The USD 5.00 donation to AOSFoundation is strictly non-refundable under all circumstances, including but not limited to: change of mind, inability to share the outreach link, failure to receive applications through the link, or withdrawal from the programme.",
                   "The same USD 5.00 reactivation donation applies each time an outreach link is reactivated after reaching the USD 1,000.00 per received donation cycle cap.",
-                  "An applicant's outreach link and scholarship account are activated only upon confirmation of the donation by AOSP. Until confirmation, the account remains in pending status.",
+                  "For applicants that opt for the donation option to activate their scholarship account, the applicant's outreach link and scholarship account are activated only upon confirmation of the donation by AOSP. Until confirmation, the account remains in pending status.",
                 ],
               },
               {
