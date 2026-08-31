@@ -1487,7 +1487,7 @@ export default function App() {
               gap:20,marginTop:32}}>
               {[
                 ["🎓","Students in Africa","Any student currently enrolled in any tertiary institution across Africa."],
-                ["🌍","International Students","Students studying in Canada, USA and the UK."],
+                ["🌍","International Students","International Students studying in Canada, USA and the UK."],
                 ["📱","18 Years & Above","Applicants must be 18 years or older and actively pursuing a tertiary education qualification."],
                 ["🔗","Outreach Ready","You must be willing to share your unique outreach link with fellow students to achieve team-funding for your scholarship account through numerous applications from your shared link and all its extensions."],
                 ["🌐","Post Graduate Students","Students on post graduate studies across Africa, USA, UK & Canada."],
