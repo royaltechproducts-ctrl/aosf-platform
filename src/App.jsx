@@ -725,7 +725,7 @@ export default function App() {
       to_email: "aosf2026@gmail.com", to_name: "AOSF Admin",
       subject: "AOSP — Forward to Applicant: " + regForm.fullName + " | " + regForm.email + " | Ref: " + code,
       message: "Dear " + regForm.fullName + "," +
-        "\n\nWelcome to the African Outreach Scholarship Program (AOSP)!" +
+        "\n\nWelcome to the Academic Outreach Scholarship Program (AOSP)!" +
         "\n\nYour application has been received. Please save your login details below." +
         "\n\n--- YOUR LOGIN DETAILS ---" +
         "\nPlatform: https://aosf-platform.vercel.app" +
@@ -750,7 +750,7 @@ export default function App() {
         "\nReference: " + code +
         "\nSend proof to WhatsApp: 09099994816" +
         "\n\nBest regards," +
-        "\nAfrican Outreach Scholarship Foundation" +
+        "\nAcademic Outreach Scholarship Foundation" +
         "\nPowered by RoyalTech Partnership & Investment Limited" +
         "\nPhone: +234 806 163 1222 | aosf2026@gmail.com",
     });
@@ -860,7 +860,7 @@ export default function App() {
               ? "⚠️ Your outreach link has reached the USD 1,000 cap and is now INACTIVE. Make a new USD 5.00 donation to reactivate your link."
               : "Keep sharing your link to grow your scholarship funds!",
             "Log in: https://aosf-platform.vercel.app | Code: " + applicant.referredBy,
-            "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
+            "Best regards,\nAcademic Outreach Scholarship Program\nPowered by Academic Outreach Scholarship Foundation",
           ].join("\n"),
         });
 
@@ -885,7 +885,7 @@ export default function App() {
                   ? "⚠️ Your outreach link has reached the USD 1,000 cap. Make a new USD 5.00 donation to reactivate your link."
                   : "Your extended outreach keeps building your scholarship funds!",
                 "Log in: https://aosf-platform.vercel.app | Code: " + direct.referredBy,
-                "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
+                "Best regards,\nAcademic Outreach Scholarship Program\nPowered by Academic Outreach Scholarship Foundation",
               ].join("\n"),
             });
 
@@ -910,7 +910,7 @@ export default function App() {
                       ? "⚠️ Your outreach link has reached the USD 1,000 cap. Make a new USD 5.00 donation to reactivate your link."
                       : "This is the power of outreach — your extended links keep funding your education!",
                     "Log in: https://aosf-platform.vercel.app | Code: " + indirect1.referredBy,
-                    "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
+                    "Best regards,\nAcademic Outreach Scholarship Program\nPowered by Academic Outreach Scholarship Foundation",
                   ].join("\n"),
                 });
               }
@@ -953,8 +953,8 @@ export default function App() {
         "\nReference Code: " + code +
         "\n\nShare your outreach link widely across Africa, Canada, USA and UK to start receiving donated scholarship funds." +
         "\n\nBest regards," +
-        "\nAfrican Outreach Scholarship Program (AOSP)" +
-        "\nPowered by African Outreach Scholarship Foundation" +
+        "\nAcademic Outreach Scholarship Program (AOSP)" +
+        "\nPowered by Academic Outreach Scholarship Foundation" +
         "\nEmail: aosf2026@gmail.com | WhatsApp: +234 909 999 4816",
     });
 
@@ -981,7 +981,7 @@ export default function App() {
         "Your Outreach Link: https://aosf-platform.vercel.app?ref=" + code,
         "Share widely and keep earning scholarship funds!",
         "Log in: https://aosf-platform.vercel.app | Code: " + code,
-        "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
+        "Best regards,\nAcademic Outreach Scholarship Program\nPowered by Academic Outreach Scholarship Foundation",
       ].join("\n"),
     });
   };
@@ -1021,8 +1021,8 @@ export default function App() {
         "\n\nLog in to your AOSP portal to access your outreach link and ad templates:" +
         "\nPlatform: https://aosf-platform.vercel.app" +
         "\n\nBest regards," +
-        "\nAfrican Outreach Scholarship Program (AOSP)" +
-        "\nPowered by African Outreach Scholarship Foundation",
+        "\nAcademic Outreach Scholarship Program (AOSP)" +
+        "\nPowered by Academic Outreach Scholarship Foundation",
     });
     showAlert("Academic merit approved. " + applicant.fullName + " activated — no credits distributed.");
   };
@@ -1058,8 +1058,8 @@ export default function App() {
         "\nLog in to your AOSP portal to access your outreach link and ad templates:" +
         "\nPlatform: https://aosf-platform.vercel.app" +
         "\n\nBest regards," +
-        "\nAfrican Outreach Scholarship Program (AOSP)" +
-        "\nPowered by African Outreach Scholarship Foundation",
+        "\nAcademic Outreach Scholarship Program (AOSP)" +
+        "\nPowered by Academic Outreach Scholarship Foundation",
     });
     showAlert("Social outreach approved. " + applicant.fullName + " activated — no credits distributed.");
   };
@@ -1103,7 +1103,7 @@ export default function App() {
         "Account: " + applicant.accountName + " | " + applicant.accountNumber + " | " + applicant.accountBank + " (" + applicant.accountCountry + ")",
         "RoyalTech will process your withdrawal within 24 hours.",
         "Reference Code: " + currentUser,
-        "Best regards,\nAfrican Outreach Scholarship Program\nPowered by African Outreach Scholarship Foundation",
+        "Best regards,\nAcademic Outreach Scholarship Program\nPowered by Academic Outreach Scholarship Foundation",
       ].join("\n"),
     });
     await sendEmail({
@@ -1367,7 +1367,7 @@ export default function App() {
         <div className="nav-logo" onClick={()=>setView("landing")}>
           <div className="nav-logo-mark">AOSF</div>
           <div>
-            <div className="nav-brand">African Outreach Scholarship</div>
+            <div className="nav-brand">Academic Outreach Scholarship</div>
             <div className="nav-sub">Foundation</div>
           </div>
         </div>
@@ -1394,13 +1394,13 @@ export default function App() {
       {view==="landing" && (
         <div>
           <div className="hero">
-            <div className="hero-eyebrow">African Outreach Scholarship Program</div>
+            <div className="hero-eyebrow">Academic Outreach Scholarship Program</div>
             <h1 className="hero-title">
               Study Across Africa &amp; Abroad.<br/>
               <span>Fund Your Education Together.</span>
             </h1>
             <p className="hero-subtitle">
-              A student-powered scholarship platform. Apply, share your outreach link, and USD 1.00 is credited to your account for every African student application received through your outreach link — direct and indirect.
+              A student-powered scholarship platform. Apply, share your outreach link, and USD 1.00 is credited to your account for every student application received through your outreach link — direct and indirect.
             </p>
             <div className="hero-ctas">
               <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now</button>
@@ -1429,7 +1429,7 @@ export default function App() {
               <div className="steps">
                 {[
                      ["1","Apply and Activate Your Scholarship Account","Submit your application and activate your scholarship account to unlock a unique outreach link for yourself by either submitting proof of academic merit, or proof of social outreach, or by simply becoming a one-time donor on the platform with USD 5.00 to unlock your unique outreach link for your scholarship funding."],
-                  ["2","Share Your Outreach Link","Send your outreach link to as many tertiary institution students you know in your country, in other African countries, in Canada, USA and the UK."],
+                  ["2","Share Your Outreach Link","Send your outreach link to as many tertiary institution students you know in your country, across Africa, Canada, USA and the UK."],
                   ["3","Receive USD 1.00 per Application from your Direct Outreach","USD 1.00 is credited into your scholarship account for every student application received through your outreach link."],
                   ["4","Receive USD 1.00 per Application from your Indirect Outreach","When students from your direct outreach link share their own links and others apply, your scholarship account is further credited with USD 1.00 per application."],
                   ["5","Receive More Funding from Extended Applications","Applications from the outreach links of applicants from your indirect outreach result in yet another USD 1.00 credited to your scholarship account per application — students you have never met funding your education."],
@@ -1472,7 +1472,7 @@ export default function App() {
               Ready to Fund Your Education?
             </div>
             <p style={{color:"rgba(255,255,255,0.8)",maxWidth:540,margin:"0 auto 24px",lineHeight:1.75}}>
-              Join other African students across Africa and diaspora generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link to donations from hundreds and thousands of applications for this scholarship program worldwide.
+              Join students across Africa, USA, UK & Canada generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link to donations from hundreds and thousands of applications for this scholarship program worldwide.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
               <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now</button>
@@ -1486,11 +1486,11 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",
               gap:20,marginTop:32}}>
               {[
-                ["🎓","African Students in Africa","Any African student currently enrolled in any tertiary institution across all African countries."],
-                ["🌍","International Students","African students studying in Canada, USA and the UK."],
+                ["🎓","Students in Africa","Any student currently enrolled in any tertiary institution across Africa."],
+                ["🌍","International Students","Students studying in Canada, USA and the UK."],
                 ["📱","18 Years & Above","Applicants must be 18 years or older and actively pursuing a tertiary education qualification."],
                 ["🔗","Outreach Ready","You must be willing to share your unique outreach link with fellow students to achieve team-funding for your scholarship account through numerous applications from your shared link and all its extensions."],
-                ["🌐","Post Graduate Students","African students on post graduate studies in Africa and diaspora."],
+                ["🌐","Post Graduate Students","Students on post graduate studies across Africa, USA, UK & Canada."],
               ].map(([icon,title,body])=>(
                 <div key={title} style={{background:WHITE,borderRadius:14,padding:24,
                   border:"1px solid #D4E8DC"}}>
@@ -1524,10 +1524,10 @@ export default function App() {
           </div>
 
           <div className="footer">
-            <div className="footer-logo">African Outreach Scholarship Program</div>
-            <div className="footer-sub">Powered by African Outreach Scholarship Foundation</div>
+            <div className="footer-logo">Academic Outreach Scholarship Program</div>
+            <div className="footer-sub">Powered by Academic Outreach Scholarship Foundation</div>
             <div style={{fontSize:13,color:GOLD,fontStyle:"italic",marginBottom:8,fontWeight:600}}>
-              "Your Education Is Your Most Valuable Achievement"
+              "Developing the culture of sharing to receive multiple-fold in scholarship grants anywhere in the world"
             </div>
             <div className="footer-links">
               <button className="footer-link" onClick={()=>setView("apply")}>Apply</button>
@@ -1535,7 +1535,7 @@ export default function App() {
               <button className="footer-link" onClick={()=>setView("tc")}>Terms &amp; Conditions</button>
             </div>
             <div className="footer-copy">
-              ©2026 African Outreach Scholarship Program. All rights reserved.
+              ©2026 Academic Outreach Scholarship Program. All rights reserved.
             </div>
           </div>
         </div>
@@ -1554,7 +1554,7 @@ export default function App() {
 
             {refUrl && (
               <div className="alert alert-gold">
-                🔗 You have been granted application access through the outreach link of a fellow AOSP student. Apply now to secure a scholarship account, unlock a unique outreach link — and start receiving generated scholarship funds from the numerous applications with your outreach link circulated to African students across several higher learning institutions in 54 African countries, and from over 5,700 institutions globally.
+                🔗 You have been granted application access through the outreach link of a fellow AOSP student. Apply now to secure a scholarship account, unlock a unique outreach link — and start receiving generated scholarship funds from the numerous applications with your outreach link circulated to students across several higher learning institutions across Africa, USA, UK & Canada, and from over 5,700 institutions across Africa, USA, UK & Canada.
               </div>
             )}
 
@@ -1808,7 +1808,7 @@ export default function App() {
                   </div>
                   <div style={{fontSize:14,color:"rgba(255,255,255,0.85)",maxWidth:480,
                     margin:"0 auto 20px",lineHeight:1.75}}>
-                    Make a USD 5.00 donation (or equivalent local currency) to AOSFoundation to unlock a unique outreach link for your scholarship account funding — enabling the African Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
+                    Make a USD 5.00 donation (or equivalent local currency) to AOSFoundation to unlock a unique outreach link for your scholarship account funding — enabling the Academic Outreach Scholarship Program to credit your scholarship account with generated scholarship funds.
                   </div>
                   <button className="btn btn-gold" onClick={()=>setPortalTab("payment")}>
                     Activate Now
@@ -2427,7 +2427,7 @@ export default function App() {
                         region:"🌍 Africa (General)",
                         amount:"NGN 8,000 (≈ USD 5.00)",
                         payment:"Paystack or Direct Transfer",
-                        institutions:"1,331+ institutions across 54 African countries",
+                        institutions:"1,331+ institutions across institutions across Africa, USA, UK & Canada",
                         color:"#F0F6F2",
                         border:"#2D9B5A",
                       },
@@ -2456,7 +2456,7 @@ export default function App() {
                         border:"#8B5CF6",
                       },
                     ].map((t,i)=>{
-                      const template = "🎓 \"Your Education Is Your Most Valuable Achievement.\"\n\nA student has shared this opportunity with you — and it could change your academic journey.\n\nThe African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to African students. Your outreach generates real donated scholarship funds credited directly into your scholarship account.\n\nHow it works:\n📌 As a student applicant, you must activate a scholarship account on the platform to unlock a unique outreach link for yourself by either submitting proof of academic merit, or proof of social outreach, or by simply becoming a one-time donor on the platform with " + t.amount + " to unlock your unique outreach link for your scholarship funding\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links\n📌 To get started, donate via " + t.payment + " — no hassle\n📌 Cash out your scholarship funds to your local bank account anytime\n\nYour outreach link — once unlocked and shared with this message template, aspires to reach over 5,700 institutions across Africa, USA, UK, & Canada by extended circulation.\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are an African student, don\'t just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary.\n\n🔗 Apply here:\n" + outreachLink;
+                      const template = "🎓 \"Developing the culture of sharing to receive multiple-fold in scholarship grants anywhere in the world.\"\n\nA student has shared this opportunity with you — and it could change your academic journey.\n\nThe Academic Outreach Scholarship Program (AOSP) is a student-powered scholarship programme open to students globally. Your outreach generates real donated scholarship funds credited directly into your scholarship account.\n\nHow it works:\n📌 As a student applicant, you must activate a scholarship account on the platform to unlock a unique outreach link for yourself by either submitting proof of academic merit, or proof of social outreach, or by simply becoming a one-time donor on the platform with " + t.amount + " to unlock your unique outreach link for your scholarship funding\n📌 Every student who applies through your link = USD 1.00 credited to your scholarship account\n📌 Here is where the Magic happens — You get USD 1.00 credited into your account again and again every time applicants from your link generate more applications from their own outreach links\n📌 To get started, donate via " + t.payment + " — no hassle\n📌 Cash out your scholarship funds to your local bank account anytime\n\nYour outreach link — once unlocked and shared with this message template, aspires to reach over 5,700 institutions across Africa, USA, UK, & Canada by extended circulation.\n\nThis opportunity was shared with you. If you are not a student, please pass it on. If you are a student, don\'t just pass it on — ensure you apply, unlock your own unique outreach link, and start a trend that makes you a direct beneficiary.\n\n🔗 Apply here:\n" + outreachLink;
                       return (
                         <div key={i} style={{background:t.color,border:"2px solid "+t.border,
                           borderRadius:12,padding:20,marginBottom:16}}>
@@ -2501,22 +2501,22 @@ export default function App() {
                 Terms &amp; Conditions
               </div>
               <div style={{fontSize:13,color:MUTED}}>
-                African Outreach Scholarship Program (AOSP)
+                Academic Outreach Scholarship Program (AOSP)
               </div>
               <div style={{fontSize:12,color:MUTED,marginTop:4}}>
-                Powered by African Outreach Scholarship Foundation | Effective: 2026
+                Powered by Academic Outreach Scholarship Foundation | Effective: 2026
               </div>
             </div>
 
             {[
               {
                 title:"1. About AOSP",
-                body:"The African Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by African Outreach Scholarship Foundation, 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria. The programme enables students of tertiary institutions across Africa and in the UK, US and Canada to generate scholarship funds by sharing their unique outreach links with fellow students.",
+                body:"The Academic Outreach Scholarship Program (AOSP) is a student-powered scholarship programme operated by Academic Outreach Scholarship Foundation, 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria. The programme enables students of tertiary institutions across Africa and in the UK, US and Canada to generate scholarship funds by sharing their unique outreach links with fellow students.",
               },
               {
                 title:"2. Eligibility",
                 items:[
-                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe; and to African students currently enrolled in tertiary institutions in Canada, the United States of America, and the United Kingdom.",
+                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe; and to students currently enrolled in tertiary institutions in Canada, the United States of America, and the United Kingdom.",
                   "Applicants must provide accurate and verifiable personal, academic, and bank account details at the point of application.",
                   "AOSP reserves the right to verify the academic enrolment status of any applicant at any time and to suspend or terminate accounts found to have provided false information.",
                   "Each applicant may hold only one active AOSP account. Multiple accounts using the same email address, phone number, or bank account details are not permitted.",
@@ -2593,7 +2593,7 @@ export default function App() {
               {
                 title:"10. Dispute Resolution",
                 items:[
-                  "Any dispute arising from the AOSP programme shall first be referred to the African Outreach Scholarship Foundation for resolution through direct negotiation.",
+                  "Any dispute arising from the AOSP programme shall first be referred to the Academic Outreach Scholarship Foundation for resolution through direct negotiation.",
                   "If not resolved within 14 working days, the dispute shall be referred to mediation under mutually agreed terms.",
                   "If mediation fails, the dispute shall be resolved by arbitration under the jurisdiction of the Federal Republic of Nigeria, seated in Lagos State.",
                   "These Terms and Conditions are governed by the laws of the Federal Republic of Nigeria.",
@@ -2601,16 +2601,16 @@ export default function App() {
               },
               {
                 title:"11. Contact",
-                body:"For all enquiries, support, or complaints contact African Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: aosf2026@gmail.com | Address: 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria.",
+                body:"For all enquiries, support, or complaints contact Academic Outreach Scholarship Foundation: Phone: +234 806 163 1222 | WhatsApp: +234 909 999 4816 | Email: aosf2026@gmail.com | Address: 2B, Olawale Cole, Onitiri Avenue, Lekki Phase 1, Lekki - Lagos, Nigeria.",
               },
               {
                 title:"12. Legal Disclaimer",
                 items:[
-                  "The African Outreach Scholarship Program (AOSP) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 scholarship donation is made in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
-                  "Credits generated through the AOSP outreach link structure are donated scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSP or African Outreach Scholarship Foundation.",
+                  "The Academic Outreach Scholarship Program (AOSP) is a scholarship programme and not a financial investment scheme, a pyramid scheme, a Ponzi scheme, or a multi-level marketing (MLM) programme. The USD 5.00 scholarship donation is made in exchange for a genuine scholarship account and a unique outreach link — both of which are real and functional deliverables provided to every applicant upon payment confirmation.",
+                  "Credits generated through the AOSP outreach link structure are donated scholarship funds, not investment returns, commissions, or guaranteed income. No financial return is promised or guaranteed to any applicant. The amount credited to any scholarship account depends entirely on the volume of applications received through that applicant's outreach link and its extensions, and is in no way guaranteed by AOSP or Academic Outreach Scholarship Foundation.",
                   "AOSP does not operate as a bank, financial institution, money services business, or regulated financial product in any jurisdiction. Cashout payments are processed as scholarship disbursements and are subject to administrative review and approval by AOSF before processing.",
                   "Applicants are responsible for understanding and complying with the laws and regulations applicable to their participation in AOSP in their respective countries of residence or study. AOSP makes no representation that participation in the programme is legally permissible in all jurisdictions. Applicants in Canada, the United States, the United Kingdom, and other regulated jurisdictions are advised to seek independent legal advice before participating if they have any concerns about the legality of the programme in their jurisdiction.",
-                  "AOSP does not guarantee, represent, or warrant that the programme will operate indefinitely. African Outreach Scholarship Foundation (AOSF) reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
+                  "AOSP does not guarantee, represent, or warrant that the programme will operate indefinitely. Academic Outreach Scholarship Foundation (AOSF) reserves the right to modify, suspend, or terminate the programme at any time, subject to the obligations already incurred to active participants as outlined in these Terms and Conditions.",
                   "Nothing in these Terms and Conditions constitutes financial, legal, or investment advice. Applicants are encouraged to seek independent professional advice before making any financial decisions in connection with their participation in AOSP.",
                   "These Terms and Conditions, and all disputes arising from or in connection with the AOSP programme (AOSF), are governed by the laws of the Federal Republic of Nigeria. By applying, participants from all jurisdictions consent to this governing law.",
                 ],
@@ -2638,10 +2638,10 @@ export default function App() {
             <div style={{background:GOLD_BG,border:"1px solid "+GOLD,borderRadius:10,
               padding:20,marginTop:16,textAlign:"center"}}>
               <div style={{fontWeight:700,color:GREEN_DARK,marginBottom:6}}>
-                © 2026 African Outreach Scholarship Program. All rights reserved.
+                © 2026 Academic Outreach Scholarship Program. All rights reserved.
               </div>
               <div style={{fontSize:13,color:MUTED}}>
-                Powered by African Outreach Scholarship Foundation
+                Powered by Academic Outreach Scholarship Foundation
               </div>
             </div>
 
@@ -2686,7 +2686,7 @@ export default function App() {
               <div>
                 <div style={{fontSize:24,fontWeight:900}}>AOSP Admin Dashboard</div>
                 <div style={{fontSize:13,color:"rgba(255,255,255,0.7)",marginTop:4}}>
-                  African Outreach Scholarship Program — Powered by AOSFoundation
+                  Academic Outreach Scholarship Program — Powered by AOSFoundation
                 </div>
               </div>
               <button className="btn btn-sm" style={{background:"rgba(255,255,255,0.1)",color:WHITE}}
