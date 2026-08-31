@@ -2516,7 +2516,7 @@ export default function App() {
               {
                 title:"2. Eligibility",
                 items:[
-                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe; and to students currently enrolled in tertiary institutions in Canada, the United States of America, and the United Kingdom.",
+                  "AOSP is open to students aged 18 years and above who are currently enrolled in a university, polytechnic, or college of education in any of the following eligible countries: Ghana, Kenya, Nigeria, Rwanda, South Africa, Tanzania, Uganda, Zambia, and Zimbabwe; and to International Students currently enrolled in tertiary institutions in Canada, the United States of America, and the United Kingdom.",
                   "Applicants must provide accurate and verifiable personal, academic, and bank account details at the point of application.",
                   "AOSP reserves the right to verify the academic enrolment status of any applicant at any time and to suspend or terminate accounts found to have provided false information.",
                   "Each applicant may hold only one active AOSP account. Multiple accounts using the same email address, phone number, or bank account details are not permitted.",
