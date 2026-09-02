@@ -995,6 +995,16 @@ export default function App() {
     showAlert("Status updated to " + newStatus + " — account activated.");
   };
 
+  const handleDeleteApplicant = async (code, name) => {
+    if (!window.confirm(`Permanently delete applicant "${name}" (${code})? This cannot be undone.`)) return;
+    await supabase.from("aosf_credits").delete().eq("ref_code", code);
+    await supabase.from("aosf_withdrawals").delete().eq("ref_code", code);
+    await supabase.from("aosf_applicants").delete().eq("ref_code", code);
+    const fresh = await DB.getApplicants();
+    setApplicants(fresh);
+    showAlert(`Applicant ${name} has been permanently deleted.`);
+  };
+
   const handleAcademicApprove = async (code) => {
     // Academic activation — status only, NO credit distribution
     await supabase.from("aosf_applicants").update({
@@ -2726,15 +2736,15 @@ export default function App() {
 
             {adminTab==="applicants" && (
               <div className="table-wrap">
-                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 1fr",display:"grid",gap:12}}>
+                <div className="table-head" style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 1fr 80px",display:"grid",gap:12}}>
                   <span>Applicant</span><span>Institution</span><span>Country</span>
-                  <span>Balance</span><span>Total Credited</span><span>Status</span>
+                  <span>Balance</span><span>Total Credited</span><span>Status</span><span>Delete</span>
                 </div>
                 {allApplicants.length===0?(
                   <div style={{padding:32,textAlign:"center",color:MUTED}}>No applicants yet.</div>
                 ):allApplicants.map(a=>(
                   <div key={a.refCode} className="table-row"
-                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 1fr",display:"grid",gap:12}}>
+                    style={{gridTemplateColumns:"1.5fr 1fr 1fr 1fr 1fr 1fr 80px",display:"grid",gap:12}}>
                     <div>
                       <div style={{fontWeight:600,fontSize:13,color:GREEN_DARK}}>{a.fullName}</div>
                       <div style={{fontSize:11,color:MUTED}}>{a.email}</div>
@@ -2767,6 +2777,17 @@ export default function App() {
                       {!a.schoolIdUrl && (
                         <div style={{fontSize:10,color:MUTED,marginTop:4}}>No ID uploaded</div>
                       )}
+                    </div>
+                    {/* Delete Button */}
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      <button
+                        onClick={()=>handleDeleteApplicant(a.refCode, a.fullName)}
+                        style={{background:"#FEE2E2",border:"none",borderRadius:6,
+                          color:"#991B1B",fontSize:11,fontWeight:700,padding:"6px 10px",
+                          cursor:"pointer",whiteSpace:"nowrap"}}
+                        title="Permanently delete this applicant">
+                        🗑 Delete
+                      </button>
                     </div>
                   </div>
                 ))}
