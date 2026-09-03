@@ -1406,7 +1406,7 @@ export default function App() {
           <div className="hero">
             <div className="hero-eyebrow">Academic Outreach Scholarship Program</div>
             <h1 className="hero-title">
-              For Students Across Africa, and for International Students in Canada, USA and the UK.<br/>
+              For Students Across Africa, and for International Students Abroad.<br/>
               <span>Fund Your Education Together.</span>
             </h1>
             <p className="hero-subtitle">
