@@ -1482,7 +1482,7 @@ export default function App() {
               Ready to Fund Your Education?
             </div>
             <p style={{color:"rgba(255,255,255,0.8)",maxWidth:540,margin:"0 auto 24px",lineHeight:1.75}}>
-              Join students across Africa, USA, UK & Canada generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link to donations from hundreds and thousands of applications for this scholarship program worldwide.
+              Join students across Africa, USA, UK & Canada generating scholarship funds through the power of collective outreach. Apply today and donate just USD 5.00 to unlock your link for your scholarship account funding from third party applicants & donations from hundreds and thousands of applications stemming directly or indirectly from your link for this scholarship program worldwide.
             </p>
             <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
               <button className="btn btn-gold" onClick={()=>setView("apply")}>Apply Now</button>
