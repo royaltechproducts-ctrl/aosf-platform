@@ -1443,7 +1443,7 @@ export default function App() {
                   ["3","Receive USD 1.00 per Application from your Direct Outreach","USD 1.00 is credited into your scholarship account for every student application received through your outreach link."],
                   ["4","Receive USD 1.00 per Application from your Indirect Outreach","When students from your direct outreach link share their own links and others apply, your scholarship account is further credited with USD 1.00 per application."],
                   ["5","Receive More Funding from Extended Applications","Applications from the outreach links of applicants from your indirect outreach result in yet another USD 1.00 credited to your scholarship account per application — students you have never met funding your education."],
-                  ["6","Cash Out Your Scholarship Funds Anytime","Withdraw your scholarship funds to your local bank account with a single button press. Processed within 24 hours."],
+                  ["6","Cash Out Your Scholarship Funds Anytime","Make cash withdrawal from your scholarship funds to your local bank account with a single button press. Processed within 24 hours."],
                 ].map(([n,t,b])=>(
                   <div className="step" key={n}>
                     <div className="step-num">{n}</div>
